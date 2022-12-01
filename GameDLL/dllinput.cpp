@@ -61,5 +61,5 @@ void UpdateInput(void) {
 }
 
 DLLEXPOERT bool GetXinputPressA(void) {
-	return 
+	return false;	//TODO:ゲームパッドの入力のいい方法を考える
 }
