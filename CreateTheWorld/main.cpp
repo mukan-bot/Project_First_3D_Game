@@ -4,7 +4,7 @@
 // Author : 
 //
 //=============================================================================
-#include "GameDll.h"
+#include "../GameDLL/GameDLL.h"
 
 #include "main.h"
 
@@ -203,7 +203,8 @@ void Uninit(void){
 // çXêVèàóù
 //=============================================================================
 void Update(void){
-
+	UpdateDLL();
+	if (GetXinput(0).Gamepad.wButtons & XINPUT_GAMEPAD_A) OutputDebug("AButtonÇ™âüÇ≥ÇÍÇ‹ÇµÇΩÅB\n");
 }
 
 //=============================================================================

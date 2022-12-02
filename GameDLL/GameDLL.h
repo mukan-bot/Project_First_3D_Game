@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Xinput.h>
+
 
 //GameDLLƒŠƒ“ƒN
 #ifdef _DEBUG
@@ -11,3 +13,5 @@
 #define DLLINPORT extern "C" __declspec(dllimport) 
 
 DLLINPORT void OutputDebug(const char* format, ...);
+DLLINPORT void UpdateDLL(void);
+DLLINPORT XINPUT_STATE GetXinput(int index);

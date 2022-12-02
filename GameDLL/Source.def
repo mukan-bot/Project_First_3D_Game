@@ -3,3 +3,4 @@ LIBRARY GameDLL
 EXPORTS
 	OutputDebug @1
 	UpdateDLL @2
+	GetXinput @3
