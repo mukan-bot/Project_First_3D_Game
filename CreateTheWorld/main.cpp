@@ -7,6 +7,7 @@
 #include "../GameDLL/GameDLL.h"
 
 #include "main.h"
+#include "input.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -188,7 +189,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 // 初期化処理
 //=============================================================================
 HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
-
+	InitInput(hInstance, hWnd);
 	return S_OK;
 }
 
@@ -196,15 +197,15 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 // 終了処理
 //=============================================================================
 void Uninit(void){
-
+	UninitInput();
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
 void Update(void){
-	UpdateDLL();
-	if (GetXinput(0).Gamepad.wButtons & XINPUT_GAMEPAD_A) OutputDebug("AButtonが押されました。\n");
+	UpdateInput();
+	
 }
 
 //=============================================================================

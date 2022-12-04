@@ -1,5 +1,4 @@
 #include "dllmain.h"
-#include "dllinput.h"
 
 //DLL“Ç‚İ‚İ‚ÌÀsi‰Šúˆ—j
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason,LPVOID lpvReserved){
@@ -26,9 +25,4 @@ DLLEXPOERT void OutputDebug(const char* format, ...) {
     OutputDebugString(szBufDebug);
 
 #endif // DEBUG
-}
-
-
-DLLEXPOERT void UpdateDLL(void) {
-    UpdateInput();
 }

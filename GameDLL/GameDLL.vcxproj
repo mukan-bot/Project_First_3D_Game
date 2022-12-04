@@ -131,11 +131,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dllinput.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dllinput.h" />
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="GameDLL.h" />
   </ItemGroup>

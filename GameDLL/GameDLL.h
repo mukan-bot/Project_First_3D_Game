@@ -1,7 +1,7 @@
+//DLLを使う方でインクルードするやつ
+
 #pragma once
-
-#include <Xinput.h>
-
+#include <Windows.h>
 
 //GameDLLリンク
 #ifdef _DEBUG
@@ -13,5 +13,4 @@
 #define DLLINPORT extern "C" __declspec(dllimport) 
 
 DLLINPORT void OutputDebug(const char* format, ...);
-DLLINPORT void UpdateDLL(void);
-DLLINPORT XINPUT_STATE GetXinput(int index);
+

@@ -13,15 +13,39 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="システム">
+      <UniqueIdentifier>{d4595ffc-3719-4ad4-af8c-8fa0dc671bc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="システム\インプット">
+      <UniqueIdentifier>{2ba4124b-20fa-4355-a2d8-73873d179624}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>システム\インプット</Filter>
+    </ClCompile>
+    <ClCompile Include="input_D.cpp">
+      <Filter>システム\インプット</Filter>
+    </ClCompile>
+    <ClCompile Include="input_X.cpp">
+      <Filter>システム\インプット</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>システム\インプット</Filter>
+    </ClInclude>
+    <ClInclude Include="input_D.h">
+      <Filter>システム\インプット</Filter>
+    </ClInclude>
+    <ClInclude Include="input_X.h">
+      <Filter>システム\インプット</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
