@@ -205,7 +205,7 @@ void Uninit(void){
 //=============================================================================
 void Update(void){
 	UpdateInput();
-	if (GetInputTrigger(MOVE_FRONT)) {
+	if (GetInputPress(MOVE_FRONT)) {
 		OutputDebug("‘O‚ÉˆÚ“®\n");
 	}
 	if (GetInputPress(MOVE_BACK)) {
