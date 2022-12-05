@@ -33,6 +33,9 @@
     <ClCompile Include="input_X.cpp">
       <Filter>システム\インプット</Filter>
     </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>システム</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -46,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="input_X.h">
       <Filter>システム\インプット</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>システム</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
