@@ -72,13 +72,35 @@ void UpdateInput(void) {
 	UpdateXinput();
 }
 
-bool GetInput(ButtonName) {
+int GetInputPress(ButtonName button, int padNo) {
 	bool ans = false;
-	
+	if (GetKeyboardPress(KeyName[button])) ans = true;
+	if (IsButtonPressed(padNo, DinputName[button])) ans = true;
+	XINPUT_STATE state = GetXinput(padNo);
+	if (state.Gamepad.wButtons & XinputName[button]) ans = true;
 	return ans;
 }
 
-int GetCinput(cButtonName) {
+int GetCinputPress(cButtonName button, int padNo) {
+	int ans = 0;
+	return ans;
+}
+
+bool GetInputTrigger(ButtonName button, int padNo) {
+	bool ans = false;
+	return ans;
+}
+int GetCinputTrigger(cButtonName button, int padNo) {
+	int ans = 0;
+	return ans;
+}
+
+bool GetInputRelease(ButtonName button, int padNo) {
+	bool ans = false;
+	return ans;
+}
+
+int GetCinputRelease(cButtonName button, int padNo) {
 	int ans = 0;
 	return ans;
 }

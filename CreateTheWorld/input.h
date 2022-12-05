@@ -29,5 +29,12 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd);
 void UninitInput(void);
 void UpdateInput(void);
 
-bool GetInput(ButtonName);	//キーボードとコントローラーで同じ入力
-int GetCinput(cButtonName);	//コントローラー限定の機能の入力
+
+int GetInputPress(ButtonName button, int padN = 0);	//キーボードとコントローラーで同じ入力
+int GetCinputPress(cButtonName button, int padNo = 0);	//コントローラー限定の機能の入力
+
+bool GetInputTrigger(ButtonName button, int padNo = 0);	//キーボードとコントローラーで同じ入力
+int GetCinputTrigger(cButtonName button, int padNo = 0);	//コントローラー限定の機能の入力
+
+bool GetInputRelease(ButtonName button, int padNo = 0);	//キーボードとコントローラーで同じ入力
+int GetCinputRelease(cButtonName button, int padNo = 0);	//コントローラー限定の機能の入力
