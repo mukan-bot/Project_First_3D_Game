@@ -7,6 +7,7 @@
 #include "../GameDLL/GameDLL.h"
 
 #include "main.h"
+#include "renderer.h"
 #include "input.h"
 
 //*****************************************************************************
@@ -190,6 +191,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //=============================================================================
 HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	InitInput(hInstance, hWnd);
+
+	//レンダー
+	InitRenderer(hInstance, hWnd, bWindow);
+
 	return S_OK;
 }
 
@@ -198,6 +203,9 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 //=============================================================================
 void Uninit(void){
 	UninitInput();
+
+	//レンダー
+	UninitRenderer();
 }
 
 //=============================================================================
@@ -216,6 +224,12 @@ void Update(void){
 	}
 	if (GetInputPress(MOVE_RIGHT)) {
 		OutputDebug("右に移動\n");
+	}
+
+	//画面クリア＋フリップテスト
+	if (GetInputTrigger(MOVE_JUMP)) {
+		ClearTarget(0, 0, 1);
+		Present();
 	}
 }
 
