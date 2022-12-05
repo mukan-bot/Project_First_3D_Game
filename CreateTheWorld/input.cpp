@@ -73,12 +73,12 @@ void UpdateInput(void) {
 }
 
 int GetInputPress(ButtonName button, int padNo) {
-	bool ans = false;
+	bool ans = false;	//戻り地はintだけどboolで管理する。戻り地がintなのは計算で使いやすくするため
 	if (GetKeyboardPress(KeyName[button])) ans = true;
 	if (IsButtonPressed(padNo, DinputName[button])) ans = true;
 	XINPUT_STATE state = GetXinput(padNo);
 	if (state.Gamepad.wButtons & XinputName[button]) ans = true;
-	return ans;
+	return (int)ans;
 }
 
 int GetCinputPress(cButtonName button, int padNo) {
@@ -86,18 +86,22 @@ int GetCinputPress(cButtonName button, int padNo) {
 	return ans;
 }
 
-bool GetInputTrigger(ButtonName button, int padNo) {
+int GetInputTrigger(ButtonName button, int padNo) {
 	bool ans = false;
-	return ans;
+	if (GetKeyboardTrigger(KeyName[button])) ans = true;
+	if (IsButtonTriggered(padNo, DinputName[button])) ans = true;
+	XINPUT_STATE state = GetXinputTrigger(padNo);
+	if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+	return (int)ans;
 }
 int GetCinputTrigger(cButtonName button, int padNo) {
 	int ans = 0;
 	return ans;
 }
 
-bool GetInputRelease(ButtonName button, int padNo) {
+int GetInputRelease(ButtonName button, int padNo) {
 	bool ans = false;
-	return ans;
+	return (int)ans;
 }
 
 int GetCinputRelease(cButtonName button, int padNo) {

@@ -29,12 +29,12 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd);
 void UninitInput(void);
 void UpdateInput(void);
 
-
+//一応intが戻り値だけど、値は1or0だから、boolとしても扱えるはず。
 int GetInputPress(ButtonName button, int padN = 0);	//キーボードとコントローラーで同じ入力
 int GetCinputPress(cButtonName button, int padNo = 0);	//コントローラー限定の機能の入力
 
-bool GetInputTrigger(ButtonName button, int padNo = 0);	//キーボードとコントローラーで同じ入力
+int GetInputTrigger(ButtonName button, int padNo = 0);	//キーボードとコントローラーで同じ入力
 int GetCinputTrigger(cButtonName button, int padNo = 0);	//コントローラー限定の機能の入力
 
-bool GetInputRelease(ButtonName button, int padNo = 0);	//キーボードとコントローラーで同じ入力
+int GetInputRelease(ButtonName button, int padNo = 0);	//キーボードとコントローラーで同じ入力
 int GetCinputRelease(cButtonName button, int padNo = 0);	//コントローラー限定の機能の入力
