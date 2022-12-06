@@ -138,18 +138,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="input_D.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input_X.cpp" />
-    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="dxmain.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="input_D.h" />
     <ClInclude Include="input_X.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="renderer.h" />
+    <ClInclude Include="dxmain.h" />
+    <ClInclude Include="VertexBuffer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

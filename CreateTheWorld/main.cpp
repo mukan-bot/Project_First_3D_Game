@@ -7,7 +7,7 @@
 #include "../GameDLL/GameDLL.h"
 
 #include "main.h"
-#include "renderer.h"
+#include "dxmain.h"
 #include "input.h"
 
 //*****************************************************************************

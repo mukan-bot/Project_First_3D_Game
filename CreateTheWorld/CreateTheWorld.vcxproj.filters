@@ -19,6 +19,9 @@
     <Filter Include="システム\インプット">
       <UniqueIdentifier>{2ba4124b-20fa-4355-a2d8-73873d179624}</UniqueIdentifier>
     </Filter>
+    <Filter Include="システム\Dx11">
+      <UniqueIdentifier>{eb23c314-d41d-4221-91cf-6a8431d0e2f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,8 +36,14 @@
     <ClCompile Include="input_X.cpp">
       <Filter>システム\インプット</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
-      <Filter>システム</Filter>
+    <ClCompile Include="dxmain.cpp">
+      <Filter>システム\Dx11</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>システム\Dx11</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>システム\Dx11</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,8 +59,19 @@
     <ClInclude Include="input_X.h">
       <Filter>システム\インプット</Filter>
     </ClInclude>
-    <ClInclude Include="renderer.h">
-      <Filter>システム</Filter>
+    <ClInclude Include="dxmain.h">
+      <Filter>システム\Dx11</Filter>
     </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>システム\Dx11</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>システム\Dx11</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ps.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
