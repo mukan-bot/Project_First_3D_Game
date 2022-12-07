@@ -7,7 +7,7 @@
 #include "../GameDLL/GameDLL.h"
 
 #include "main.h"
-#include "dxmain.h"
+#include "renderer.h"
 #include "input.h"
 
 //*****************************************************************************
@@ -228,8 +228,7 @@ void Update(void){
 
 	//画面クリア＋フリップテスト
 	if (GetInputTrigger(MOVE_JUMP)) {
-		ClearTarget(0, 0, 1);
-		Present();
+
 	}
 }
 
@@ -237,7 +236,11 @@ void Update(void){
 // 描画処理
 //=============================================================================
 void Draw(void){
+	Clear();
 
+
+
+	Present();
 }
 
 
