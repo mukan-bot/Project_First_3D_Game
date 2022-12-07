@@ -22,6 +22,9 @@
     <Filter Include="システム\DX11">
       <UniqueIdentifier>{37f63b93-d480-4649-ae61-72e8faca87c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="システム\基本システム">
+      <UniqueIdentifier>{08ff8bd1-7f10-4ba6-a829-967e72e3ef77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,6 +42,15 @@
     <ClCompile Include="renderer.cpp">
       <Filter>システム\DX11</Filter>
     </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>システム\基本システム</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -55,6 +67,15 @@
     </ClInclude>
     <ClInclude Include="renderer.h">
       <Filter>システム\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>システム\基本システム</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
