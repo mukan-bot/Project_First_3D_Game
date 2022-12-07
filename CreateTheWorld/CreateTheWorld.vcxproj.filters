@@ -45,6 +45,9 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>システム\Dx11</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>システム\Dx11</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -66,6 +69,9 @@
       <Filter>システム\Dx11</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
+      <Filter>システム\Dx11</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
       <Filter>システム\Dx11</Filter>
     </ClInclude>
   </ItemGroup>

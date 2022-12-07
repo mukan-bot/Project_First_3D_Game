@@ -1,10 +1,5 @@
 #include "dxmain.h"
 
-#include <d3dcompiler.h>
-#pragma comment(lib,"d3dcompiler.lib")
-
-
-
 
 ID3D11Device* g_pDevice;		// DirectX11のデバイス
 ID3D11DeviceContext* g_pDeviceContext;	// 描画用のデバイスコンテキスト
@@ -78,32 +73,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow) {
 
 
 
-	//シェダーコンパイル
-	ID3DBlob* pBlob;
-	ID3DBlob* pErrorMsg;
-	HRESULT s_hr = D3DX11CompileFromFile(
-		"ps.hlsl",
-		NULL,
-		NULL,
-		"PS",
-		"ps_5_0",
-		0,
-		0,
-		NULL,
-		&pBlob,
-		&pErrorMsg,
-		NULL
-	);
-	if (FAILED(s_hr))
-	{
-		// シェーダのエラー内容を表示
-		MessageBox(NULL, (char*)pErrorMsg->GetBufferPointer(), "Compile Error", MB_OK);
-		//SafeRelease(pErrorMsg);
-	}
-	else
-	{
-		// コンパイル成功
-	}
+
 
 
 
