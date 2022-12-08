@@ -1,4 +1,5 @@
-#include "../GameDLL/GameDLL.h"
+#include "main.h"
+
 #include "input_X.h"
 
 

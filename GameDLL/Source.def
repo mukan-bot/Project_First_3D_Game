@@ -2,3 +2,4 @@ LIBRARY GameDLL
 
 EXPORTS
 	OutputDebug @1
+	xmlParse @2

@@ -1,5 +1,6 @@
+#include "main.h"
+
 #include "GameObject.h"
-#include "../GameDLL/GameDLL.h"
 #define MAX_OBJECT	(256)	//Ç∆ÇËÇ†Ç¶Ç∏âΩÇ‡çlÇ¶Ç∏ÇQÇTÇUÇ…ÇµÇƒÇ®Ç≠
 
 GAME_OBJECT g_gameObject[MAX_OBJECT];

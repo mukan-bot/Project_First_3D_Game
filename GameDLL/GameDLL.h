@@ -13,4 +13,4 @@
 #define DLLINPORT extern "C" __declspec(dllimport) 
 
 DLLINPORT void OutputDebug(const char* format, ...);
-
+DLLINPORT int xmlParse(char* sorce, char* tag, char* data);

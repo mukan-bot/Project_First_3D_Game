@@ -31,6 +31,7 @@ using namespace DirectX;
 #pragma warning(pop)
 
 
+#include "../GameDLL/GameDLL.h"
 #include "GameObject.h"
 
 //*****************************************************************************
