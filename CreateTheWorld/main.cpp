@@ -252,7 +252,7 @@ void Update(void){
 	//test
 	if (GetInputTrigger(MOVE_JUMP)) {
 		DAE_MOEL test;
-		LoadDaeModel(&test, "./data/test.txt");
+		LoadDaeModel(&test, "./data/test.dae");
 	}
 	
 	UpdatePlayer();

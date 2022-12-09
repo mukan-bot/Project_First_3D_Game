@@ -30,27 +30,3 @@ DLLEXPOERT void OutputDebug(const char* format, ...) {
 }
 
 
-
-DLLEXPOERT int xmlParse(char* sorce, char* tag, char* data){
-    char tagStart[64];
-    char tagEnd[64];
-    int dataLen;
-    sprintf_s(tagStart, "<%s>", tag);
-    sprintf_s(tagEnd, "</%s>", tag);
-    
-
-    /////変数初期化完了
-    //データの長さを計算
-    dataLen = strlen(strstr(sorce, tagStart) + strlen(tagStart)) - strlen(strstr(sorce, tagEnd));
-
-
-    memset(data, '\0', strlen(sorce) + 1); //ソースと同じ長さに/0を入れておく
-    memcpy(data, strstr(sorce, tagStart) + strlen(tagStart), dataLen);
-
-
-#ifdef _DEBUG
-    OutputDebug(data);
-#endif // _DEBUG
-
-    return 0;
-}
