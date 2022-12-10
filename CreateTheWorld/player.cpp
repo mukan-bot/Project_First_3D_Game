@@ -354,6 +354,10 @@ void DrawPlayer(void)
 	// カリング無効
 	SetCullingMode(CULL_MODE_NONE);
 
+	//縁取り
+	SetFuchi(1);
+
+
 	XMMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 
 	// ワールドマトリックスの初期化
@@ -420,9 +424,12 @@ void DrawPlayer(void)
 		// モデル描画
 		DrawModel(&g_Parts[i].model);
 
+
+
 	}
 
-
+	//縁取り
+	SetFuchi(0);
 
 	// カリング設定を戻す
 	SetCullingMode(CULL_MODE_BACK);

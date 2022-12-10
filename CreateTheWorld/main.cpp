@@ -10,7 +10,6 @@
 #include "input.h"
 #include "camera.h"
 #include "player.h"
-#include "dae_model.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -225,35 +224,9 @@ void Uninit(void){
 void Update(void){
 	UpdateInput();
 
-	int cindex = GetCameraIndex();
-	XMFLOAT3 cpos = GetPosition(cindex);
 
-	if (GetInputPress(MOVE_FRONT)) {
-		OutputDebug("前に移動\n");
-		cpos.z+=0.01f;
-		SetPosition(cindex, cpos);
-	}
-	if (GetInputPress(MOVE_BACK)) {
-		OutputDebug("後ろに移動\n");
-		cpos.z-= 0.01f;
-		SetPosition(cindex, cpos);
-	}
-	if (GetInputPress(MOVE_LEFT)) {
-		OutputDebug("左に移動\n");
-		cpos.x-= 0.01f;
-		SetPosition(cindex, cpos);
-	}
-	if (GetInputPress(MOVE_RIGHT)) {
-		OutputDebug("右に移動\n");
-		cpos.x+= 0.01f;
-		SetPosition(cindex, cpos);
-	}
+	UpdateCamera();
 
-	//test
-	if (GetInputTrigger(MOVE_JUMP)) {
-		DAE_MOEL test;
-		LoadDaeModel(&test, "./data/test.dae");
-	}
 	
 	UpdatePlayer();
 }

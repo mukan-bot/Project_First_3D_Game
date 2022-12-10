@@ -30,3 +30,10 @@ DLLEXPOERT void OutputDebug(const char* format, ...) {
 }
 
 
+
+
+//XY‚ðXYZ‚Ì‰ñ“]‚É•ÏŠ·‚µ‚Ä‰ÁŽZ
+DLLEXPOERT void DllRotation(XMFLOAT2 move, XMFLOAT3* rotation, float offset = 0.003f) {
+    rotation->x += (float)(move.x) * offset;
+    rotation->z += (float)(move.y) * offset;
+}

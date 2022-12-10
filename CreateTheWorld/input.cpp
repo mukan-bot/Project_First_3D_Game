@@ -81,11 +81,6 @@ int GetInputPress(ButtonName button, int padNo) {
 	return (int)ans;
 }
 
-int GetCinputPress(cButtonName button, int padNo) {
-	int ans = 0;
-	return ans;
-}
-
 int GetInputTrigger(ButtonName button, int padNo) {
 	bool ans = false;
 	if (GetKeyboardTrigger(KeyName[button])) ans = true;
@@ -94,17 +89,19 @@ int GetInputTrigger(ButtonName button, int padNo) {
 	if (state.Gamepad.wButtons & XinputName[button]) ans = true;
 	return (int)ans;
 }
-int GetCinputTrigger(cButtonName button, int padNo) {
-	int ans = 0;
-	return ans;
-}
 
 int GetInputRelease(ButtonName button, int padNo) {
 	bool ans = false;
 	return (int)ans;
 }
 
-int GetCinputRelease(cButtonName button, int padNo) {
-	int ans = 0;
+
+XMFLOAT2 GetLookInput(int padNo) {
+	XMFLOAT2 ans = XMFLOAT2(0.0f, 0.0f);
+	if (GetKeyboardPress(DIK_UP)) ans.y--;
+	if (GetKeyboardPress(DIK_DOWN)) ans.y++;
+	if (GetKeyboardPress(DIK_RIGHT)) ans.x++;
+	if (GetKeyboardPress(DIK_LEFT)) ans.x--;
+	
 	return ans;
 }

@@ -1,5 +1,8 @@
-#include "main.h"
+#include "camera.h"
 #include "renderer.h"
+
+#include "input.h"
+#include "input_D.h"
 
 //マクロ定義
 #define	POS_X_CAM			(0.0f)			// カメラの初期位置(X座標)
@@ -13,6 +16,43 @@
 
 //グローバル変数
 int g_gameObjectIndex = SetGameObject();
+
+
+void UpdateCamera(void) {
+	int cindex = GetCameraIndex();
+	XMFLOAT3 cpos = GetPosition(cindex);
+	XMFLOAT3 crot = GetRotation(cindex);
+
+
+
+	DllRotation(GetLookInput(0), &crot, 0.03f);
+	OutputDebug("%f:%f:%f\n", crot.x, crot.y, crot.z);
+	SetRotation(cindex, crot);
+
+	if (GetInputPress(MOVE_FRONT)) {
+		OutputDebug("前に移動\n");
+		cpos.z += 0.03f;
+	}
+	if (GetInputPress(MOVE_BACK)) {
+		OutputDebug("後ろに移動\n");
+		cpos.z -= 0.03f;
+	}
+	if (GetInputPress(MOVE_LEFT)) {
+		OutputDebug("左に移動\n");
+		cpos.x -= 0.03f;
+	}
+	if (GetInputPress(MOVE_RIGHT)) {
+		OutputDebug("右に移動\n");
+		cpos.x += 0.03f;
+	}
+	SetPosition(cindex, cpos);
+
+
+
+
+}
+
+
 
 void DrawCamera(void) {
 	// ビューマトリックス設定

@@ -13,3 +13,6 @@
 #define DLLINPORT extern "C" __declspec(dllimport) 
 
 DLLINPORT void OutputDebug(const char* format, ...);
+
+//XY‚ðXYZ‚Ì‰ñ“]‚É•ÏŠ·‚µ‚Ä‰ÁŽZ
+DLLINPORT void DllRotation(XMFLOAT2 move, XMFLOAT3* rotation, float offset);
