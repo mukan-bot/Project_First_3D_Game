@@ -13,7 +13,7 @@ int SetGameObject(void) {
 		
 		g_gameObject[i].position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		g_gameObject[i].rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
-		g_gameObject[i].scale = XMFLOAT3(0.0f, 0.0f, 0.0f);
+		g_gameObject[i].scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 		g_gameObject[i].use = true;
 		
 		ans = i;

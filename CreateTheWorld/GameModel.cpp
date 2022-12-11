@@ -20,6 +20,7 @@ struct GameModel{
 	int is_fuchi;
 	CULL_MODE cullMode;
 	int gameObjectIndex;
+	XMFLOAT4X4 mtxWorld;
 	bool use;
 };
 
@@ -27,6 +28,7 @@ struct GameModel{
 
 //グローバル変数
 GameModel g_gameModel[MAX_MODEL];
+
 
 
 //=============================================================================
@@ -39,7 +41,14 @@ void InitGameModel(void){
 		g_gameModel[i].is_fuchi = 0;
 		g_gameModel[i].cullMode = CULL_MODE_NUM;
 		g_gameModel[i].use = false;
+
+
+		
+
 	}
+
+	SetGameModel("data/MODEL/Kirby_Body.obj", SetGameObject(), 1, CULL_MODE_NONE);
+
 }
 
 
@@ -47,8 +56,7 @@ void InitGameModel(void){
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitGameModel (void)
-{
+void UninitGameModel (void){
 	// モデルの解放処理
 	for (int i = 0; i < MAX_MODEL; i++) {
 		if (g_gameModel[i].is_load)
@@ -65,8 +73,7 @@ void UninitGameModel (void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawGameModel(void)
-{
+void DrawGameModel(void){
 	for (int i = 0; i < MAX_MODEL; i++) {
 		if (!g_gameModel[i].use) continue;
 
@@ -103,7 +110,7 @@ void DrawGameModel(void)
 		// ワールドマトリックスの設定
 		SetWorldMatrix(&mtxWorld);
 
-		XMStoreFloat4x4(& mtxWorld, mtxWorld);	//TODO:model単位でmtxWorld持つ、詳しくはplayer.cpp見る
+		XMStoreFloat4x4(&g_gameModel[i].mtxWorld, mtxWorld);
 
 
 		// モデル描画
@@ -123,7 +130,7 @@ void DrawGameModel(void)
 
 
 int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi,CULL_MODE cullMode) {
-	int ans;
+	int ans = -1;
 	for (int i = 0; i < MAX_MODEL; i++) {
 		if (g_gameModel[i].use) continue;
 
@@ -134,7 +141,7 @@ int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi,CULL_MODE cullM
 		g_gameModel[i].is_fuchi = fuchi;
 		g_gameModel[i].cullMode = cullMode;
 
-		g_gameModel[i].use = false;
+		g_gameModel[i].use = true;
 
 		ans = i;
 		break;

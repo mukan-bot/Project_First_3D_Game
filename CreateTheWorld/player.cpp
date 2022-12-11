@@ -378,7 +378,7 @@ void DrawPlayer(void)
 
 
 	// モデル描画
-	DrawModel(&g_Player.model);
+	//DrawModel(&g_Player.model);
 
 
 	//MEMO:ここで階層アニメーションをしている。

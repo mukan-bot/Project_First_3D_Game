@@ -9,6 +9,7 @@
 #include "renderer.h"
 #include "input.h"
 #include "camera.h"
+#include "GameModel.h"
 #include "player.h"
 
 //*****************************************************************************
@@ -196,7 +197,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	//レンダー
 	InitRenderer(hInstance, hWnd, bWindow);
 
-
+	InitGameModel();
 
 	InitPlayer();
 
@@ -209,6 +210,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 void Uninit(void){
 	UninitPlayer();
 
+	UninitGameModel();
 
 	//レンダー
 	UninitRenderer();
@@ -229,6 +231,7 @@ void Update(void){
 
 	
 	UpdatePlayer();
+
 }
 
 //=============================================================================
@@ -239,7 +242,7 @@ void Draw(void){
 	DrawCamera();
 
 
-
+	DrawGameModel();
 
 	DrawPlayer();
 
