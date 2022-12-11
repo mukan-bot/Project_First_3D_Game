@@ -92,16 +92,38 @@ int GetInputTrigger(ButtonName button, int padNo) {
 
 int GetInputRelease(ButtonName button, int padNo) {
 	bool ans = false;
+	if (GetKeyboardRelease(KeyName[button])) ans = true;
+
+	XINPUT_STATE state = GetXinputRelease(padNo);
+	if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+
 	return (int)ans;
 }
 
 
 XMFLOAT2 GetLookInput(int padNo) {
 	XMFLOAT2 ans = XMFLOAT2(0.0f, 0.0f);
-	if (GetKeyboardPress(DIK_UP)) ans.y--;
-	if (GetKeyboardPress(DIK_DOWN)) ans.y++;
-	if (GetKeyboardPress(DIK_RIGHT)) ans.x++;
-	if (GetKeyboardPress(DIK_LEFT)) ans.x--;
+	bool is_set = false;	//どれかのデバイスで入力があったらほかのデバイスの入力を受け付けない
 	
+	if (!is_set) {
+		if (GetKeyboardPress(DIK_UP)) ans.y--;
+		if (GetKeyboardPress(DIK_DOWN)) ans.y++;
+		if (GetKeyboardPress(DIK_RIGHT)) ans.x++;
+		if (GetKeyboardPress(DIK_LEFT)) ans.x--;
+		is_set = true;
+	}
+
+	if (!is_set) {
+		//DirectInputのやつ書く
+	}
+
+
+	if (!is_set) {
+		XINPUT_STATE state = GetXinputTrigger(padNo);
+		ans.x = state.Gamepad.sThumbRX;
+		ans.y = state.Gamepad.sThumbRY;
+		is_set = true;
+	}
+
 	return ans;
 }

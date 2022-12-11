@@ -160,6 +160,8 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 	if (Light.Enable == 0)
 	{
 		color = color * Material.Diffuse;
+		
+		//color = float4(1.0f, 1.0f, 1.0f, 1.0f);	//”’ƒNƒŠƒA
 	}
 	else
 	{
@@ -227,8 +229,6 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 		//if ((angle < 0.5f)&&(angle > -0.5f))
 		if (angle > -0.27f)
 		{
-			outDiffuse.rb  = 1.0f;
-			outDiffuse.g = 1.0f;
 			outDiffuse.rgb = 0;
 		}
 	}

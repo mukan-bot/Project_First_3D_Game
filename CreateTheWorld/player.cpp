@@ -7,12 +7,8 @@
 #include "main.h"
 #include "input.h"
 #include "camera.h"
-//#include "debugproc.h"
 #include "model.h"
 #include "player.h"
-//#include "shadow.h"
-//#include "light.h"
-//#include "bullet.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
