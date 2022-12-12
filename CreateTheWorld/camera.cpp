@@ -29,32 +29,6 @@ void UpdateCamera(void) {
 	XMFLOAT3 crot = GetRotation(cindex);
 
 
-
-	DllRotation(GetLookInput(0), &crot, 0.03f);
-	OutputDebug("%f:%f:%f\n", crot.x, crot.y, crot.z);
-	SetRotation(cindex, crot);
-
-	if (GetInputPress(MOVE_FRONT)) {
-		OutputDebug("‘O‚ÉˆÚ“®\n");
-		cpos.z += 0.03f;
-	}
-	if (GetInputPress(MOVE_BACK)) {
-		OutputDebug("Œã‚ë‚ÉˆÚ“®\n");
-		cpos.z -= 0.03f;
-	}
-	if (GetInputPress(MOVE_LEFT)) {
-		OutputDebug("¶‚ÉˆÚ“®\n");
-		cpos.x -= 0.03f;
-	}
-	if (GetInputPress(MOVE_RIGHT)) {
-		OutputDebug("‰E‚ÉˆÚ“®\n");
-		cpos.x += 0.03f;
-	}
-	SetPosition(cindex, cpos);
-
-
-
-
 }
 
 

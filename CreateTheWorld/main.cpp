@@ -11,6 +11,7 @@
 #include "GameObject.h"
 #include "GameModel.h"
 #include "test.h"
+#include "player.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -202,6 +203,8 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 
 	InitTest();
 
+	InitPlayer();
+
 	return S_OK;
 }
 
@@ -209,6 +212,9 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 // 終了処理
 //=============================================================================
 void Uninit(void){
+
+	UninitPlayer();
+
 	UninitTest();
 
 	UninitGameModel();
@@ -235,6 +241,7 @@ void Update(void){
 	
 	UpdateTest();
 
+	UpdatePlayer();
 
 	//これ最後で
 	UpdateGameObject();
@@ -252,6 +259,8 @@ void Draw(void){
 	DrawGameModel();
 
 	DrawTest();
+
+	DrawPlayer();
 
 	Present();
 }
