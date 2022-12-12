@@ -1,7 +1,6 @@
 //=============================================================================
 //
-// メイン処理 [main.cpp]
-// Author : 
+// Author : TakeuchiHiroto
 //
 //=============================================================================
 
@@ -9,8 +8,9 @@
 #include "renderer.h"
 #include "input.h"
 #include "camera.h"
+#include "GameObject.h"
 #include "GameModel.h"
-#include "player.h"
+#include "test.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -197,9 +197,10 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	//レンダー
 	InitRenderer(hInstance, hWnd, bWindow);
 
+	//
 	InitGameModel();
 
-	InitPlayer();
+	InitTest();
 
 	return S_OK;
 }
@@ -208,7 +209,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 // 終了処理
 //=============================================================================
 void Uninit(void){
-	UninitPlayer();
+	UninitTest();
 
 	UninitGameModel();
 
@@ -217,6 +218,8 @@ void Uninit(void){
 
 
 	UninitInput();
+
+
 
 }
 
@@ -230,7 +233,11 @@ void Update(void){
 	UpdateCamera();
 
 	
-	UpdatePlayer();
+	UpdateTest();
+
+
+	//これ最後で
+	UpdateGameObject();
 
 }
 
@@ -244,7 +251,7 @@ void Draw(void){
 
 	DrawGameModel();
 
-	DrawPlayer();
+	DrawTest();
 
 	Present();
 }

@@ -2,3 +2,8 @@ LIBRARY GameDLL
 
 EXPORTS
 	OutputDebug @1
+	DllRotation @2
+	AddXMFLOAT3 @3
+	SubXMFLOAT3 @4
+	MulXMFLOAT3 @5
+	DivXMFLOAT3 @6

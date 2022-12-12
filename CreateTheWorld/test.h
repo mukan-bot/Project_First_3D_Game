@@ -4,20 +4,13 @@
 //
 //=============================================================================
 #pragma once
-#include "model.h"
 
 //*****************************************************************************
-// マクロ定義
+// プロトタイプ宣言
 //*****************************************************************************
-#define MAX_PLAYER		(1)					// プレイヤーの数
+HRESULT InitTest(void);
+void UninitTest(void);
+void UpdateTest(void);
+void DrawTest(void);
 
-#define	PLAYER_SIZE		(5.0f)				// 当たり判定の大きさ
-
-
-
-void InitGameModel(void);
-void UninitGameModel(void);
-void DrawGameModel(void);
-int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi, CULL_MODE cullMode);
-void DelGameModel(int index);
 

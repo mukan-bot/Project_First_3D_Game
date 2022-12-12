@@ -1,9 +1,48 @@
+//=============================================================================
+//
+// Author : TakeuchiHiroto
+//
+//=============================================================================
+
 #include "main.h"
 
 #include "GameObject.h"
 #define MAX_OBJECT	(256)	//とりあえず何も考えず２５６にしておく
 
+
+struct GAME_OBJECT
+{
+	XMFLOAT3 position;		//座標
+	XMFLOAT3 rotation;		//回転
+	XMFLOAT3 scale;			//大きさ
+	bool use;				//使われているか
+	int parentIndex;		//親のインデックス番号（親なら-1）
+};
+
+
 GAME_OBJECT g_gameObject[MAX_OBJECT];
+
+
+
+
+
+void UpdateGameObject(void) {
+	for (int i = 0; i < MAX_OBJECT; i++) {
+		if (!g_gameObject[i].use) continue;
+
+		if (g_gameObject[i].parentIndex == -1) continue;
+
+		g_gameObject[i].position = AddXMFLOAT3(g_gameObject[i].position, g_gameObject[g_gameObject[i].parentIndex].position);
+		g_gameObject[i].rotation = AddXMFLOAT3(g_gameObject[i].rotation, g_gameObject[g_gameObject[i].parentIndex].rotation);
+		g_gameObject[i].scale = AddXMFLOAT3(g_gameObject[i].scale, g_gameObject[g_gameObject[i].parentIndex].scale);
+	}
+}
+
+
+
+
+
+
 
 
 int SetGameObject(void) {
@@ -15,7 +54,8 @@ int SetGameObject(void) {
 		g_gameObject[i].rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		g_gameObject[i].scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 		g_gameObject[i].use = true;
-		
+		g_gameObject[i].parentIndex = -1;
+
 		ans = i;
 		break;
 	}
@@ -28,6 +68,7 @@ int SetGameObject(void) {
 
 void DelGameObject(int index) {
 	g_gameObject[index].use = false;
+	g_gameObject[index].parentIndex = -1;	
 }
 
 
@@ -41,6 +82,15 @@ void SetRotation(int index, XMFLOAT3 rotation) {
 void SetScale(int index, XMFLOAT3 scale) {
 	g_gameObject[index].scale = scale;
 }
+void SetGameObjectParent(int index, int parentIndex) {
+	g_gameObject[index].parentIndex = parentIndex;
+}
+void SetGameObjectZERO(int index) {
+	g_gameObject[index].position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	g_gameObject[index].rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	g_gameObject[index].scale = XMFLOAT3(0.0f, 0.0f, 0.0f);
+}
+
 
 XMFLOAT3 GetPosition(int index) {
 	return g_gameObject[index].position;
@@ -50,4 +100,7 @@ XMFLOAT3 GetRotation(int index) {
 }
 XMFLOAT3 GetScale(int index) {
 	return g_gameObject[index].scale;
+}
+int GetGameObjectParent(int index) {
+	return g_gameObject[index].parentIndex;
 }

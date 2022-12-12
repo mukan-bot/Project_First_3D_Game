@@ -1,7 +1,6 @@
 //=============================================================================
 //
-// ÉÇÉfÉãèàóù [player.cpp]
-// Author : 
+// Author : TakeuchiHiroto
 //
 //=============================================================================
 #include "main.h"
@@ -41,14 +40,7 @@ void InitGameModel(void){
 		g_gameModel[i].is_fuchi = 0;
 		g_gameModel[i].cullMode = CULL_MODE_NUM;
 		g_gameModel[i].use = false;
-
-
-		
-
 	}
-
-	SetGameModel("data/MODEL/Kirby_Body.obj", SetGameObject(), 1, CULL_MODE_NONE);
-
 }
 
 

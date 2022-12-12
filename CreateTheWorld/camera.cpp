@@ -1,3 +1,8 @@
+//=============================================================================
+//
+// Author : TakeuchiHiroto
+//
+//=============================================================================
 #include "camera.h"
 #include "renderer.h"
 
@@ -15,7 +20,7 @@
 #define	VIEW_FAR_Z		(10000.0f)										// ビュー平面のFarZ値
 
 //グローバル変数
-int g_gameObjectIndex = SetGameObject();
+static int g_gameObjectIndex = SetGameObject();
 
 
 void UpdateCamera(void) {

@@ -4,6 +4,11 @@
 #include <Windows.h>
 
 //GameDLLƒŠƒ“ƒN
+//=============================================================================
+//
+// Author : TakeuchiHiroto
+//
+//=============================================================================
 #ifdef _DEBUG
 #pragma comment (lib, "../x64/Debug/GameDLL.lib")
 #else
@@ -16,3 +21,12 @@ DLLINPORT void OutputDebug(const char* format, ...);
 
 //XY‚ðXYZ‚Ì‰ñ“]‚É•ÏŠ·‚µ‚Ä‰ÁŽZ
 DLLINPORT void DllRotation(XMFLOAT2 move, XMFLOAT3* rotation, float offset);
+
+//XMFLOAT3“¯Žm‚Ì‘«‚µŽZ
+DLLINPORT XMFLOAT3 AddXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b);
+//XMFLOAT3“¯Žm‚Ìˆø‚«ŽZ
+DLLINPORT XMFLOAT3 SubXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b);
+//XMFLOAT3“¯Žm‚ÌŠ|‚¯ŽZ
+DLLINPORT XMFLOAT3 MulXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b);
+//XMFLOAT3“¯Žm‚ÌŠ„‚èŽZ
+DLLINPORT XMFLOAT3 DivXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b);
