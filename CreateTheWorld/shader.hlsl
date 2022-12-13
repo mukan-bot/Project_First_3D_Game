@@ -166,7 +166,7 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 	{
 		color = color * Material.Diffuse;
 		
-		color = float4(1.0f, 1.0f, 1.0f, 1.0f);	//”’ƒNƒŠƒA
+	//	color = float4(1.0f, 1.0f, 1.0f, 1.0f);	//”’
 	}
 	else
 	{

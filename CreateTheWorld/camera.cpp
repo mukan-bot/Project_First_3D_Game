@@ -41,6 +41,8 @@ void DrawCamera(void) {
 	XMFLOAT3 objectRotate = GetRotation(g_gameObjectIndex);
 	XMFLOAT3 objectPosition = GetPosition(g_gameObjectIndex);
 
+
+
 	rot = XMMatrixRotationRollPitchYaw(objectRotate.z, objectRotate.x, objectRotate.y);
 	trans = XMMatrixTranslation(objectPosition.x, objectPosition.y, objectPosition.z);
 	world = rot * trans;
