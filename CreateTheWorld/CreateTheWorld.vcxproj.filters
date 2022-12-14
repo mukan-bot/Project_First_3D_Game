@@ -25,6 +25,15 @@
     <Filter Include="システム\基本システム">
       <UniqueIdentifier>{08ff8bd1-7f10-4ba6-a829-967e72e3ef77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ゲーム">
+      <UniqueIdentifier>{3b0a5fc0-4d4b-4eb8-b1f0-791fe10ec2e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム\ソース">
+      <UniqueIdentifier>{365fef71-b6c7-45df-bb78-12a251abbd46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム\ヘッダー">
+      <UniqueIdentifier>{c746bc15-0863-4aee-8586-9f56cf8eb9d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,14 +60,17 @@
     <ClCompile Include="model.cpp">
       <Filter>システム\基本システム</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="GameModel.cpp">
       <Filter>システム\基本システム</Filter>
     </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="M_game.cpp">
+      <Filter>ゲーム\ソース</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,14 +98,17 @@
     <ClInclude Include="model.h">
       <Filter>システム\基本システム</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="GameModel.h">
       <Filter>システム\基本システム</Filter>
     </ClInclude>
     <ClInclude Include="test.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="M_game.h">
+      <Filter>ゲーム\ヘッダー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

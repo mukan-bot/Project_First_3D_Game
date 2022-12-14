@@ -59,3 +59,43 @@ DLLEXPOERT XMFLOAT3 MulXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b) {
 DLLEXPOERT XMFLOAT3 DivXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b) {
     return XMFLOAT3(a.x / b.x, a.y / b.y, a.z / b.z); 
 }
+
+
+
+//値の最大値と最小値を指定出来る
+DLLEXPOERT float Clamp(float value, float min, float max) {
+    if (value < min) {
+        return min;
+    }
+    else if (value > max) {
+        return max;
+    }
+    return value;
+}
+
+
+
+
+// 内積(dot)
+DLLEXPOERT float DotProduct(XMVECTOR* v1, XMVECTOR* v2){
+    XMVECTOR temp = XMVector3Dot(*v1, *v2);
+    float ans = 0.0f;
+    XMStoreFloat(&ans, temp);
+    return(ans);
+}
+
+// 外積(cross)
+DLLEXPOERT void CrossProduct(XMVECTOR* ret, XMVECTOR* v1, XMVECTOR* v2){
+    // ダイレクトＸでは、、、
+    * ret = XMVector3Cross(*v1, *v2);
+}
+
+
+
+
+
+
+
+
+
+

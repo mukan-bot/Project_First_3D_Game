@@ -1,4 +1,5 @@
 //DLLを使う方でインクルードするやつ
+//C4190警告が出るけど、DirectX11を使用してるプロジェクトなら問題ないので、スルーするようにしている
 
 #pragma once
 #include <Windows.h>
@@ -30,3 +31,11 @@ DLLINPORT XMFLOAT3 SubXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b);
 DLLINPORT XMFLOAT3 MulXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b);
 //XMFLOAT3同士の割り算
 DLLINPORT XMFLOAT3 DivXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b);
+
+//値の最大値と最小値を指定出来る
+DLLINPORT float Clamp(float value, float min, float max);
+
+// 内積(dot)
+DLLINPORT float DotProduct(XMVECTOR* v1, XMVECTOR* v2);
+// 外積(cross)
+DLLINPORT void CrossProduct(XMVECTOR* ret, XMVECTOR* v1, XMVECTOR* v2);

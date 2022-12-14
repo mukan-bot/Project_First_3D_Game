@@ -11,7 +11,8 @@
 #include "GameObject.h"
 #include "GameModel.h"
 #include "test.h"
-#include "player.h"
+
+#include "M_game.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -39,6 +40,8 @@ void Draw(void);
 int		g_CountFPS;							// FPSカウンタ
 char	g_DebugStr[2048] = WINDOW_NAME;		// デバッグ文字表示用
 #endif
+
+PLAY_MODE g_Mode = MODE_TITLE;
 
 
 //=============================================================================
@@ -190,7 +193,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 //=============================================================================
-// 初期化処理
+// 共通の初期化処理
 //=============================================================================
 HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	InitInput(hInstance, hWnd);
@@ -203,7 +206,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 
 	InitTest();
 
-	InitPlayer();
+	SetMode(MODE_GAME);
 
 	return S_OK;
 }
@@ -213,7 +216,6 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 //=============================================================================
 void Uninit(void){
 
-	UninitPlayer();
 
 	UninitTest();
 
@@ -239,9 +241,27 @@ void Update(void){
 	UpdateCamera();
 
 	
-	UpdateTest();
 
-	UpdatePlayer();
+
+	switch (g_Mode)
+	{
+	case MODE_TITLE:
+		break;
+	case MODE_TUTORIAL:
+		break;
+	case MODE_GAME:
+		UpdateGame();
+
+		UpdateTest();	//TODO:テスト用オブジェクト
+		break;
+	case MODE_RESULT:
+		break;
+	case MODE_MAX:
+		break;
+	default:
+		break;
+	}
+
 
 	//これ最後で
 	UpdateGameObject();
@@ -255,14 +275,61 @@ void Draw(void){
 	Clear();
 	DrawCamera();
 
+	switch (g_Mode)
+	{
+	case MODE_TITLE:
+		break;
+	case MODE_TUTORIAL:
+		break;
+	case MODE_GAME:
 
-	DrawGameModel();
+		DrawGameModel();
 
-	DrawTest();
 
-	DrawPlayer();
+		DrawTest();	//TODO:テスト用オブジェクト
+		break;
+	case MODE_RESULT:
+		break;
+	case MODE_MAX:
+		break;
+	default:
+		break;
+	}
+
+
 
 	Present();
 }
 
 
+
+void SetMode(PLAY_MODE mode) {
+
+	//MEMO:シーンごとの終了処理
+
+	UninitGame();
+
+	//MEMO:モードごとの初期化処理
+	switch (mode)
+	{
+	case MODE_TITLE:
+		break;
+	case MODE_TUTORIAL:
+		break;
+	case MODE_GAME:
+		InitGame();
+		break;
+	case MODE_RESULT:
+		break;
+	case MODE_MAX:
+		break;
+	default:
+		break;
+	}
+
+	g_Mode = mode;
+}
+
+PLAY_MODE GetMode(void) {
+	return g_Mode;
+}

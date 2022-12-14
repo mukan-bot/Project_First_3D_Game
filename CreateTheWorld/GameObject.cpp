@@ -79,27 +79,27 @@ void SetRotation(int index, XMFLOAT3 rotation) {
 
 	//ˆêŽü‰ñ‚Á‚½‚ç’l‚ð‚O‚É‚·‚é
 	if (rotation.x >= XM_PI * 2.0f) {
-		int temp = rotation.x - XM_PI * 2.0f;
+		float temp= rotation.x - XM_PI * 2.0f;
 		rotation.x = temp;
 	}
 	else if (-rotation.x >= XM_PI * 2.0f) {
-		int temp = -rotation.x - XM_PI * 2.0f;
+		float temp = -rotation.x - XM_PI * 2.0f;
 		rotation.x = temp;
 	}
 	if (rotation.y >= XM_PI * 2.0f) {
-		int temp = rotation.y - XM_PI * 2.0f;
+		float temp= rotation.y - XM_PI * 2.0f;
 		rotation.y = temp;
 	}
 	else if (-rotation.y >= XM_PI * 2.0f) {
-		int temp = -rotation.y - XM_PI * 2.0f;
+		float temp= -rotation.y - XM_PI * 2.0f;
 		rotation.y = temp;
 	}
 	if (rotation.z >= XM_PI * 2.0f) {
-		int temp = rotation.z - XM_PI * 2.0f;
+		float temp= rotation.z - XM_PI * 2.0f;
 		rotation.z = temp;
 	}
 	else if (-rotation.z >= XM_PI * 2.0f) {
-		int temp = -rotation.z - XM_PI * 2.0f;
+		float temp= -rotation.z - XM_PI * 2.0f;
 		rotation.z = temp;
 	}
 	g_gameObject[index].rotation = rotation;

@@ -75,7 +75,7 @@ struct INTERPOLATION_DATA
 	float		frame;		// 実行フレーム数 ( dt = 1.0f/frame )
 };
 
-enum
+enum PLAY_MODE
 {
 	MODE_TITLE = 0,			// タイトル画面
 	MODE_TUTORIAL,			// ゲーム説明画面
@@ -89,3 +89,5 @@ enum
 // プロトタイプ宣言
 //*****************************************************************************
 
+void SetMode(PLAY_MODE mode);
+PLAY_MODE GetMode(void);

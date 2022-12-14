@@ -7,3 +7,6 @@ EXPORTS
 	SubXMFLOAT3 @4
 	MulXMFLOAT3 @5
 	DivXMFLOAT3 @6
+	Clamp @7
+	DotProduct @8
+	CrossProduct @9

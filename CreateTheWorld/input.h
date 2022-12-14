@@ -34,3 +34,6 @@ int GetInputTrigger(ButtonName button, int padNo = 0);	//ƒL[ƒ{[ƒh‚ÆƒRƒ“ƒgƒ[ƒ
 int GetInputRelease(ButtonName button, int padNo = 0);	//ƒL[ƒ{[ƒh‚ÆƒRƒ“ƒgƒ[ƒ‰[‚Å“¯‚¶“ü—Í
 
 XMFLOAT2 GetLookInput(int padNo);
+
+void SetXinputSensitive(float sensitive);	//XinputƒRƒ“ƒgƒ[ƒ‰[‚Ì‹üŠ´“x‚ğ•ÏX
+float GetXinputSensitive(void);				//XinputƒRƒ“ƒgƒ[ƒ‰[‚Ì‹üŠ´“x‚ğQÆ

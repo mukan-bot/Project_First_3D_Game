@@ -114,6 +114,7 @@
       <ConformanceMode>false</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>Default</LanguageStandard>
+      <DisableSpecificWarnings>4190;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -145,6 +146,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input_X.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="M_game.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="GameModel.cpp" />
@@ -158,6 +160,7 @@
     <ClInclude Include="input_X.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="M_game.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="GameModel.h" />

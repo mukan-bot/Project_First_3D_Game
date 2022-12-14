@@ -8,8 +8,6 @@
 #include "input_X.h"
 
 
-#define PAD(index)	state[index].Gamepad
-
 
 bool g_use[CONTROLLER_MAX];				//接続されているか
 XINPUT_STATE g_state[CONTROLLER_MAX];	//コントローラーの状況
@@ -33,7 +31,7 @@ void UpdateXinput(void) {
 }
 
 XINPUT_STATE GetXinput(int index) {
-	if (index < CONTROLLER_MAX)return g_state[index];
+	return g_state[index];
 }
 
 XINPUT_STATE GetXinputTrigger(int index) {

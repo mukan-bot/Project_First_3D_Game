@@ -9,9 +9,13 @@
 #include "input_D.h"
 #include "input_X.h"
 
+
 int KeyName[BUTTON_MAX];
 DWORD DinputName[BUTTON_MAX];
 DWORD XinputName[BUTTON_MAX];
+
+float g_XlookSensitive = 30000.0f;
+
 
 HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 	InitDinput(hInst, hWnd);
@@ -68,7 +72,6 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 	}
 
 	return S_OK;
-
 }
 void UninitInput(void) {
 	UninitDinput();
@@ -109,27 +112,46 @@ int GetInputRelease(ButtonName button, int padNo) {
 
 XMFLOAT2 GetLookInput(int padNo) {
 	XMFLOAT2 ans = XMFLOAT2(0.0f, 0.0f);
-	bool is_set = false;	//どれかのデバイスで入力があったらほかのデバイスの入力を受け付けない
 	
-	if (!is_set) {
+	if (ans.x == 0 && ans.y == 0) {
 		if (GetKeyboardPress(DIK_UP)) ans.y--;
 		if (GetKeyboardPress(DIK_DOWN)) ans.y++;
 		if (GetKeyboardPress(DIK_RIGHT)) ans.x++;
 		if (GetKeyboardPress(DIK_LEFT)) ans.x--;
-		is_set = true;
 	}
 
-	if (!is_set) {
+	if (ans.x == 0 && ans.y == 0) {
 		//DirectInputのやつ書く
 	}
 
 
-	if (!is_set) {
+	if (ans.x == 0 && ans.y == 0) {
 		XINPUT_STATE state = GetXinputTrigger(padNo);
-		ans.x = state.Gamepad.sThumbRX;
-		ans.y = state.Gamepad.sThumbRY;
-		is_set = true;
+
+
+		// デッドゾーン以下を0にする
+		if ((state.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+			state.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) &&
+			(state.Gamepad.sThumbRY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+				state.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE))
+		{
+			state.Gamepad.sThumbRX = 0;
+			state.Gamepad.sThumbRY = 0;
+		}
+		else {
+			ans.x = state.Gamepad.sThumbRX / g_XlookSensitive;
+
+			ans.y = -state.Gamepad.sThumbRY / g_XlookSensitive;
+		}
+
 	}
 
 	return ans;
+}
+
+void SetXinputSensitive(float sensitive) {
+	g_XlookSensitive = sensitive;
+}
+float GetXinputSensitive(void) {
+	return g_XlookSensitive;
 }
