@@ -10,3 +10,5 @@ EXPORTS
 	Clamp @7
 	DotProduct @8
 	CrossProduct @9
+	NormalizeXMFLOAT3 @10
+	ComparisonXMFLOAT3 @11

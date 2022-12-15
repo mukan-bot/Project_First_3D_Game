@@ -8,7 +8,7 @@
 #include "camera.h"
 #include "GameObject.h"
 
-#define VALUM_MOVE (0.3f)
+#define MOVE_POWER (0.03f)
 
 //プレイヤーの初期位置（Yは目線の高さ）
 #define PLAYER_OFFSET_X	(0.0f)
@@ -37,30 +37,41 @@ void UpdatePlayer(void) {
 
 	//プレイヤーの移動処理
 	{
+		XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		if (GetInputPress(MOVE_FRONT)) {
 			OutputDebug("前に移動\n");
-			pos.x += sinf(rot.x) * VALUM_MOVE;
-			pos.z += cosf(rot.x) * VALUM_MOVE;
+			vec.x += sinf(rot.x);
+			vec.z += cosf(rot.x);
 		}
 
 		if (GetInputPress(MOVE_BACK)) {
 			OutputDebug("後ろに移動\n");
-			pos.x -= sinf(rot.x) * VALUM_MOVE;
-			pos.z -= cosf(rot.x) * VALUM_MOVE;
+			vec.x -= sinf(rot.x);
+			vec.z -= cosf(rot.x);
 		}
 
 		if (GetInputPress(MOVE_LEFT)) {
 			OutputDebug("左に移動\n");
-			pos.z += sinf(rot.x) * VALUM_MOVE;
-			pos.x -= cosf(rot.x) * VALUM_MOVE;
+			vec.z += sinf(rot.x);
+			vec.x -= cosf(rot.x);
 		}
 
 		if (GetInputPress(MOVE_RIGHT)) {
 			OutputDebug("右に移動\n");
-			pos.x += cosf(rot.x) * VALUM_MOVE;
-			pos.z -= sinf(rot.x) * VALUM_MOVE;
+			vec.x += cosf(rot.x);
+			vec.z -= sinf(rot.x);
 		}
-		SetPosition(g_cameraIndex, pos);
+
+		//このプレームで移動したかしてたら、斜め移動の速度を調節
+		if (ComparisonXMFLOAT3(vec, XMFLOAT3(0.0f, 0.0f, 0.0f))) {
+			vec = NormalizeXMFLOAT3(vec);
+			vec = MulXMFLOAT3(vec, XMFLOAT3(MOVE_POWER, MOVE_POWER, MOVE_POWER));
+
+			pos = AddXMFLOAT3(pos, vec);
+			SetPosition(g_cameraIndex, pos);
+		}
+
+
 
 
 		DllRotation(GetLookInput(0), &rot, 0.03f);

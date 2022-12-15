@@ -39,3 +39,9 @@ DLLINPORT float Clamp(float value, float min, float max);
 DLLINPORT float DotProduct(XMVECTOR* v1, XMVECTOR* v2);
 // äOêœ(cross)
 DLLINPORT void CrossProduct(XMVECTOR* ret, XMVECTOR* v1, XMVECTOR* v2);
+
+// XMFLOAT3 ê≥ãKâª
+DLLINPORT XMFLOAT3 NormalizeXMFLOAT3(XMFLOAT3 vf3);
+
+//XMFLOAT3ÇÃî‰är
+DLLINPORT bool ComparisonXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b);

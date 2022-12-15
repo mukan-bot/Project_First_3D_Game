@@ -90,10 +90,26 @@ DLLEXPOERT void CrossProduct(XMVECTOR* ret, XMVECTOR* v1, XMVECTOR* v2){
     * ret = XMVector3Cross(*v1, *v2);
 }
 
+//XMFLOAT3のノーマライズ
+DLLEXPOERT XMFLOAT3 NormalizeXMFLOAT3(XMFLOAT3 vf3) {
+    XMFLOAT3 ans = vf3;
 
+    XMVECTOR vec = XMLoadFloat3(&ans);
 
+    XMStoreFloat3(&ans, XMVector3Normalize(vec));
 
+    return ans;
 
+}
+
+//XMFLOAT3の比較
+DLLEXPOERT bool ComparisonXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b) {
+    bool ans = false;
+    if (a.x != b.x || a.y != b.y || a.z != b.z) {
+        ans = true;
+    }
+    return ans;
+}
 
 
 
