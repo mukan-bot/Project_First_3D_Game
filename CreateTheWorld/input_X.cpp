@@ -1,8 +1,12 @@
-#include "../GameDLL/GameDLL.h"
+//=============================================================================
+//
+// Author : TakeuchiHiroto
+//
+//=============================================================================
+#include "main.h"
+
 #include "input_X.h"
 
-
-#define PAD(index)	state[index].Gamepad
 
 
 bool g_use[CONTROLLER_MAX];				//ê⁄ë±Ç≥ÇÍÇƒÇ¢ÇÈÇ©
@@ -27,7 +31,7 @@ void UpdateXinput(void) {
 }
 
 XINPUT_STATE GetXinput(int index) {
-	if (index < CONTROLLER_MAX)return g_state[index];
+	return g_state[index];
 }
 
 XINPUT_STATE GetXinputTrigger(int index) {

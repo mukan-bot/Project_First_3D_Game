@@ -2,3 +2,13 @@ LIBRARY GameDLL
 
 EXPORTS
 	OutputDebug @1
+	DllRotation @2
+	AddXMFLOAT3 @3
+	SubXMFLOAT3 @4
+	MulXMFLOAT3 @5
+	DivXMFLOAT3 @6
+	Clamp @7
+	DotProduct @8
+	CrossProduct @9
+	NormalizeXMFLOAT3 @10
+	ComparisonXMFLOAT3 @11

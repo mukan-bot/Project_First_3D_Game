@@ -1,11 +1,21 @@
+//=============================================================================
+//
+// Author : TakeuchiHiroto
+//
+//=============================================================================
+
 #include "main.h"
 #include "input.h"
 #include "input_D.h"
 #include "input_X.h"
 
+
 int KeyName[BUTTON_MAX];
 DWORD DinputName[BUTTON_MAX];
 DWORD XinputName[BUTTON_MAX];
+
+float g_XlookSensitive = 30000.0f;
+
 
 HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 	InitDinput(hInst, hWnd);
@@ -62,7 +72,6 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 	}
 
 	return S_OK;
-
 }
 void UninitInput(void) {
 	UninitDinput();
@@ -81,11 +90,6 @@ int GetInputPress(ButtonName button, int padNo) {
 	return (int)ans;
 }
 
-int GetCinputPress(cButtonName button, int padNo) {
-	int ans = 0;
-	return ans;
-}
-
 int GetInputTrigger(ButtonName button, int padNo) {
 	bool ans = false;
 	if (GetKeyboardTrigger(KeyName[button])) ans = true;
@@ -94,17 +98,60 @@ int GetInputTrigger(ButtonName button, int padNo) {
 	if (state.Gamepad.wButtons & XinputName[button]) ans = true;
 	return (int)ans;
 }
-int GetCinputTrigger(cButtonName button, int padNo) {
-	int ans = 0;
-	return ans;
-}
 
 int GetInputRelease(ButtonName button, int padNo) {
 	bool ans = false;
+	if (GetKeyboardRelease(KeyName[button])) ans = true;
+
+	XINPUT_STATE state = GetXinputRelease(padNo);
+	if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+
 	return (int)ans;
 }
 
-int GetCinputRelease(cButtonName button, int padNo) {
-	int ans = 0;
+
+XMFLOAT2 GetLookInput(int padNo) {
+	XMFLOAT2 ans = XMFLOAT2(0.0f, 0.0f);
+	
+	if (ans.x == 0 && ans.y == 0) {
+		if (GetKeyboardPress(DIK_UP)) ans.y--;
+		if (GetKeyboardPress(DIK_DOWN)) ans.y++;
+		if (GetKeyboardPress(DIK_RIGHT)) ans.x++;
+		if (GetKeyboardPress(DIK_LEFT)) ans.x--;
+	}
+
+	if (ans.x == 0 && ans.y == 0) {
+		//DirectInputのやつ書く
+	}
+
+
+	if (ans.x == 0 && ans.y == 0) {
+		XINPUT_STATE state = GetXinputTrigger(padNo);
+
+
+		// デッドゾーン以下を0にする
+		if ((state.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+			state.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) &&
+			(state.Gamepad.sThumbRY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+				state.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE))
+		{
+			state.Gamepad.sThumbRX = 0;
+			state.Gamepad.sThumbRY = 0;
+		}
+		else {
+			ans.x = state.Gamepad.sThumbRX / g_XlookSensitive;
+
+			ans.y = -state.Gamepad.sThumbRY / g_XlookSensitive;
+		}
+
+	}
+
 	return ans;
+}
+
+void SetXinputSensitive(float sensitive) {
+	g_XlookSensitive = sensitive;
+}
+float GetXinputSensitive(void) {
+	return g_XlookSensitive;
 }

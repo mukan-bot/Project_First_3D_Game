@@ -1,3 +1,9 @@
+//=============================================================================
+//
+// Author : TakeuchiHiroto
+//
+//=============================================================================
+
 #pragma once
 
 
@@ -15,13 +21,6 @@ enum ButtonName {
 	
 	BUTTON_MAX
 };
-enum cButtonName{
-	//コントローラー限定
-	MOVE_X,	//ジョイスティックを使用したなめらかな入力X(前後)
-	MOVE_Y,	//ジョイスティックを使用したなめらかな入力Y(左右)
-	MOVE_T_DASH,	//トリガーボタンを使用した、ダッシュ（速度を細かく調整出来る）
-	
-};
 
 
 
@@ -31,10 +30,10 @@ void UpdateInput(void);
 
 //一応intが戻り値だけど、値は1or0だから、boolとしても扱えるはず。
 int GetInputPress(ButtonName button, int padN = 0);	//キーボードとコントローラーで同じ入力
-int GetCinputPress(cButtonName button, int padNo = 0);	//コントローラー限定の機能の入力
-
 int GetInputTrigger(ButtonName button, int padNo = 0);	//キーボードとコントローラーで同じ入力
-int GetCinputTrigger(cButtonName button, int padNo = 0);	//コントローラー限定の機能の入力
-
 int GetInputRelease(ButtonName button, int padNo = 0);	//キーボードとコントローラーで同じ入力
-int GetCinputRelease(cButtonName button, int padNo = 0);	//コントローラー限定の機能の入力
+
+XMFLOAT2 GetLookInput(int padNo);
+
+void SetXinputSensitive(float sensitive);	//Xinputコントローラーの視線感度を変更
+float GetXinputSensitive(void);				//Xinputコントローラーの視線感度を参照

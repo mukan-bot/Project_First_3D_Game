@@ -1,13 +1,18 @@
 //=============================================================================
 //
-// メイン処理 [main.cpp]
-// Author : 
+// Author : TakeuchiHiroto
 //
 //=============================================================================
-#include "../GameDLL/GameDLL.h"
 
 #include "main.h"
+#include "renderer.h"
 #include "input.h"
+#include "camera.h"
+#include "GameObject.h"
+#include "GameModel.h"
+#include "test.h"
+
+#include "M_game.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -35,6 +40,8 @@ void Draw(void);
 int		g_CountFPS;							// FPSカウンタ
 char	g_DebugStr[2048] = WINDOW_NAME;		// デバッグ文字表示用
 #endif
+
+PLAY_MODE g_Mode = MODE_TITLE;
 
 
 //=============================================================================
@@ -186,10 +193,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 //=============================================================================
-// 初期化処理
+// 共通の初期化処理
 //=============================================================================
 HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	InitInput(hInstance, hWnd);
+
+	//レンダー
+	InitRenderer(hInstance, hWnd, bWindow);
+
+	//
+	InitGameModel();
+
+	InitTest();
+
+	SetMode(MODE_GAME);
+
 	return S_OK;
 }
 
@@ -197,7 +215,20 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 // 終了処理
 //=============================================================================
 void Uninit(void){
+
+
+	UninitTest();
+
+	UninitGameModel();
+
+	//レンダー
+	UninitRenderer();
+
+
 	UninitInput();
+
+
+
 }
 
 //=============================================================================
@@ -205,25 +236,100 @@ void Uninit(void){
 //=============================================================================
 void Update(void){
 	UpdateInput();
-	if (GetInputPress(MOVE_FRONT)) {
-		OutputDebug("前に移動\n");
+
+
+	UpdateCamera();
+
+	
+
+
+	switch (g_Mode)
+	{
+	case MODE_TITLE:
+		break;
+	case MODE_TUTORIAL:
+		break;
+	case MODE_GAME:
+		UpdateGame();
+
+		UpdateTest();	//TODO:テスト用オブジェクト
+		break;
+	case MODE_RESULT:
+		break;
+	case MODE_MAX:
+		break;
+	default:
+		break;
 	}
-	if (GetInputPress(MOVE_BACK)) {
-		OutputDebug("後ろに移動\n");
-	}
-	if (GetInputPress(MOVE_LEFT)) {
-		OutputDebug("左に移動\n");
-	}
-	if (GetInputPress(MOVE_RIGHT)) {
-		OutputDebug("右に移動\n");
-	}
+
+
+	//これ最後で
+	UpdateGameObject();
+
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
 void Draw(void){
+	Clear();
+	DrawCamera();
 
+	switch (g_Mode)
+	{
+	case MODE_TITLE:
+		break;
+	case MODE_TUTORIAL:
+		break;
+	case MODE_GAME:
+
+		DrawGameModel();
+
+
+		DrawTest();	//TODO:テスト用オブジェクト
+		break;
+	case MODE_RESULT:
+		break;
+	case MODE_MAX:
+		break;
+	default:
+		break;
+	}
+
+
+
+	Present();
 }
 
 
+
+void SetMode(PLAY_MODE mode) {
+
+	//MEMO:シーンごとの終了処理
+
+	UninitGame();
+
+	//MEMO:モードごとの初期化処理
+	switch (mode)
+	{
+	case MODE_TITLE:
+		break;
+	case MODE_TUTORIAL:
+		break;
+	case MODE_GAME:
+		InitGame();
+		break;
+	case MODE_RESULT:
+		break;
+	case MODE_MAX:
+		break;
+	default:
+		break;
+	}
+
+	g_Mode = mode;
+}
+
+PLAY_MODE GetMode(void) {
+	return g_Mode;
+}
