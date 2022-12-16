@@ -8,7 +8,7 @@
 #include "input.h"
 #include "input_D.h"
 #include "input_X.h"
-
+#include "input_M.h"
 
 int KeyName[BUTTON_MAX];
 DWORD DinputName[BUTTON_MAX];
@@ -19,7 +19,7 @@ float g_XlookSensitive = 30000.0f;
 
 HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 	InitDinput(hInst, hWnd);
-
+	InitMinput(hWnd);
 	//ボタンの名前を整える
 	//TODO:ボタン配置はプレイしやすいように調整する
 	for (int i = 0; i < BUTTON_MAX; i++){
