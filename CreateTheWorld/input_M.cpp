@@ -62,22 +62,23 @@ void UpdateMinput(void) {
 
 	g_mousePos_X = po.x;
 	g_mousePos_Y = po.y;
-
-	//g_mousePos_X = GetMousePosX();
-	//g_mousePos_Y = GetMousePosY();
-
-
-
-
-
 }
 
 
 XMFLOAT2 GetMouseVec(void) {
 	XMFLOAT2 ans;
+
 	ans.x = (float)g_mouseVec_X;
 	ans.y = (float)g_mouseVec_Y;
 
-	OutputDebug("X:%f   Y:%f\n", ans.x,ans.y);
+	return ans;
+}
+
+XMFLOAT2 GetMousePos(void) {
+	XMFLOAT2 ans;
+
+	ans.x = (float)g_mousePos_X;
+	ans.y = (float)g_mousePos_Y;
+
 	return ans;
 }

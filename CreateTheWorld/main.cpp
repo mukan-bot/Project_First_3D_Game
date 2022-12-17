@@ -188,11 +188,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_MOUSEMOVE:
-		g_MouseX = LOWORD(lParam);
-		g_MouseY = HIWORD(lParam);
-		break;
-
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -340,16 +335,4 @@ void SetMode(PLAY_MODE mode) {
 
 PLAY_MODE GetMode(void) {
 	return g_Mode;
-}
-
-
-long GetMousePosX(void)
-{
-	return g_MouseX;
-}
-
-
-long GetMousePosY(void)
-{
-	return g_MouseY;
 }
