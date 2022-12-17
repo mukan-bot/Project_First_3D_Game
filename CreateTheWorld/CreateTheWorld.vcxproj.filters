@@ -72,11 +72,14 @@
     <ClCompile Include="M_game.cpp">
       <Filter>ゲーム\ソース</Filter>
     </ClCompile>
-    <ClCompile Include="field.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="input_M.cpp">
       <Filter>システム\インプット</Filter>
+    </ClCompile>
+    <ClCompile Include="field.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="convenient.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,11 +119,14 @@
     <ClInclude Include="M_game.h">
       <Filter>ゲーム\ヘッダー</Filter>
     </ClInclude>
-    <ClInclude Include="field.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="input_M.h">
       <Filter>システム\インプット</Filter>
+    </ClInclude>
+    <ClInclude Include="field.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="convenient.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

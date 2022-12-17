@@ -30,11 +30,10 @@ using namespace DirectX;
 #pragma warning(pop)
 
 
-#include "../GameDLL/GameDLL.h"
-
-
 #include "GameObject.h"
 #include "GameModel.h"
+
+#include "convenient.h"
 
 //*****************************************************************************
 // ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN

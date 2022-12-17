@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="convenient.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="input.cpp" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="convenient.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="input.h" />
