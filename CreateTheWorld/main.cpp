@@ -43,6 +43,9 @@ char	g_DebugStr[2048] = WINDOW_NAME;		// デバッグ文字表示用
 
 PLAY_MODE g_Mode = MODE_TITLE;
 
+long g_MouseX = 0;
+long g_MouseY = 0;
+
 
 //=============================================================================
 // メイン関数
@@ -183,6 +186,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			DestroyWindow(hWnd);
 			break;
 		}
+		break;
+
+	case WM_MOUSEMOVE:
+		g_MouseX = LOWORD(lParam);
+		g_MouseY = HIWORD(lParam);
 		break;
 
 	default:
@@ -332,4 +340,16 @@ void SetMode(PLAY_MODE mode) {
 
 PLAY_MODE GetMode(void) {
 	return g_Mode;
+}
+
+
+long GetMousePosX(void)
+{
+	return g_MouseX;
+}
+
+
+long GetMousePosY(void)
+{
+	return g_MouseY;
 }

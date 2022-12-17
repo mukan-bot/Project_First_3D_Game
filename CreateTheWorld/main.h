@@ -91,3 +91,6 @@ enum PLAY_MODE
 
 void SetMode(PLAY_MODE mode);
 PLAY_MODE GetMode(void);
+
+long GetMousePosX(void);
+long GetMousePosY(void);

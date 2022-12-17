@@ -14,7 +14,8 @@ int KeyName[BUTTON_MAX];
 DWORD DinputName[BUTTON_MAX];
 DWORD XinputName[BUTTON_MAX];
 
-float g_XlookSensitive = 30000.0f;
+float g_XlookSensitive = 0.00003f;
+float g_MlookSensitive = 0.01f;
 
 
 HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
@@ -79,6 +80,7 @@ void UninitInput(void) {
 void UpdateInput(void) {
 	UpdateDinput();
 	UpdateXinput();
+	UpdateMinput();
 }
 
 int GetInputPress(ButtonName button, int padNo) {
@@ -121,6 +123,12 @@ XMFLOAT2 GetLookInput(int padNo) {
 	}
 
 	if (ans.x == 0 && ans.y == 0) {
+		ans = GetMouseVec();
+		ans.x *= g_MlookSensitive;
+		ans.y *= g_MlookSensitive;
+	}
+
+	if (ans.x == 0 && ans.y == 0) {
 		//DirectInputÇÃÇ‚Ç¬èëÇ≠
 	}
 
@@ -139,9 +147,9 @@ XMFLOAT2 GetLookInput(int padNo) {
 			state.Gamepad.sThumbRY = 0;
 		}
 		else {
-			ans.x = state.Gamepad.sThumbRX / g_XlookSensitive;
+			ans.x = state.Gamepad.sThumbRX * g_XlookSensitive;
 
-			ans.y = -state.Gamepad.sThumbRY / g_XlookSensitive;
+			ans.y = -state.Gamepad.sThumbRY * g_XlookSensitive;
 		}
 
 	}
