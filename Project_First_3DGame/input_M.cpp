@@ -55,7 +55,10 @@ void UpdateMinput(void) {
 		int x = clip.left + (SCREEN_WIDTH / 2);
 		int y = clip.top + (SCREEN_HEIGHT / 2);
 
+		//画面外に出るとカーソルがチラチラするので画面からでないようにする。
 		ClipCursor(&clip);
+
+		//カーソルを真ん中に固定する
 		SetCursorPos(x, y);
 
 	}
