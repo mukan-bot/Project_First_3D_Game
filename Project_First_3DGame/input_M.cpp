@@ -9,7 +9,7 @@
 static HWND g_hWnd;
 static long g_mousePos_X, g_mousePos_Y;	//いちフレまえの情報の保存
 static long g_mouseVec_X, g_mouseVec_Y;	//計算結果の保存
-
+bool g_cursorMove = true;
 
 HRESULT InitMinput(HWND hWnd) {
 	g_hWnd = hWnd;
@@ -43,19 +43,25 @@ void UpdateMinput(void) {
 	g_mouseVec_X = po.x - g_mousePos_X;
 	g_mouseVec_Y = po.y - g_mousePos_Y;
 
+	if (!g_cursorMove) {
 
-	//カーソルをウインドウ上に拘束する
-	WINDOWINFO WindowInfo;
-	WindowInfo.cbSize = sizeof(WindowInfo);
-	GetWindowInfo(g_hWnd, &WindowInfo);
-	RECT clip;
-	clip = WindowInfo.rcWindow;
+		//カーソルをウインドウ上に拘束する
+		WINDOWINFO WindowInfo;
+		WindowInfo.cbSize = sizeof(WindowInfo);
+		GetWindowInfo(g_hWnd, &WindowInfo);
+		RECT clip;
+		clip = WindowInfo.rcWindow;
 
-	int x = clip.left + (SCREEN_WIDTH / 2);
-	int y = clip.top + (SCREEN_HEIGHT / 2);
+		int x = clip.left + (SCREEN_WIDTH / 2);
+		int y = clip.top + (SCREEN_HEIGHT / 2);
+
+		ClipCursor(&clip);
+		SetCursorPos(x, y);
+
+	}
 
 
-	SetCursorPos(x, y);
+
 
 
 	GetCursorPos(&po);
@@ -81,4 +87,8 @@ XMFLOAT2 GetMousePos(void) {
 	ans.y = (float)g_mousePos_Y;
 
 	return ans;
+}
+
+void SetCursorMove(bool is) {
+	g_cursorMove = is;
 }
