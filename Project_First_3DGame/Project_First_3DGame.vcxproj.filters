@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="システム">
+      <UniqueIdentifier>{d4595ffc-3719-4ad4-af8c-8fa0dc671bc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="システム\インプット">
+      <UniqueIdentifier>{2ba4124b-20fa-4355-a2d8-73873d179624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="システム\DX11">
+      <UniqueIdentifier>{37f63b93-d480-4649-ae61-72e8faca87c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="システム\基本システム">
+      <UniqueIdentifier>{08ff8bd1-7f10-4ba6-a829-967e72e3ef77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム">
+      <UniqueIdentifier>{3b0a5fc0-4d4b-4eb8-b1f0-791fe10ec2e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム\ソース">
+      <UniqueIdentifier>{365fef71-b6c7-45df-bb78-12a251abbd46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム\ヘッダー">
+      <UniqueIdentifier>{c746bc15-0863-4aee-8586-9f56cf8eb9d2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>システム\インプット</Filter>
+    </ClCompile>
+    <ClCompile Include="input_D.cpp">
+      <Filter>システム\インプット</Filter>
+    </ClCompile>
+    <ClCompile Include="input_X.cpp">
+      <Filter>システム\インプット</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>システム\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>システム\基本システム</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>システム\基本システム</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>システム\基本システム</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModel.cpp">
+      <Filter>システム\基本システム</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="M_game.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="input_M.cpp">
+      <Filter>システム\インプット</Filter>
+    </ClCompile>
+    <ClCompile Include="field.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="convenient.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>システム\インプット</Filter>
+    </ClInclude>
+    <ClInclude Include="input_D.h">
+      <Filter>システム\インプット</Filter>
+    </ClInclude>
+    <ClInclude Include="input_X.h">
+      <Filter>システム\インプット</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>システム\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>システム\基本システム</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>システム\基本システム</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>システム\基本システム</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModel.h">
+      <Filter>システム\基本システム</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="M_game.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="input_M.h">
+      <Filter>システム\インプット</Filter>
+    </ClInclude>
+    <ClInclude Include="field.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="convenient.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
