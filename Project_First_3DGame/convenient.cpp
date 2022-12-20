@@ -3,7 +3,11 @@
 // Author : TakeuchiHiroto
 //
 //=============================================================================
-#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define BUFFER_SIZE 1024
 
 #include "convenient.h"
 
@@ -167,4 +171,83 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2) {
     }
 
     return ans;
+}
+
+
+
+
+
+
+char* get_element(const char* file_name, int row, int col){
+    char buffer[BUFFER_SIZE];
+    char* element = NULL;
+
+    FILE* fp;
+    fopen_s(&fp,file_name, "r");
+    if (fp == NULL) {
+        perror("fopen");
+        return NULL;
+    }
+
+    // 行を読み込んで、指定された行に到達するまで繰り返す
+    for (int i = 0; i <= row; i++) {
+        if (fgets(buffer, BUFFER_SIZE, fp) == NULL) {
+            // ファイルの最後に到達したか、エラーが発生した場合
+            break;
+        }
+        if (i == row) {
+            // 指定された行を見つけた場合、カンマで区切った列を取得する
+            char* context1;
+            char* p = strtok_s(buffer, ",", &context1);
+            for (int j = 0; j < col; j++) {
+
+                char* context2;
+                p = strtok_s(NULL, ",", &context2);
+            }
+            element = p;
+        }
+    }
+
+    fclose(fp);
+
+    return element;
+}
+
+
+int get_row_col(const char* file_name, const char* element, int* row, int* col){
+    char buffer[BUFFER_SIZE];
+
+    // CSVファイルを開く
+    FILE* fp;
+    fopen_s(&fp, file_name, "r");
+    if (fp == NULL) {
+        perror("fopen");
+        return 1;
+    }
+
+    // 行を読み込んで、要素が見つかるまで繰り返す
+    int i = 0;
+    while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
+        char* context1;
+        // カンマで区切った列を取得する
+        char* p = strtok_s(buffer, ",", &context1);
+        int j = 0;
+        while (p != NULL) {
+            if (strcmp(p, element) == 0) {
+                // 要素が見つかったので、行番号と列番号を返す
+                *row = i;
+                *col = j;
+                fclose(fp);
+                return 0;
+            }
+            char* context2;
+            p = strtok_s(NULL, ",", &context2);
+            j++;
+        }
+        i++;
+    }
+
+    // 要素が見つからなかった
+    fclose(fp);
+    return 1;
 }

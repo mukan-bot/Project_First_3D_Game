@@ -73,3 +73,10 @@ bool CollisionBB(XMFLOAT3 pos1, WHSIZE size1, XMFLOAT3 pos2, WHSIZE size2);
 //BCの当たり判定
 //当たっていたらTrueを返す
 bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2);
+
+
+
+//SCVファイルから情報を所得する
+char* get_element(const char* file_name, int row, int col);
+//CSVファイルのエレメントの位置を所得する
+int get_row_col(const char* file_name, const char* element, int* row, int* col);
