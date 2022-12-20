@@ -181,11 +181,12 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2) {
 char* get_element(const char* file_name, int row, int col){
     char buffer[BUFFER_SIZE];
     char* element = NULL;
+    char* context;
 
     FILE* fp;
     fopen_s(&fp,file_name, "r");
     if (fp == NULL) {
-        perror("fopen");
+        //perror("fopen");
         return NULL;
     }
 
@@ -197,12 +198,10 @@ char* get_element(const char* file_name, int row, int col){
         }
         if (i == row) {
             // 指定された行を見つけた場合、カンマで区切った列を取得する
-            char* context1;
-            char* p = strtok_s(buffer, ",", &context1);
+            char* p = strtok_s(buffer, ",", &context);
             for (int j = 0; j < col; j++) {
 
-                char* context2;
-                p = strtok_s(NULL, ",", &context2);
+                p = strtok_s(NULL, ",", &context);
             }
             element = p;
         }
@@ -217,6 +216,7 @@ char* get_element(const char* file_name, int row, int col){
 int get_row_col(const char* file_name, const char* element, int* row, int* col){
     char buffer[BUFFER_SIZE];
 
+    char* context;
     // CSVファイルを開く
     FILE* fp;
     fopen_s(&fp, file_name, "r");
@@ -228,9 +228,8 @@ int get_row_col(const char* file_name, const char* element, int* row, int* col){
     // 行を読み込んで、要素が見つかるまで繰り返す
     int i = 0;
     while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
-        char* context1;
         // カンマで区切った列を取得する
-        char* p = strtok_s(buffer, ",", &context1);
+        char* p = strtok_s(buffer, ",", &context);
         int j = 0;
         while (p != NULL) {
             if (strcmp(p, element) == 0) {
@@ -240,8 +239,7 @@ int get_row_col(const char* file_name, const char* element, int* row, int* col){
                 fclose(fp);
                 return 0;
             }
-            char* context2;
-            p = strtok_s(NULL, ",", &context2);
+            p = strtok_s(NULL, ",", &context);
             j++;
         }
         i++;
