@@ -20,4 +20,4 @@ void UninitGameModel(void);
 void DrawGameModel(void);
 int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi, CULL_MODE cullMode);
 void DelGameModel(int index);
-
+void SetGameModelScale(int index, XMFLOAT3 scale);

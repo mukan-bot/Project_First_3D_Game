@@ -15,11 +15,12 @@
 
 struct GameModel{
 	bool is_load;
-	DX11_MODEL model;
 	int is_fuchi;
-	CULL_MODE cullMode;
 	int gameObjectIndex;
+	XMFLOAT3 ofsetScale;
+	CULL_MODE cullMode;
 	XMFLOAT4X4 mtxWorld;
+	DX11_MODEL model;
 	bool use;
 };
 
@@ -39,6 +40,7 @@ void InitGameModel(void){
 		g_gameModel[i].is_load = false;
 		g_gameModel[i].is_fuchi = 0;
 		g_gameModel[i].cullMode = CULL_MODE_NUM;
+		g_gameModel[i].ofsetScale = SetXMFLOAT3(1.0f);
 		g_gameModel[i].use = false;
 	}
 }
@@ -73,6 +75,7 @@ void DrawGameModel(void){
 		XMFLOAT3 rot = GetRotation(g_gameModel[i].gameObjectIndex);
 		XMFLOAT3 scl = GetScale(g_gameModel[i].gameObjectIndex);
 
+		scl = MulXMFLOAT3(scl, g_gameModel[i].ofsetScale);
 
 
 		// ƒJƒŠƒ“ƒO–³Œø
@@ -148,4 +151,8 @@ void DelGameModel(int index) {
 		g_gameModel[index].is_load = false;
 	}
 	g_gameModel[index].use = false;
+}
+
+void SetGameModelScale(int index, XMFLOAT3 scale) {
+	g_gameModel[index].ofsetScale = scale;
 }

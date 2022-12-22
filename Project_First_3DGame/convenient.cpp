@@ -3,7 +3,11 @@
 // Author : TakeuchiHiroto
 //
 //=============================================================================
-#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define BUFFER_SIZE 1024
 
 #include "convenient.h"
 
@@ -125,25 +129,19 @@ bool CollisionBB(XMFLOAT3 pos1, XMFLOAT3 size1, XMFLOAT3 pos2, XMFLOAT3 size2) {
     XMFLOAT3 tempSize1 = DivXMFLOAT3(size1, SetXMFLOAT3(2.0f));
     XMFLOAT3 tempSize2 = DivXMFLOAT3(size2, SetXMFLOAT3(2.0f));
 
-    //MEMO:pos1を左上手前にする
-    pos1 = SubXMFLOAT3(pos1, tempSize1);
-    //MEMO:pos2を右下手前にする
-    pos2 = AddXMFLOAT3(pos2, tempSize2);
-
-    //pos2 = AddXMFLOAT3(pos2, size2);
-
-    //左上手前と右下奥を見る
-    if ((pos1.x > pos2.x) &&
-        (pos1.y > pos2.y)) {
-
-        pos1 = AddXMFLOAT3(pos1, size1);
-        pos2 = SubXMFLOAT3(pos2, size2);
-
-        if ((pos1.x > pos2.x) &&
-            (pos1.y > pos2.y)) {
-            ans = true;
-        }
+    // バウンディングボックス(BB)の処理
+    if ((pos1.x + tempSize1.x > pos2.x - tempSize2.x) &&
+        (pos1.x - tempSize1.x < pos2.x + tempSize2.x) &&
+        (pos1.y + tempSize1.y > pos2.y - tempSize2.y) &&
+        (pos1.y - tempSize1.y < pos2.y + tempSize2.y) &&
+        (pos1.z + tempSize1.z > pos2.z - tempSize2.z) &&
+        (pos1.z - tempSize1.z < pos2.z + tempSize2.z))
+    {
+        // 当たった時の処理
+        ans = true;
     }
+
+
 
     return ans;
 
@@ -168,3 +166,82 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2) {
 
     return ans;
 }
+
+
+
+
+
+
+char* get_element(const char* file_name, int row, int col){
+    char buffer[BUFFER_SIZE];
+    char* element = NULL;
+    char* context;
+
+    FILE* fp;
+    fopen_s(&fp,file_name, "r");
+    if (fp == NULL) {
+        return NULL;
+    }
+
+    // 行を読み込んで、指定された行に到達するまで繰り返す
+    for (int i = 0; i <= row; i++) {
+        if (fgets(buffer, BUFFER_SIZE, fp) == NULL) {
+            // ファイルの最後に到達したか、エラーが発生した場合
+            break;
+        }
+        if (i == row) {
+            // 指定された行を見つけた場合、カンマで区切った列を取得する
+            char* p = strtok_s(buffer, ",", &context);
+            for (int j = 0; j < col; j++) {
+
+                p = strtok_s(NULL, ",", &context);
+            }
+            element = p;
+        }
+    }
+
+    fclose(fp);
+
+    return element;
+}
+
+
+int get_row_col(const char* file_name, const char* element, int* row, int* col){
+    char buffer[BUFFER_SIZE];
+
+    char* context;
+    // CSVファイルを開く
+    FILE* fp;
+    fopen_s(&fp, file_name, "r");
+    if (fp == NULL) {
+        return 1;
+    }
+
+    // 行を読み込んで、要素が見つかるまで繰り返す
+    int i = 0;
+    while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
+        // カンマで区切った列を取得する
+        char* p = strtok_s(buffer, ",", &context);
+        int j = 0;
+        while (p != NULL) {
+            if (strcmp(p, element) == 0) {
+                // 要素が見つかったので、行番号と列番号を返す
+                *row = i;
+                *col = j;
+                fclose(fp);
+                return 0;
+            }
+            p = strtok_s(NULL, ",", &context);
+            j++;
+        }
+        i++;
+    }
+
+    // 要素が見つからなかった
+    fclose(fp);
+    return 1;
+}
+
+
+
+

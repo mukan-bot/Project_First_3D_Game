@@ -280,6 +280,12 @@ void Update(void){
 		break;
 	}
 
+	if (GetInputTrigger(MOVE_JUMP)) {
+		char* element = get_element("./object_properties.csv", 1, 1);
+		OutputDebug("%f\n",element);
+	}
+
+
 
 	//Ç±ÇÍç≈å„Ç≈
 	UpdateGameObject();
