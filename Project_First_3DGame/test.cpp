@@ -9,6 +9,8 @@
 #include "model.h"
 #include "test.h"
 
+#include "collision.h"
+
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -23,6 +25,7 @@
 
 static int g_objIndex;
 static int g_mdlIndex;
+static int g_colIndex;
 
 static int g_partsObjIndex[TEST_PARTS];
 static int g_partsMdlIndex[TEST_PARTS];
@@ -45,7 +48,6 @@ HRESULT InitTest(void)
 	SetScale(g_objIndex, XMFLOAT3(0.01f, 0.01f, 0.01f));
 
 	//パーツの初期化
-
 	int i = 0;	//MEMO:コピペし易いように、配列番号をiにしておくため。
 	g_partsObjIndex[i] = SetGameObject();
 	g_partsMdlIndex[i] = SetGameModel(MODEL_TEST_LEG_L, g_partsObjIndex[i], 1, CULL_MODE_NONE);
@@ -68,6 +70,12 @@ HRESULT InitTest(void)
 	for (int i = 0; i < TEST_PARTS; i++) {
 		SetGameObjectZERO(g_partsObjIndex[i]);
 	}
+	
+	g_colIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+	int colObjIndex = GetColObjectIndex(g_colIndex);
+	SetPosition(colObjIndex, GetPosition(g_objIndex));
+	SetScale(colObjIndex, XMFLOAT3(0.1, 0.1, 0.1));
+
 
 
 	return S_OK;
@@ -92,9 +100,11 @@ void UpdateTest(void) {
 	XMFLOAT3 pos = GetPosition(g_objIndex);
 	XMFLOAT3 rot = GetRotation(g_objIndex);
 	XMFLOAT3 scl = GetScale(g_objIndex);
-	if (GetInputPress(MOVE_FRONT)) {
-		pos.z += 0.01f;
+
+	if (!GetColAns(g_colIndex)) {
+		pos.y -= 0.01f;
 		SetPosition(g_objIndex, pos);
+		SetPosition(GetColObjectIndex(g_colIndex), pos);
 	}
 	
 }

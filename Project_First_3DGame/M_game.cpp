@@ -27,6 +27,7 @@ void UninitGame(void) {
 }
 void UpdateGame(void) {
 	UpdatePlayer();
+	UpdateCollision();
 
 }
 void DrawGame(void) {

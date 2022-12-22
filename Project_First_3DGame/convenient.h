@@ -69,7 +69,7 @@ float LengthXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b);
 
 //BB‚Ì“–‚½‚è”»’èi‰ñ“]‚ÍŽw’è‚Å‚«‚È‚¢j
 //“–‚½‚Á‚Ä‚¢‚½‚çTrue‚ð•Ô‚·
-bool CollisionBB(XMFLOAT3 pos1, WHSIZE size1, XMFLOAT3 pos2, WHSIZE size2);
+bool CollisionBB(XMFLOAT3 pos1, XMFLOAT3 size1, XMFLOAT3 pos2, XMFLOAT3 size2);
 //BC‚Ì“–‚½‚è”»’è
 //“–‚½‚Á‚Ä‚¢‚½‚çTrue‚ð•Ô‚·
 bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2);

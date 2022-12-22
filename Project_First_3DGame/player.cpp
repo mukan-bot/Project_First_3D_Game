@@ -12,7 +12,7 @@
 
 //プレイヤーの初期位置（Yは目線の高さ）
 #define PLAYER_OFFSET_X	(0.0f)
-#define PLAYER_OFFSET_Y	(5.0f)
+#define PLAYER_OFFSET_Y	(0.20f)
 #define PLAYER_OFFSET_Z	(-10.0f)
 
 
@@ -39,25 +39,21 @@ void UpdatePlayer(void) {
 	{
 		XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		if (GetInputPress(MOVE_FRONT)) {
-			OutputDebug("前に移動\n");
 			vec.x += sinf(rot.x);
 			vec.z += cosf(rot.x);
 		}
 
 		if (GetInputPress(MOVE_BACK)) {
-			OutputDebug("後ろに移動\n");
 			vec.x -= sinf(rot.x);
 			vec.z -= cosf(rot.x);
 		}
 
 		if (GetInputPress(MOVE_LEFT)) {
-			OutputDebug("左に移動\n");
 			vec.z += sinf(rot.x);
 			vec.x -= cosf(rot.x);
 		}
 
 		if (GetInputPress(MOVE_RIGHT)) {
-			OutputDebug("右に移動\n");
 			vec.x += cosf(rot.x);
 			vec.z -= sinf(rot.x);
 		}

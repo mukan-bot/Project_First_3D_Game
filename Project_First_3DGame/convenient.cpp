@@ -129,25 +129,19 @@ bool CollisionBB(XMFLOAT3 pos1, XMFLOAT3 size1, XMFLOAT3 pos2, XMFLOAT3 size2) {
     XMFLOAT3 tempSize1 = DivXMFLOAT3(size1, SetXMFLOAT3(2.0f));
     XMFLOAT3 tempSize2 = DivXMFLOAT3(size2, SetXMFLOAT3(2.0f));
 
-    //MEMO:pos1を左上手前にする
-    pos1 = SubXMFLOAT3(pos1, tempSize1);
-    //MEMO:pos2を右下手前にする
-    pos2 = AddXMFLOAT3(pos2, tempSize2);
-
-    //pos2 = AddXMFLOAT3(pos2, size2);
-
-    //左上手前と右下奥を見る
-    if ((pos1.x > pos2.x) &&
-        (pos1.y > pos2.y)) {
-
-        pos1 = AddXMFLOAT3(pos1, size1);
-        pos2 = SubXMFLOAT3(pos2, size2);
-
-        if ((pos1.x > pos2.x) &&
-            (pos1.y > pos2.y)) {
-            ans = true;
-        }
+    // バウンディングボックス(BB)の処理
+    if ((pos1.x + tempSize1.x > pos2.x - tempSize2.x) &&
+        (pos1.x - tempSize1.x < pos2.x + tempSize2.x) &&
+        (pos1.y + tempSize1.y > pos2.y - tempSize2.y) &&
+        (pos1.y - tempSize1.y < pos2.y + tempSize2.y) &&
+        (pos1.z + tempSize1.z > pos2.z - tempSize2.z) &&
+        (pos1.z - tempSize1.z < pos2.z + tempSize2.z))
+    {
+        // 当たった時の処理
+        ans = true;
     }
+
+
 
     return ans;
 
@@ -186,7 +180,6 @@ char* get_element(const char* file_name, int row, int col){
     FILE* fp;
     fopen_s(&fp,file_name, "r");
     if (fp == NULL) {
-        //perror("fopen");
         return NULL;
     }
 
@@ -221,7 +214,6 @@ int get_row_col(const char* file_name, const char* element, int* row, int* col){
     FILE* fp;
     fopen_s(&fp, file_name, "r");
     if (fp == NULL) {
-        perror("fopen");
         return 1;
     }
 
@@ -249,3 +241,7 @@ int get_row_col(const char* file_name, const char* element, int* row, int* col){
     fclose(fp);
     return 1;
 }
+
+
+
+
