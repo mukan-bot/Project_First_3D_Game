@@ -77,6 +77,6 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2);
 
 
 //SCVファイルから情報を所得する
-char* get_element(const char* file_name, int row, int col);
+char* GetElement(FILE* fp, int row, int col);
 //CSVファイルのエレメントの位置を所得する
-int get_row_col(const char* file_name, const char* element, int* row, int* col);
+int GetRowCol(const char* file_name, const char* element, int* row, int* col);

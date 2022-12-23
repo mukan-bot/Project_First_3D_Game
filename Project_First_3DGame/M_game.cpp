@@ -32,5 +32,8 @@ void UpdateGame(void) {
 }
 void DrawGame(void) {
 	DrawPlayer();
+	
+	
+	DrawField();
 
 }

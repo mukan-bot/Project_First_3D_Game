@@ -172,14 +172,14 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2) {
 
 
 
-char* get_element(const char* file_name, int row, int col){
+char* GetElement(FILE* fp, int row, int col){
     char buffer[BUFFER_SIZE];
     char* element = NULL;
     char* context;
 
-    FILE* fp;
-    fopen_s(&fp,file_name, "r");
+    
     if (fp == NULL) {
+        OutputDebug("GetElement‚ÅNULL‚ª•Ô‚³‚ê‚Ü‚µ‚½\n");
         return NULL;
     }
 
@@ -200,13 +200,12 @@ char* get_element(const char* file_name, int row, int col){
         }
     }
 
-    fclose(fp);
 
     return element;
 }
 
 
-int get_row_col(const char* file_name, const char* element, int* row, int* col){
+int GetRowCol(const char* file_name, const char* element, int* row, int* col){
     char buffer[BUFFER_SIZE];
 
     char* context;
