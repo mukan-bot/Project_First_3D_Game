@@ -32,7 +32,6 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 #ifdef _DEBUG
 		//	デバック時はcollisionの範囲を表示しておく
 		g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
-		//SetGameModelScale(g_collision[i].gameModelIndex, SetXMFLOAT3(0.05f));
 #endif // _DEBUG 
 
 		ans = i;
