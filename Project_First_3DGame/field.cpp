@@ -8,7 +8,7 @@
 #include "collision.h"
 
 
-#define FIELD_MODEL_MAX	(3)
+#define FIELD_MODEL_MAX	(4)
 #define CSV_FILE_PATH	"./object_properties.csv"
 #define SET_OBJECT_MAX (256)
 
@@ -28,6 +28,8 @@ static char* g_modelPath[FIELD_MODEL_MAX][2]{
 	{"./data/MODEL/field.obj","ita"},
 	{"./data/MODEL/test.obj" ,"Monkey"},
 	{"./data/MODEL/cone.obj" ,"Cone"},
+	{"./data/MODEL/Ground001.obj" ,"Ground001"},
+
 };
 
 static int g_setModelNo = 0;
