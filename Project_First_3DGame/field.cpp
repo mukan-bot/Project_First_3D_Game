@@ -1,27 +1,99 @@
 #include "field.h"
 
+#include "model.h"
+
 #include "GameObject.h"
 #include "GameModel.h"
 
 #include "collision.h"
 
-#define FIELD_MODEL ("./data/MODEL/field.obj")
 
-static int g_objIndex;
-static int g_mdlIndex;
+#define FIELD_MODEL_MAX	(3)
+#define CSV_FILE_PATH	"./object_properties.csv"
+#define SET_OBJECT_MAX (256)
 
-static int g_colIndex;
+float CharToFloat(char* text);
+
+
+
+struct SET_OBJECT {
+	int gameObjectIndex;
+	int gameModelIndex;
+	int collisonIndex;
+};
+
+
+
+static char* g_modelPath[FIELD_MODEL_MAX][2]{
+	{"./data/MODEL/field.obj","ita"},
+	{"./data/MODEL/test.obj" ,"Monkey"},
+	{"./data/MODEL/cone.obj" ,"Cone"},
+};
+
+static int g_setModelNo = 0;
+
+static SET_OBJECT  g_setObject[SET_OBJECT_MAX];
+
 
 HRESULT InitField(void) {
-	g_objIndex = SetGameObject();
-	SetScale(g_objIndex, XMFLOAT3(1.0f, 1.0f, 1.0f));
-	g_mdlIndex = SetGameModel(FIELD_MODEL, g_objIndex, 0, CULL_MODE_NONE);
+	FILE* fp;
+	int elementNo = -1;
+	char name[256];
+	XMFLOAT3 pos, rot, scl;
+	fopen_s(&fp, CSV_FILE_PATH, "r");
+	if (fp != NULL) {
+		while (fscanf_s(fp, "%[^,],%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f", name, _countof(name), &pos.x, &pos.y, &pos.z, &rot.x, &rot.y, &rot.z, &scl.x, &scl.y, &scl.z) != EOF)
+		{
+			elementNo++;
+		}
+		fclose(fp);
+	}
 
-	g_colIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
-	int colObjIndex = GetColObjectIndex(g_colIndex);
-	SetPosition(colObjIndex, GetPosition(g_objIndex));
-	SetScale(colObjIndex, XMFLOAT3(1.0, 0.001, 1.0));
-	
+
+
+	for (int i = 0; i < elementNo; i++) {
+		fopen_s(&fp, CSV_FILE_PATH, "r");
+		LEVEL_ELEMENT ans;
+		GetLevel_Csv(fp, i, &ans);
+		//OutputDebug("%d\n", i);
+		//if (&ans == NULL) continue;
+
+
+		//オブジェクトの名前が連番になるので連番部分の削除
+		int nameEnd = 0;
+		while (ans.name[nameEnd]!='.'){
+			if (ans.name[nameEnd] == '\0')break;
+			nameEnd++;
+		}
+		ans.name[nameEnd] = '\0';
+		OutputDebug("%s\n", ans.name);
+
+		//collisionだったらcollisionを配置する
+		if (strcmp(ans.name, "collisionBB") == 0) {
+			g_setObject[i].collisonIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+			int index = GetColObjectIndex(g_setObject[i].collisonIndex);
+			SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));
+			SetRotation(index, ans.rot);
+			SetScale(index, ans.scl);
+			continue;
+		}
+
+		int index = g_setObject[i].gameObjectIndex = SetGameObject();
+		SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));	//座標がずれるから調節
+		SetRotation(index, ans.rot);
+		SetScale(index, ans.scl);
+
+		for (int j = 0; j < FIELD_MODEL_MAX; j++) {
+			if (strcmp(ans.name, g_modelPath[j][1])==0) {
+				g_setObject[i].gameModelIndex = SetGameModel(g_modelPath[j][0], index, 0, CULL_MODE_NONE);
+				break;
+			}
+		}
+		fclose(fp);
+	}
+	if (fp != NULL) {
+		fclose(fp);
+	}
 
 	return S_OK;
 }
@@ -33,5 +105,15 @@ void UpdateField(void) {
 
 }
 void DrawField(void) {
+}
 
+
+float CharToFloat(char* text) {
+	float ans = 0.0f;
+	if (text != NULL) {
+		char* end;
+		ans = strtof(text, &end);
+	}
+
+	return ans;
 }

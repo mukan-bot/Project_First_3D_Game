@@ -1,5 +1,8 @@
 #pragma once
 #include "main.h"
+#include "model.h"
+
+
 
 
 HRESULT InitField(void);

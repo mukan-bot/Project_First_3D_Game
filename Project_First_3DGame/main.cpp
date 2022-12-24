@@ -280,10 +280,10 @@ void Update(void){
 		break;
 	}
 
-	if (GetInputTrigger(MOVE_JUMP)) {
-		char* element = get_element("./object_properties.csv", 1, 1);
-		OutputDebug("%f\n",element);
-	}
+	//if (GetInputTrigger(MOVE_JUMP)) {
+	//	char* element = GetElement("./object_properties.csv", 0, 1);
+	//	OutputDebug("%s\n",element);
+	//}
 
 
 
@@ -308,7 +308,7 @@ void Draw(void){
 	case MODE_GAME:
 
 		DrawGameModel();
-
+		DrawGame();
 
 		DrawTest();	//TODO:テスト用オブジェクト
 		break;
