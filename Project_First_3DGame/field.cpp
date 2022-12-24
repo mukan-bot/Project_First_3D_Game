@@ -25,8 +25,8 @@ struct SET_OBJECT {
 
 
 static char* g_modelPath[FIELD_MODEL_MAX][2]{
-	{"./data/MODEL/field.obj","平面"},
-	{"./data/MODEL/test.obj" ,"モンキー"},
+	{"./data/MODEL/field.obj","ita"},
+	{"./data/MODEL/test.obj" ,"Monkey"},
 	{"./data/MODEL/cone.obj" ,"Cone"},
 };
 
@@ -36,52 +36,64 @@ static SET_OBJECT  g_setObject[SET_OBJECT_MAX];
 
 
 HRESULT InitField(void) {
-	int i = 1;
 	FILE* fp;
+	int elementNo = -1;
+	char name[256];
+	XMFLOAT3 pos, rot, scl;
 	fopen_s(&fp, CSV_FILE_PATH, "r");
 	if (fp != NULL) {
-
-		while (GetElement(fp, i, 0) != NULL) {
-			g_setObject[i].gameObjectIndex = SetGameObject();
-			XMFLOAT3 pos;
-			XMFLOAT3 rot;
-			XMFLOAT3 scl;
-
-
-			char* name = GetElement(fp, i, 0);
-
-			for (int j = 0; j < FIELD_MODEL_MAX; j++) {
-				if (strcmp(name, g_modelPath[j][1]) == 0) {
-					SetGameModel(g_modelPath[j][0], g_setObject[i].gameObjectIndex, 0, CULL_MODE_NONE);
-				}
-			}
-
-			pos.x = CharToFloat(GetElement(fp, 1, i));
-
-
-			
-			/*
-			pos.y = strtof(GetElement(fp, i, 2), &end);
-			pos.z = strtof(GetElement(fp, i, 3), &end);
-			rot.x = strtof(GetElement(fp, i, 4), &end);
-			rot.y = strtof(GetElement(fp, i, 5), &end);
-			rot.z = strtof(GetElement(fp, i, 6), &end);
-			scl.x = strtof(GetElement(fp, i, 7), &end);
-			scl.y = strtof(GetElement(fp, i, 8), &end);
-			scl.z = strtof(GetElement(fp, i, 9), &end);*/
-
-
-			//SetPosition(g_setObject[i].gameObjectIndex, pos);
-			//SetRotation(g_setObject[i].gameObjectIndex, rot);
-			//SetScale(g_setObject[i].gameObjectIndex, scl);
-
-			i++;
+		while (fscanf_s(fp, "%[^,],%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f", name, _countof(name), &pos.x, &pos.y, &pos.z, &rot.x, &rot.y, &rot.z, &scl.x, &scl.y, &scl.z) != EOF)
+		{
+			elementNo++;
 		}
+		fclose(fp);
+	}
+
+
+
+	for (int i = 0; i < elementNo; i++) {
+		fopen_s(&fp, CSV_FILE_PATH, "r");
+		LEVEL_ELEMENT ans;
+		GetLevel_Csv(fp, i, &ans);
+		//OutputDebug("%d\n", i);
+		//if (&ans == NULL) continue;
+
+
+		//オブジェクトの名前が連番になるので連番部分の削除
+		int nameEnd = 0;
+		while (ans.name[nameEnd]!='.'){
+			if (ans.name[nameEnd] == '\0')break;
+			nameEnd++;
+		}
+		ans.name[nameEnd] = '\0';
+		OutputDebug("%s\n", ans.name);
+
+		//collisionだったらcollisionを配置する
+		if (strcmp(ans.name, "collisionBB") == 0) {
+			g_setObject[i].collisonIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+			int index = GetColObjectIndex(g_setObject[i].collisonIndex);
+			SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));
+			SetRotation(index, ans.rot);
+			SetScale(index, ans.scl);
+			continue;
+		}
+
+		int index = g_setObject[i].gameObjectIndex = SetGameObject();
+		SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));	//座標がずれるから調節
+		SetRotation(index, ans.rot);
+		SetScale(index, ans.scl);
+
+		for (int j = 0; j < FIELD_MODEL_MAX; j++) {
+			if (strcmp(ans.name, g_modelPath[j][1])==0) {
+				g_setObject[i].gameModelIndex = SetGameModel(g_modelPath[j][0], index, 0, CULL_MODE_NONE);
+				break;
+			}
+		}
+		fclose(fp);
 	}
 	if (fp != NULL) {
 		fclose(fp);
 	}
-	g_setModelNo = i;
 
 	return S_OK;
 }
@@ -98,7 +110,6 @@ void DrawField(void) {
 
 float CharToFloat(char* text) {
 	float ans = 0.0f;
-
 	if (text != NULL) {
 		char* end;
 		ans = strtof(text, &end);

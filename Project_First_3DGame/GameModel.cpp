@@ -78,7 +78,7 @@ void DrawGameModel(void){
 		scl = MulXMFLOAT3(scl, g_gameModel[i].ofsetScale);
 
 
-		// カリング無効
+		// カリング
 		SetCullingMode(g_gameModel[i].cullMode);
 
 		//縁設定
@@ -152,6 +152,7 @@ void DelGameModel(int index) {
 	}
 	g_gameModel[index].use = false;
 }
+
 
 void SetGameModelScale(int index, XMFLOAT3 scale) {
 	g_gameModel[index].ofsetScale = scale;

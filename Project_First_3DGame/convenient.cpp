@@ -30,6 +30,9 @@ void OutputDebug(const char* format, ...) {
 #endif // DEBUG
 }
 
+void OutputXMFLOAT3Debug(char* name, XMFLOAT3 a) {
+    OutputDebug("%s:%.2f,%.2f,%.2f\n", name, a.x, a.y, a.z);
+}
 
 
 
@@ -170,77 +173,25 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2) {
 
 
 
-
-
-char* GetElement(FILE* fp, int row, int col){
-    char buffer[BUFFER_SIZE];
-    char* element = NULL;
-    char* context;
-
-    
-    if (fp == NULL) {
-        OutputDebug("GetElementでNULLが返されました\n");
-        return NULL;
-    }
-
-    // 行を読み込んで、指定された行に到達するまで繰り返す
-    for (int i = 0; i <= row; i++) {
-        if (fgets(buffer, BUFFER_SIZE, fp) == NULL) {
-            // ファイルの最後に到達したか、エラーが発生した場合
-            break;
-        }
-        if (i == row) {
-            // 指定された行を見つけた場合、カンマで区切った列を取得する
-            char* p = strtok_s(buffer, ",", &context);
-            for (int j = 0; j < col; j++) {
-
-                p = strtok_s(NULL, ",", &context);
+void GetLevel_Csv(FILE* fp, int index, LEVEL_ELEMENT* ans) {
+  
+    if (fp != NULL) {
+        int i = 0;
+        char name[256];
+        XMFLOAT3 pos, rot, scl;
+        while (fscanf_s(fp, "\n%[^,],%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f", name, _countof(name), &pos.x, &pos.y, &pos.z, &rot.x, &rot.y, &rot.z, &scl.x, &scl.y, &scl.z) != EOF)
+        {
+            if (i == index) {
+                strcpy_s(ans->name, name);
+                ans->pos = pos;
+                ans->rot = rot;
+                ans->scl = scl;
+                return;
             }
-            element = p;
+            i++;
         }
     }
-
-
-    return element;
+    ans = NULL;
+    return ;
 }
-
-
-int GetRowCol(const char* file_name, const char* element, int* row, int* col){
-    char buffer[BUFFER_SIZE];
-
-    char* context;
-    // CSVファイルを開く
-    FILE* fp;
-    fopen_s(&fp, file_name, "r");
-    if (fp == NULL) {
-        return 1;
-    }
-
-    // 行を読み込んで、要素が見つかるまで繰り返す
-    int i = 0;
-    while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
-        // カンマで区切った列を取得する
-        char* p = strtok_s(buffer, ",", &context);
-        int j = 0;
-        while (p != NULL) {
-            if (strcmp(p, element) == 0) {
-                // 要素が見つかったので、行番号と列番号を返す
-                *row = i;
-                *col = j;
-                fclose(fp);
-                return 0;
-            }
-            p = strtok_s(NULL, ",", &context);
-            j++;
-        }
-        i++;
-    }
-
-    // 要素が見つからなかった
-    fclose(fp);
-    return 1;
-}
-
-
-
 

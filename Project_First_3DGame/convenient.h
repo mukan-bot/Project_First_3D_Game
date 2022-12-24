@@ -29,10 +29,17 @@ struct WHSIZE {
 	explicit WHSIZE(_In_reads_(2) const float* pArrah) : w(pArrah[0]), h(pArrah[1]) {}
 };
 
-
+struct LEVEL_ELEMENT {
+	char name[256];
+	XMFLOAT3 pos;
+	XMFLOAT3 rot;
+	XMFLOAT3 scl;
+};
 
 
 void OutputDebug(const char* format, ...);
+
+void OutputXMFLOAT3Debug(char* name, XMFLOAT3 a);
 
 //XYをXYZの回転に変換して加算
 void DllRotation(XMFLOAT2 move, XMFLOAT3* rotation, float offset);
@@ -76,7 +83,4 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2);
 
 
 
-//SCVファイルから情報を所得する
-char* GetElement(FILE* fp, int row, int col);
-//CSVファイルのエレメントの位置を所得する
-int GetRowCol(const char* file_name, const char* element, int* row, int* col);
+void GetLevel_Csv(FILE* fp, int index, LEVEL_ELEMENT* ans);

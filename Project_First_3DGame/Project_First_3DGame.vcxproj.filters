@@ -140,4 +140,9 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="object_properties.csv">
+      <Filter>リソース ファイル</Filter>
+    </None>
+  </ItemGroup>
 </Project>
