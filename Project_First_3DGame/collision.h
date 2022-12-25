@@ -10,8 +10,8 @@
 //*****************************************************************************
 enum COLLISION_TYPE
 {
-	TYPE_BB,
-	TYPE_BC,
+	TYPE_BB,	//バウンディングボックス
+	TYPE_BC,	//バウンディングサークル
 };
 
 enum COLLISION_LAYER 
@@ -54,5 +54,7 @@ void DelCollision(int index);
 int GetColObjectIndex(int index);
 //collisionの当たり判定の結果の所得
 bool GetColAns(int index);
+
+bool GetColAnsUpdate(int index);
 
 void UpdateCollision(void);

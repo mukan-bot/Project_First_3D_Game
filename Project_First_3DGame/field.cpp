@@ -8,19 +8,11 @@
 #include "collision.h"
 
 
-#define FIELD_MODEL_MAX	(4)
+#define FIELD_MODEL_MAX	(5)
 #define CSV_FILE_PATH	"./object_properties.csv"
 #define SET_OBJECT_MAX (256)
 
 float CharToFloat(char* text);
-
-
-
-struct SET_OBJECT {
-	int gameObjectIndex;
-	int gameModelIndex;
-	int collisonIndex;
-};
 
 
 
@@ -29,31 +21,40 @@ static char* g_modelPath[FIELD_MODEL_MAX][2]{
 	{"./data/MODEL/test.obj" ,"Monkey"},
 	{"./data/MODEL/cone.obj" ,"Cone"},
 	{"./data/MODEL/Ground001.obj" ,"Ground001"},
+	{"./data/MODEL/Ground002.obj" ,"Ground002"},
 
 };
 
-static int g_setModelNo = 0;
+static int g_elementCount;
 
 static SET_OBJECT  g_setObject[SET_OBJECT_MAX];
 
 
 HRESULT InitField(void) {
+
+	for (int i = 0; i < SET_OBJECT_MAX; i++) {
+		g_setObject[i].collisonIndex = -1;
+		g_setObject[i].gameModelIndex = -1;
+		g_setObject[i].gameObjectIndex = -1;
+	}
+
+
 	FILE* fp;
-	int elementNo = -1;
+	g_elementCount = -1;
 	char name[256];
 	XMFLOAT3 pos, rot, scl;
 	fopen_s(&fp, CSV_FILE_PATH, "r");
 	if (fp != NULL) {
 		while (fscanf_s(fp, "%[^,],%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f", name, _countof(name), &pos.x, &pos.y, &pos.z, &rot.x, &rot.y, &rot.z, &scl.x, &scl.y, &scl.z) != EOF)
 		{
-			elementNo++;
+			g_elementCount++;
 		}
 		fclose(fp);
 	}
 
 
 
-	for (int i = 0; i < elementNo; i++) {
+	for (int i = 0; i < g_elementCount; i++) {
 		fopen_s(&fp, CSV_FILE_PATH, "r");
 		LEVEL_ELEMENT ans;
 		GetLevel_Csv(fp, i, &ans);
@@ -75,7 +76,7 @@ HRESULT InitField(void) {
 			g_setObject[i].collisonIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
 			int index = GetColObjectIndex(g_setObject[i].collisonIndex);
 			SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));
-			SetRotation(index, ans.rot);
+			//SetRotation(index, ans.rot);
 			SetScale(index, ans.scl);
 			continue;
 		}
@@ -118,4 +119,11 @@ float CharToFloat(char* text) {
 	}
 
 	return ans;
+}
+
+
+
+SET_OBJECT* GetFieldObject(int* objectCount) {
+	objectCount[0] = g_elementCount;
+	return g_setObject;
 }

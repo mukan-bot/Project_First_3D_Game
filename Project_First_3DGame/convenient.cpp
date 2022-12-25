@@ -195,3 +195,77 @@ void GetLevel_Csv(FILE* fp, int index, LEVEL_ELEMENT* ans) {
     return ;
 }
 
+
+bool RayCast(XMFLOAT3 xp0, XMFLOAT3 xp1, XMFLOAT3 xp2, XMFLOAT3 xpos, XMFLOAT3 xvec, XMFLOAT3* hit, XMFLOAT3* normal)
+{
+    XMVECTOR	p0 = XMLoadFloat3(&xp0);
+    XMVECTOR	p1 = XMLoadFloat3(&xp1);
+    XMVECTOR	p2 = XMLoadFloat3(&xp2);
+    XMVECTOR	pos0 = XMLoadFloat3(&xpos);
+    xvec = AddXMFLOAT3(xvec, xpos);
+    XMVECTOR	pos1 = XMLoadFloat3(&xvec);
+
+    XMVECTOR	nor;	// ポリゴンの法線
+    XMVECTOR	vec1;
+    XMVECTOR	vec2;
+    float		d1, d2;
+
+    {	// ポリゴンの外積をとって法線を求める(この処理は固定物なら予めInit()で行っておくと良い)
+        vec1 = p1 - p0;
+        vec2 = p2 - p0;
+        CrossProduct(&nor, &vec2, &vec1);
+        nor = XMVector3Normalize(nor);		// 計算しやすいように法線をノーマライズしておく(このベクトルの長さを１にしている)
+        XMStoreFloat3(normal, nor);			// 求めた法線を入れておく
+    }
+
+    // ポリゴン平面と線分の内積とって衝突している可能性を調べる（鋭角なら＋、鈍角ならー、直角なら０）
+    vec1 = pos0 - p0;
+    vec2 = pos1 - p0;
+    {	// 求めたポリゴンの法線と２つのベクトル（線分の両端とポリゴン上の任意の点）の内積とって衝突している可能性を調べる
+        d1 = DotProduct(&vec1, &nor);
+        d2 = DotProduct(&vec2, &nor);
+        if (((d1 * d2) > 0.0f) || (d1 == 0 && d2 == 0))
+        {
+            // 当たっている可能性は無い
+            return(false);
+        }
+    }
+
+
+    {	// ポリゴンと線分の交点を求める
+        d1 = (float)fabs(d1);	// 絶対値を求めている
+        d2 = (float)fabs(d2);	// 絶対値を求めている
+        float a = d1 / (d1 + d2);							// 内分比
+
+        XMVECTOR	vec3 = (1 - a) * vec1 + a * vec2;		// p0から交点へのベクトル
+        XMVECTOR	p3 = p0 + vec3;							// 交点
+        XMStoreFloat3(hit, p3);								// 求めた交点を入れておく
+
+        {	// 求めた交点がポリゴンの中にあるか調べる
+
+            // ポリゴンの各辺のベクトル
+            XMVECTOR	v1 = p1 - p0;
+            XMVECTOR	v2 = p2 - p1;
+            XMVECTOR	v3 = p0 - p2;
+
+            // 各頂点と交点とのベクトル
+            XMVECTOR	v4 = p3 - p1;
+            XMVECTOR	v5 = p3 - p2;
+            XMVECTOR	v6 = p3 - p0;
+
+            // 外積で各辺の法線を求めて、ポリゴンの法線との内積をとって符号をチェックする
+            XMVECTOR	n1, n2, n3;
+
+            CrossProduct(&n1, &v4, &v1);
+            if (DotProduct(&n1, &nor) < 0.0f) return(false);	// 当たっていない
+
+            CrossProduct(&n2, &v5, &v2);
+            if (DotProduct(&n2, &nor) < 0.0f) return(false);	// 当たっていない
+
+            CrossProduct(&n3, &v6, &v3);
+            if (DotProduct(&n3, &nor) < 0.0f) return(false);	// 当たっていない
+        }
+    }
+
+    return(true);	// 当たっている！(hitには当たっている交点が入っている。normalには法線が入っている)
+}

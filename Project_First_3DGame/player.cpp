@@ -8,6 +8,7 @@
 #include "camera.h"
 #include "GameObject.h"
 #include "collision.h"
+#include "field.h"
 
 #define MOVE_POWER (0.03f)
 
@@ -38,6 +39,17 @@ void InitPlayer(void) {
 	g_colIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
 	int index = GetColObjectIndex(g_colIndex);
 	SetScale(index, XMFLOAT3(PLAYER_SIZE_X, PLAYER_SIZE_Y, PLAYER_SIZE_Z));
+	SetPosition(index, GetPosition(g_objIndex));
+
+	//èâä˙ÇÃÇﬂÇËçûÇ›Çâè¡Ç∑ÇÈ
+	while (GetColAnsUpdate(g_colIndex))
+	{
+		XMFLOAT3 pos = GetPosition(index);
+		pos.y += 0.01f;
+		SetPosition(index, pos);
+	}
+	SetPosition(g_objIndex, GetPosition(index));
+
 }
 
 void UninitPlayer(void) {
@@ -46,9 +58,14 @@ void UninitPlayer(void) {
 
 void UpdatePlayer(void) {
 	XMFLOAT3 pos = GetPosition(g_objIndex);
-	XMFLOAT3 Bach_pos = pos;
+	XMFLOAT3 bachPos = pos;
 	XMFLOAT3 rot = GetRotation(g_objIndex);
 	XMFLOAT3 scl = GetScale(g_objIndex);
+
+
+
+
+
 
 	//ÉvÉåÉCÉÑÅ[ÇÃà⁄ìÆèàóù
 	{
@@ -101,13 +118,71 @@ void UpdatePlayer(void) {
 
 	//ìñÇΩÇËîªíË
 	{
+
 		int index = GetColObjectIndex(g_colIndex);
+		//XMFLOAT3 pos = GetPosition(g_objIndex);
 		SetPosition(index, pos);
-		if (GetColAns(g_colIndex)) {
-			Bach_pos.y += 0.01f;
-			SetPosition(g_objIndex, Bach_pos);
+
+
+		if (!GetColAns(g_colIndex)) {
+			pos.y -= 0.01f;
+			SetPosition(index, pos);
+			if (GetColAnsUpdate(g_colIndex)) {
+				pos.y += 0.01f;
+				SetPosition(index, pos);
+			}
+			SetPosition(g_objIndex, pos);
+		}
+
+
+		if (GetColAnsUpdate(g_colIndex)) {
+			SetPosition(g_objIndex, bachPos);
 
 		}
+
+
+		//XMFLOAT3 playerPos = GetPosition(g_objIndex);
+		//int Count;
+		//XMFLOAT3 hit;
+		//XMFLOAT3 normal;
+		//bool is_Hit = false;
+		//SET_OBJECT* field = GetFieldObject(&Count);
+
+		//for (int i = 0; i < Count; i++) {
+		//	if (field[i].gameObjectIndex == -1) continue;
+
+		//	XMFLOAT3 xp0, xp1, xp2, xpos, xvec;
+		//	XMFLOAT3 pos = GetPosition(field[i].gameObjectIndex);
+		//	XMFLOAT3 size = GetScale(field[i].gameObjectIndex);
+		//	size = DivXMFLOAT3(size, SetXMFLOAT3(2.0f));
+		//	xp0 = AddXMFLOAT3(pos, size);
+		//	xp1 = SubXMFLOAT3(pos, size);
+		//	size.x *= -1;
+		//	xp2 = AddXMFLOAT3(pos, size);
+		//	is_Hit = RayCast(xp0, xp1, xp2, playerPos, XMFLOAT3(0.0f, PLAYER_SIZE_Y, 0.0f), &hit, &normal);
+		//	OutputDebug("");
+		//	size.x *= -1;
+		//	size.z *= -1;
+		//	xp2 = AddXMFLOAT3(pos, size);
+		//	is_Hit = RayCast(xp0, xp1, xp2, playerPos, XMFLOAT3(0.0f, PLAYER_SIZE_Y, 0.0f), &hit, &normal);
+		//	OutputXMFLOAT3Debug("hit",hit);
+		//	if (is_Hit) {
+		//		XMFLOAT3 pos = playerPos;
+		//		pos.y = PLAYER_SIZE_Y - hit.y;
+		//		SetPosition(g_objIndex, pos);
+		//		break;
+		//	}
+		//}
+
+		//if (!is_Hit) {
+		//	playerPos.y -= 0.01f;
+		//	SetPosition(g_objIndex, playerPos);
+		//}
+		//
+
+
+
+
 
 	}
 

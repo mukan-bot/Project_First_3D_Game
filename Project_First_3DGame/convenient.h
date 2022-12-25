@@ -84,3 +84,15 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2);
 
 
 void GetLevel_Csv(FILE* fp, int index, LEVEL_ELEMENT* ans);
+
+
+//=============================================================================
+// レイキャスト
+// xp0, xp1, xp2　ポリゴンの３頂点
+// pos 始点
+// vec ベクトル
+// hit　交点の返却用
+// normal 法線ベクトルの返却用
+// 当たっている場合、trueを返す
+//=============================================================================
+bool RayCast(XMFLOAT3 xp0, XMFLOAT3 xp1, XMFLOAT3 xp2, XMFLOAT3 xpos, XMFLOAT3 xvec, XMFLOAT3* hit, XMFLOAT3* normal);

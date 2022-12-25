@@ -13,9 +13,11 @@
 
 
 HRESULT InitGame(void) {
-	InitPlayer();
 
 	InitField();
+
+
+	InitPlayer();
 
 	SetCursorMove(false);
 
