@@ -10,7 +10,8 @@
 #include "collision.h"
 #include "field.h"
 
-#define MOVE_POWER (0.03f)
+#define MOVE_POWER	(0.03f)
+#define DASH_POWER	(0.03f)
 
 //プレイヤーの初期位置（Yは目線の高さ）
 #define PLAYER_OFFSET_X	(0.0f)
@@ -26,9 +27,6 @@ static int g_cameraIndex;
 static int g_objIndex;
 static int g_colIndex;
 
-
-float g_spd = 0.0f;
-float g_dir = 0.0f;
 
 void InitPlayer(void) {
 	g_objIndex = SetGameObject();
@@ -93,7 +91,13 @@ void UpdatePlayer(void) {
 		//このプレームで移動したかしてたら、斜め移動の速度を調節
 		if (ComparisonXMFLOAT3(vec, XMFLOAT3(0.0f, 0.0f, 0.0f))) {
 			vec = NormalizeXMFLOAT3(vec);
-			vec = MulXMFLOAT3(vec, XMFLOAT3(MOVE_POWER, MOVE_POWER, MOVE_POWER));
+			// ダッシュ
+			if (GetInputPress(MOVE_DASH)) {
+				vec = MulXMFLOAT3(vec, SetXMFLOAT3(MOVE_POWER+DASH_POWER));
+			}
+			else {
+				vec = MulXMFLOAT3(vec, SetXMFLOAT3(MOVE_POWER));
+			}
 
 			pos = AddXMFLOAT3(pos, vec);
 			SetPosition(g_objIndex, pos);

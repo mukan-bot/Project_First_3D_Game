@@ -16,12 +16,13 @@ float CharToFloat(char* text);
 
 
 
-static char* g_modelPath[FIELD_MODEL_MAX][2]{
-	{"./data/MODEL/field.obj","ita"},
-	{"./data/MODEL/test.obj" ,"Monkey"},
-	{"./data/MODEL/cone.obj" ,"Cone"},
-	{"./data/MODEL/Ground001.obj" ,"Ground001"},
-	{"./data/MODEL/Ground002.obj" ,"Ground002"},
+static char* g_modelPath[FIELD_MODEL_MAX][3]{
+	//パス、名前、collision配置1なら配置
+	{"./data/MODEL/field.obj","ita","0"},
+	{"./data/MODEL/test.obj" ,"Monkey","0"},
+	{"./data/MODEL/cone.obj" ,"Cone","0"},
+	{"./data/MODEL/Ground001.obj" ,"Ground001","1"},
+	{"./data/MODEL/Ground002.obj" ,"Ground002","1"},
 
 };
 
@@ -89,6 +90,12 @@ HRESULT InitField(void) {
 		for (int j = 0; j < FIELD_MODEL_MAX; j++) {
 			if (strcmp(ans.name, g_modelPath[j][1])==0) {
 				g_setObject[i].gameModelIndex = SetGameModel(g_modelPath[j][0], index, 0, CULL_MODE_NONE);
+				if (strcmp("1", g_modelPath[j][2]) == 0) {	//collisionを配置するオブジェクトなら配置する
+					g_setObject[i].collisonIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+					int index = GetColObjectIndex(g_setObject[i].collisonIndex);
+					SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));
+					SetScale(index, ans.scl);
+				}
 				break;
 			}
 		}
