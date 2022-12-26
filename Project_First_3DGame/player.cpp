@@ -145,47 +145,6 @@ void UpdatePlayer(void) {
 		}
 
 
-		//XMFLOAT3 playerPos = GetPosition(g_objIndex);
-		//int Count;
-		//XMFLOAT3 hit;
-		//XMFLOAT3 normal;
-		//bool is_Hit = false;
-		//SET_OBJECT* field = GetFieldObject(&Count);
-
-		//for (int i = 0; i < Count; i++) {
-		//	if (field[i].gameObjectIndex == -1) continue;
-
-		//	XMFLOAT3 xp0, xp1, xp2, xpos, xvec;
-		//	XMFLOAT3 pos = GetPosition(field[i].gameObjectIndex);
-		//	XMFLOAT3 size = GetScale(field[i].gameObjectIndex);
-		//	size = DivXMFLOAT3(size, SetXMFLOAT3(2.0f));
-		//	xp0 = AddXMFLOAT3(pos, size);
-		//	xp1 = SubXMFLOAT3(pos, size);
-		//	size.x *= -1;
-		//	xp2 = AddXMFLOAT3(pos, size);
-		//	is_Hit = RayCast(xp0, xp1, xp2, playerPos, XMFLOAT3(0.0f, PLAYER_SIZE_Y, 0.0f), &hit, &normal);
-		//	OutputDebug("");
-		//	size.x *= -1;
-		//	size.z *= -1;
-		//	xp2 = AddXMFLOAT3(pos, size);
-		//	is_Hit = RayCast(xp0, xp1, xp2, playerPos, XMFLOAT3(0.0f, PLAYER_SIZE_Y, 0.0f), &hit, &normal);
-		//	OutputXMFLOAT3Debug("hit",hit);
-		//	if (is_Hit) {
-		//		XMFLOAT3 pos = playerPos;
-		//		pos.y = PLAYER_SIZE_Y - hit.y;
-		//		SetPosition(g_objIndex, pos);
-		//		break;
-		//	}
-		//}
-
-		//if (!is_Hit) {
-		//	playerPos.y -= 0.01f;
-		//	SetPosition(g_objIndex, playerPos);
-		//}
-		//
-
-
-
 
 
 	}
