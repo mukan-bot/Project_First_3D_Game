@@ -155,7 +155,6 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="GameModel.cpp" />
-    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -173,7 +172,6 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="GameModel.h" />
-    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader.hlsl">

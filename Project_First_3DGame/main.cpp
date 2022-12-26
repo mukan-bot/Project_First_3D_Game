@@ -10,7 +10,6 @@
 #include "camera.h"
 #include "GameObject.h"
 #include "GameModel.h"
-#include "test.h"
 
 #include "M_game.h"
 
@@ -220,8 +219,6 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	//
 	InitGameModel();
 
-	InitTest();
-
 	SetMode(MODE_GAME);
 
 	return S_OK;
@@ -232,9 +229,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 //=============================================================================
 void Uninit(void){
 
-
-	UninitTest();
-
+	
 	UninitGameModel();
 
 	//レンダー
@@ -269,8 +264,6 @@ void Update(void){
 		break;
 	case MODE_GAME:
 		UpdateGame();
-
-		UpdateTest();	//TODO:テスト用オブジェクト
 		break;
 	case MODE_RESULT:
 		break;
@@ -309,8 +302,6 @@ void Draw(void){
 
 		DrawGameModel();
 		DrawGame();
-
-		DrawTest();	//TODO:テスト用オブジェクト
 		break;
 	case MODE_RESULT:
 		break;

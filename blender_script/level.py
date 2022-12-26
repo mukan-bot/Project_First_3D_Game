@@ -13,9 +13,29 @@ for obj in bpy.data.objects:
     name = obj.name
     x, y, z = obj.location
     rotation_x, rotation_y, rotation_z = obj.rotation_euler
+    rotation_x -= 1.570796
     scale_x, scale_y, scale_z = obj.scale
+    
+    #親に設定されているオブジェクトの情報を考慮する
+    parent_obj = obj.parent
+    if parent_obj != None:
+        px, py, pz = parent_obj.location
+        rotation_px, rotation_py, rotation_pz = obj.rotation_euler
+        rotation_px -= 1.570796
+        scale_px, scale_py, scale_pz = obj.scale
+        x+=px
+        y+=py
+        z+=pz
+        rotation_x = rotation_px
+        rotation_y = rotation_py
+        rotation_z = rotation_pz
+        scale_x *= scale_px
+        scale_y *= scale_py
+        scale_z *= scale_pz
+    
+    
     # CSV の 1 行分の文字列を作成
-    line = f"{name},{x},{z},{y},{rotation_x},{rotation_z},{rotation_y},{scale_x},{scale_z},{scale_y}\n"
+    line = f"{name},{x},{z},{y},{rotation_x},{rotation_z},{rotation_y},{scale_x},{scale_y},{scale_z}\n"
     # 出力用の文字列に追加
     output_string += line
 
