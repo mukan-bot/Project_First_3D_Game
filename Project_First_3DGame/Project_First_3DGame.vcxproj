@@ -152,9 +152,14 @@
     <ClCompile Include="input_X.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="M_game.cpp" />
+    <ClCompile Include="M_title.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="GameModel.cpp" />
+    <ClCompile Include="sprite.cpp" />
+    <ClCompile Include="text.cpp" />
+    <ClCompile Include="title_bg.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -169,9 +174,14 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="M_game.h" />
+    <ClInclude Include="M_title.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="GameModel.h" />
+    <ClInclude Include="sprite.h" />
+    <ClInclude Include="text.h" />
+    <ClInclude Include="title_bg.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader.hlsl">
