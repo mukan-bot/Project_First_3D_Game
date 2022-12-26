@@ -105,6 +105,9 @@
     <ClCompile Include="title_bg.cpp">
       <Filter>タイトル\ソース</Filter>
     </ClCompile>
+    <ClCompile Include="title_ui.cpp">
+      <Filter>タイトル\ソース</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -165,6 +168,9 @@
       <Filter>タイトル\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="title_bg.h">
+      <Filter>タイトル\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="title_ui.h">
       <Filter>タイトル\ヘッダー</Filter>
     </ClInclude>
   </ItemGroup>
