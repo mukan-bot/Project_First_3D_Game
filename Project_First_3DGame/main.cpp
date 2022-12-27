@@ -10,8 +10,11 @@
 #include "camera.h"
 #include "GameObject.h"
 #include "GameModel.h"
+#include "text.h"
 
+#include "M_title.h"
 #include "M_game.h"
+
 
 //*****************************************************************************
 // マクロ定義
@@ -216,10 +219,11 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	//レンダー
 	InitRenderer(hInstance, hWnd, bWindow);
 
-	//
-	InitGameModel();
+	//text
+	Init_text();
 
-	SetMode(MODE_GAME);
+
+	SetMode(MODE_TITLE);
 
 	return S_OK;
 }
@@ -229,16 +233,14 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 //=============================================================================
 void Uninit(void){
 
-	
-	UninitGameModel();
+
+	Uninit_text();
 
 	//レンダー
 	UninitRenderer();
 
 
 	UninitInput();
-
-
 
 }
 
@@ -254,16 +256,17 @@ void Update(void){
 	UpdateCamera();
 
 	
-
-
 	switch (g_Mode)
 	{
 	case MODE_TITLE:
+		UpdateTitle();
 		break;
 	case MODE_TUTORIAL:
 		break;
 	case MODE_GAME:
 		UpdateGame();
+		//これ最後で
+		UpdateGameObject();
 		break;
 	case MODE_RESULT:
 		break;
@@ -272,17 +275,6 @@ void Update(void){
 	default:
 		break;
 	}
-
-	//if (GetInputTrigger(MOVE_JUMP)) {
-	//	char* element = GetElement("./object_properties.csv", 0, 1);
-	//	OutputDebug("%s\n",element);
-	//}
-
-
-
-	//これ最後で
-	UpdateGameObject();
-
 }
 
 //=============================================================================
@@ -295,13 +287,14 @@ void Draw(void){
 	switch (g_Mode)
 	{
 	case MODE_TITLE:
+		DrawTitle();
 		break;
 	case MODE_TUTORIAL:
 		break;
 	case MODE_GAME:
+		DrawGame();
 
 		DrawGameModel();
-		DrawGame();
 		break;
 	case MODE_RESULT:
 		break;
@@ -310,6 +303,22 @@ void Draw(void){
 	default:
 		break;
 	}
+
+	// 2Dの物を描画する処理
+	// Z比較なし
+	SetDepthEnable(false);
+
+	// ライティングを無効
+	SetLightEnable(false);
+
+	Draw_text();
+
+	// ライティングを有効に
+	SetLightEnable(false);	//TODO:ライト作ったらtrueに変える
+
+	// Z比較あり
+	SetDepthEnable(true);
+
 
 
 
@@ -322,12 +331,14 @@ void SetMode(PLAY_MODE mode) {
 
 	//MEMO:シーンごとの終了処理
 
+	UninitTitle();
 	UninitGame();
 
 	//MEMO:モードごとの初期化処理
 	switch (mode)
 	{
 	case MODE_TITLE:
+		InitTitle();
 		break;
 	case MODE_TUTORIAL:
 		break;

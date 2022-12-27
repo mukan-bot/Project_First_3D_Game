@@ -13,6 +13,8 @@
 
 
 HRESULT InitGame(void) {
+	
+	InitGameModel();
 
 	InitField();
 
@@ -21,10 +23,15 @@ HRESULT InitGame(void) {
 
 	SetCursorMove(false);
 
+
+
 	return S_OK;
 }
 void UninitGame(void) {
 	UninitPlayer();
+
+
+	UninitGameModel();
 
 }
 void UpdateGame(void) {

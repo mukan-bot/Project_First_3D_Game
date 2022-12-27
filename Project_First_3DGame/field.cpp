@@ -18,11 +18,11 @@ float CharToFloat(char* text);
 
 static char* g_modelPath[FIELD_MODEL_MAX][3]{
 	//パス、名前、collision配置1なら配置
-	{"./data/MODEL/field.obj","ita","0"},
-	{"./data/MODEL/test.obj" ,"Monkey","0"},
-	{"./data/MODEL/cone.obj" ,"Cone","0"},
-	{"./data/MODEL/Ground001.obj" ,"Ground001","1"},
-	{"./data/MODEL/Ground002.obj" ,"Ground002","1"},
+	{"./data/MODEL/field/field.obj","ita","0"},
+	{"./data/MODEL/field/test.obj" ,"Monkey","0"},
+	{"./data/MODEL/field/cone.obj" ,"Cone","0"},
+	{"./data/MODEL/field/Ground001.obj" ,"Ground001","1"},
+	{"./data/MODEL/field/Ground002.obj" ,"Ground002","1"},
 
 };
 
