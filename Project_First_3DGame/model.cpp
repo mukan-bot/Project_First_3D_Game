@@ -310,28 +310,28 @@ void LoadObj(char* FileName, MODEL* Model)
 
 			char path[256];
 
-			//マテリアルを読み込むときにobjファイルと同じディレクトリで拡張子以外が同じ名前なら読み込めるようにする
+			////マテリアルを読み込むときにobjファイルと同じディレクトリなら読み込めるようにする
 			int nameEnd = 0;
 			char* mtlPath = FileName;
 			while (mtlPath[nameEnd] != '\0') {
 
 				if (mtlPath[nameEnd] == '.') {
 					if (mtlPath[nameEnd + 1] != '/') {	//"./"がついていても読み込めるようにする
-						path[nameEnd++] = '.';
-						path[nameEnd++] = 'm';
-						path[nameEnd++] = 't';
-						path[nameEnd++] = 'l';
-						path[nameEnd++] = '\0';
+						int i = nameEnd;
+						while (mtlPath[i] != '/') {
+							i--;
+						}
+						path[i++] = '/';	// 個々でエラー出るならパスの指定が間違っている
+						path[i] = '\0';
 
 						break;
 					}
-					
+
 				}
 				path[nameEnd] = mtlPath[nameEnd];
 				nameEnd++;
-				OutputDebug("%c", mtlPath[nameEnd]);
 			}
-			OutputDebug("\n%s\n", path);
+			strcat(path, str);
 
 			LoadMaterial(path, &materialArray, &materialNum);
 		}
@@ -558,7 +558,29 @@ void LoadMaterial(char* FileName, MODEL_MATERIAL** MaterialArray, unsigned short
 			fscanf(file, "%s", str);
 
 			char path[256];
-			strcpy(path, "data/model/");
+
+
+			// テクスチャーのパスをobjと同じディレクトリにする
+			int nameEnd = 0;
+			char* mtlPath = FileName;
+			while (mtlPath[nameEnd] != '\0') {
+
+				if (mtlPath[nameEnd] == '.') {
+					if (mtlPath[nameEnd + 1] != '/') {	//"./"がついていても読み込めるようにする
+						int i = nameEnd;
+						while (mtlPath[i] != '/') {
+							i--;
+						}
+						path[i++] = '/';
+						path[i++] = '\0';
+
+						break;
+					}
+
+				}
+				path[nameEnd] = mtlPath[nameEnd];
+				nameEnd++;
+			}
 			strcat(path, str);
 
 			strcat(materialArray[mc].TextureName, path);
