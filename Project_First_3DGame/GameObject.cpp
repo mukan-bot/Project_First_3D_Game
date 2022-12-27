@@ -22,9 +22,6 @@ struct GAME_OBJECT
 GAME_OBJECT g_gameObject[MAX_OBJECT];
 
 
-
-
-
 void UpdateGameObject(void) {
 	for (int i = 0; i < MAX_OBJECT; i++) {
 		if (!g_gameObject[i].use) continue;

@@ -10,7 +10,6 @@
 #include "camera.h"
 #include "GameObject.h"
 #include "GameModel.h"
-#include "UI.h"
 #include "text.h"
 
 #include "M_title.h"
@@ -223,12 +222,6 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	//text
 	Init_text();
 
-	//UI
-	InitUI();
-
-
-	//
-	InitGameModel();
 
 	SetMode(MODE_TITLE);
 
@@ -240,9 +233,6 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 //=============================================================================
 void Uninit(void){
 
-	UninitGameModel();
-
-	UninitUI();
 
 	Uninit_text();
 
@@ -266,8 +256,6 @@ void Update(void){
 	UpdateCamera();
 
 	
-
-
 	switch (g_Mode)
 	{
 	case MODE_TITLE:
@@ -277,6 +265,8 @@ void Update(void){
 		break;
 	case MODE_GAME:
 		UpdateGame();
+		//これ最後で
+		UpdateGameObject();
 		break;
 	case MODE_RESULT:
 		break;
@@ -285,14 +275,6 @@ void Update(void){
 	default:
 		break;
 	}
-
-	UpdateUI();
-
-
-
-	//これ最後で
-	UpdateGameObject();
-
 }
 
 //=============================================================================
@@ -310,9 +292,9 @@ void Draw(void){
 	case MODE_TUTORIAL:
 		break;
 	case MODE_GAME:
+		DrawGame();
 
 		DrawGameModel();
-		DrawGame();
 		break;
 	case MODE_RESULT:
 		break;
@@ -329,8 +311,6 @@ void Draw(void){
 	// ライティングを無効
 	SetLightEnable(false);
 
-	DrawUI();
-
 	Draw_text();
 
 	// ライティングを有効に
@@ -338,6 +318,8 @@ void Draw(void){
 
 	// Z比較あり
 	SetDepthEnable(true);
+
+
 
 
 	Present();
