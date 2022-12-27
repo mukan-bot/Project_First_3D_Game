@@ -11,7 +11,7 @@
 
 #ifdef _DEBUG
 
-#define CUBE_MODEL ("./data/MODEL/collision_cube.obj")
+#define CUBE_MODEL ("data/MODEL/collision_cube.obj")
 
 #endif // _DEBUG
 
