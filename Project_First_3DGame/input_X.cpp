@@ -4,7 +4,7 @@
 //
 //=============================================================================
 #include "main.h"
-
+#include "input.h"
 #include "input_X.h"
 
 
@@ -42,7 +42,7 @@ XINPUT_STATE GetXinputTrigger(int index) {
 	//ANDを取って押されたキーのみ所得する
 	ans.Gamepad.wButtons &= g_state[index].Gamepad.wButtons;
 
-	
+	SetSelectController(XBOX);
 
 	return ans;
 }
@@ -55,6 +55,5 @@ XINPUT_STATE GetXinputRelease(int index) {
 	//ANDを取って押されたキーのみ所得する
 	ans.Gamepad.wButtons &= ~g_state[index].Gamepad.wButtons;
 
-	
 	return ans;
 }

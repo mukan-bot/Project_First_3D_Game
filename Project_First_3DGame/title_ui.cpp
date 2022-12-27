@@ -1,5 +1,6 @@
 #include "title_ui.h"
 #include "input.h"
+#include "input_M.h"
 #include "text.h"
 
 //ƒ}ƒNƒ’è‹`
@@ -45,7 +46,7 @@ static int g_optionSelect;
 static char g_optionText[OPTION_MAX][128] = { {"‚a‚f‚l@‚u‚n‚k‚t‚l‚d"},{"‚r‚d@‚u‚n‚k‚t‚l‚d"},{"‚k‚n‚n‚j@‚r‚d‚m‚r‚h‚s‚h‚u‚d"},{"‚a‚`‚b‚j"} };
 
 HRESULT InitTitleUI(void) {
-
+	SetCursorMove(true);	//ƒJ[ƒ\ƒ‹‚ğ“®‚­‚æ‚¤‚É‚µ‚Ä‚¨‚­
 	for (int i = 0; i < MENUE_MAX; i++) {
 		g_menueTextParameter[i].color = TEXT_COLOR1;
 		g_menueTextParameter[i].size = TEXT_SIZE1;

@@ -5,6 +5,7 @@
 
 
 
+
 HRESULT InitTitle(void) {
 
 	InitTitleBG();
@@ -20,6 +21,19 @@ void UpdateTitle(void) {
 	UpdateTitleUI();
 }
 void DrawTitle(void) {
+	// 2Dの物を描画する処理
+	// Z比較なし
+	SetDepthEnable(false);
+	// ライティングを無効
+	SetLightEnable(false);
+
+
 	DrawTitleBG();
 	DrawTitleUI();
+
+
+	// ライティングを有効に
+	SetLightEnable(false);	//TODO:ライト作ったらtrueに変える
+	// Z比較あり
+	SetDepthEnable(true);
 }

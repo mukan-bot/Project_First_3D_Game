@@ -17,12 +17,15 @@ DWORD XinputName[BUTTON_MAX];
 float g_XlookSensitive = 0.00003f;
 float g_MlookSensitive = 0.01f;
 
+SELECT_CONTROLLER g_selectController = KEYBOARD;
+
 
 HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 	InitDinput(hInst, hWnd);
 	InitMinput(hWnd);
 	//ボタンの名前を整える
 	//TODO:ボタン配置はプレイしやすいように調整する
+	//TODO:マウス操作は要検証
 	for (int i = 0; i < BUTTON_MAX; i++){
 		ButtonName name = (ButtonName)i;
 		switch (name)
@@ -174,4 +177,11 @@ void SetXinputSensitive(float sensitive) {
 }
 float GetXinputSensitive(void) {
 	return g_XlookSensitive;
+}
+
+void SetSelectController(SELECT_CONTROLLER select) {
+	g_selectController = select;
+}
+SELECT_CONTROLLER GetSelectController(void) {
+	return g_selectController;
 }

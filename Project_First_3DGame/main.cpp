@@ -265,7 +265,6 @@ void Update(void){
 		break;
 	case MODE_GAME:
 		UpdateGame();
-		//Ç±ÇÍç≈å„Ç≈
 		UpdateGameObject();
 		break;
 	case MODE_RESULT:
@@ -292,9 +291,8 @@ void Draw(void){
 	case MODE_TUTORIAL:
 		break;
 	case MODE_GAME:
-		DrawGame();
-
 		DrawGameModel();
+		DrawGame();
 		break;
 	case MODE_RESULT:
 		break;

@@ -321,7 +321,7 @@ void LoadObj(char* FileName, MODEL* Model)
 						while (mtlPath[i] != '/') {
 							i--;
 						}
-						path[i++] = '/';	// 個々でエラー出るならパスの指定が間違っている
+						path[i++] = '/';	// ここでエラー出るならパスの指定が間違っている
 						path[i] = '\0';
 
 						break;
