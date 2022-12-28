@@ -12,13 +12,6 @@
 // マクロ定義
 //*****************************************************************************
 
-enum UI
-{
-	ATK_MAHOUZIN,
-	ICON_MAHOUZIN,
-
-	UI_MAX,
-};
 
 //*****************************************************************************
 // グローバル変数
@@ -39,18 +32,18 @@ HRESULT InitUI(void) {
 	UI i;
 
 	i = ATK_MAHOUZIN;
-	g_UIelement[i].use = false;
+	g_UIelement[i].use = true;
 	g_UIelement[i].size = WHSIZE(400, 400);
 	g_UIelement[i].pos = XMFLOAT2(SCREEN_CENTER_X, SCREEN_CENTER_Y);
 	g_UIelement[i].t_size = WHSIZE(1.0f, 1.0f);
 	g_UIelement[i].t_pos = XMFLOAT2(0.0f, 0.0f);
-	g_UIelement[i].color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	g_UIelement[i].color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.0f);
 	g_UIelement[i].TexturName = "./data/TEXTURE/mahouzin.png";
 	g_UIelement[i].Texture = NULL;
 	D3DX11CreateShaderResourceViewFromFile(GetDevice(), g_UIelement[i].TexturName,NULL,NULL,&g_UIelement[i].Texture,NULL);
 
 	i = ICON_MAHOUZIN;
-	g_UIelement[i].use = false;
+	g_UIelement[i].use = true;
 	g_UIelement[i].size = WHSIZE(100, 100);
 	g_UIelement[i].pos = XMFLOAT2(SCREEN_WIDTH - 110 - 50, SCREEN_HEIGHT- 10 - 50);
 	g_UIelement[i].t_size = WHSIZE(1.0f, 1.0f);
@@ -59,6 +52,19 @@ HRESULT InitUI(void) {
 	g_UIelement[i].TexturName = "./data/TEXTURE/mahouzin_icon.png";
 	g_UIelement[i].Texture = NULL;
 	D3DX11CreateShaderResourceViewFromFile(GetDevice(), g_UIelement[i].TexturName, NULL, NULL, &g_UIelement[i].Texture, NULL);
+
+	i = BLIND_MAHOUZIN;		//TODO:画像をなんかいいのに変える
+	g_UIelement[i].use = true;
+	g_UIelement[i].size = WHSIZE(100, 100);
+	g_UIelement[i].pos = XMFLOAT2(SCREEN_WIDTH - 110 - 50, SCREEN_HEIGHT - 10 - 50);
+	g_UIelement[i].t_size = WHSIZE(1.0f, 1.0f);
+	g_UIelement[i].t_pos = XMFLOAT2(0.0f, 0.0f);
+	g_UIelement[i].color = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	g_UIelement[i].TexturName = "./data/TEXTURE/mahouzin_icon.png";
+	g_UIelement[i].Texture = NULL;
+	D3DX11CreateShaderResourceViewFromFile(GetDevice(), g_UIelement[i].TexturName, NULL, NULL, &g_UIelement[i].Texture, NULL);
+
+
 
 
 
@@ -141,9 +147,12 @@ void DrawUI(void) {
 		GetDeviceContext()->Draw(4, 0);
 	}
 
-
-
-
 	// αテストを無効に
 	SetAlphaTestEnable(false);
+}
+
+
+
+UI_ELEMENT* GetUI(UI index) {
+	return &g_UIelement[index];
 }

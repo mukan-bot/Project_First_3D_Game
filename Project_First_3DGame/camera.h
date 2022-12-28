@@ -5,6 +5,8 @@
 //=============================================================================
 
 #include "main.h"
+
+void InitCameraM_Game(void);	
 void UpdateCamera(void);
 void DrawCamera(void);
 

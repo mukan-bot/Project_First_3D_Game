@@ -10,6 +10,14 @@
 // マクロ定義
 //*****************************************************************************
 
+enum UI
+{
+	ATK_MAHOUZIN = 0,		// 魔法陣のレティクルてきなやつ
+	ICON_MAHOUZIN,		// 右下のアイコン
+	BLIND_MAHOUZIN,		// 右下のアイコンを隠す（クールダウン）
+
+	UI_MAX,
+};
 
 
 
@@ -35,3 +43,6 @@ HRESULT InitUI(void);
 void UninitUI(void);
 void UpdateUI(void);
 void DrawUI(void);
+
+//UIの要素を入れると使用未使用が入れ替わる
+UI_ELEMENT* GetUI(UI index);

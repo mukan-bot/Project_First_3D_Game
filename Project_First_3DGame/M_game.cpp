@@ -5,11 +5,13 @@
 //=============================================================================
 #include "M_game.h"
 
+#include "camera.h"
 #include "input_M.h"
 #include "collision.h"
 #include "field.h"
 #include "player.h"
 #include "UI.h"
+#include "attack.h"
 
 
 
@@ -17,12 +19,16 @@ HRESULT InitGame(void) {
 	
 	InitGameModel();
 
+	InitCameraM_Game();
+
 	InitField();
 
 
 	InitPlayer();
 
 	InitUI();
+
+	InitAttack();
 	
 	SetCursorMove(false);
 
@@ -38,6 +44,8 @@ void UninitGame(void) {
 
 	UninitUI();
 
+	UninitAttack();
+
 	UninitGameModel();
 
 
@@ -45,13 +53,23 @@ void UninitGame(void) {
 void UpdateGame(void) {
 	UpdatePlayer();
 	UpdateCollision();
+	UpdateAttack();
 	UpdateUI();
+
+	XMFLOAT3 pos1 = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3 pos2 = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3 pos3 = XMFLOAT3(0.0f, 2.0f, 0.0f);
+	XMFLOAT3 pos4 = XMFLOAT3(0.0f, 2.0f, 0.0f);
+
+
+
 }
 
 
 void DrawGame(void) {
 	DrawPlayer();
 	
+	DrawAttack();
 	
 	DrawField();
 
