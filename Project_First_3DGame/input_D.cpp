@@ -4,6 +4,7 @@
 //
 //=============================================================================
 #include "main.h"
+#include "input.h"
 #include "input_D.h"
 
 //*****************************************************************************
@@ -232,6 +233,7 @@ bool GetKeyboardPress(int key)
 //=============================================================================
 bool GetKeyboardTrigger(int key)
 {
+	SetSelectController(KEYBOARD);
 	return (g_keyStateTrigger[key] & 0x80) ? true : false;
 }
 
@@ -338,7 +340,6 @@ HRESULT UpdateMouse()
 		result = pMouse->Acquire();
 	}
 	return result;
-	
 }
 
 //----------------------------------------------
@@ -536,6 +537,7 @@ BOOL IsButtonPressed(int padNo,DWORD button)
 
 BOOL IsButtonTriggered(int padNo,DWORD button)
 {
+	SetSelectController(PS);
 	return (button & padTrigger[padNo]);
 }
 

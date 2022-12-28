@@ -22,6 +22,12 @@ enum ButtonName {
 	BUTTON_MAX
 };
 
+enum SELECT_CONTROLLER {
+	KEYBOARD,
+	XBOX,
+	PS,
+};
+
 
 
 HRESULT InitInput(HINSTANCE hInst, HWND hWnd);
@@ -37,3 +43,6 @@ XMFLOAT2 GetLookInput(int padNo);
 
 void SetXinputSensitive(float sensitive);	//Xinputコントローラーの視線感度を変更
 float GetXinputSensitive(void);				//Xinputコントローラーの視線感度を参照
+
+void SetSelectController(SELECT_CONTROLLER select);
+SELECT_CONTROLLER GetSelectController(void);

@@ -4,10 +4,11 @@
 //
 //=============================================================================
 
+#pragma once
 #include "main.h"
+#include "text.h"
 
-void InitCameraM_Game(void);	
-void UpdateCamera(void);
-void DrawCamera(void);
-
-int GetCameraIndex(void);
+HRESULT InitTitle(void);
+void UninitTitle(void);
+void UpdateTitle(void);
+void DrawTitle(void);

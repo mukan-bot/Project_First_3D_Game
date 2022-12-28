@@ -11,7 +11,7 @@
 
 #ifdef _DEBUG
 
-#define CUBE_MODEL ("./data/MODEL/collision_cube.obj")
+#define CUBE_MODEL ("data/MODEL/collision_cube.obj")
 
 #endif // _DEBUG
 
@@ -40,6 +40,13 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 		break;
 	}
 
+#ifdef _DEBUG
+	if (ans == -1) {
+		OutputDebug("SetCollision‚Å-1‚ª•Ô‚³‚ê‚Ü‚µ‚½");
+	}
+#endif // _DEBUG
+
+
 	return ans;
 }
 
@@ -47,6 +54,8 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 void DelCollision(int index) {
 	g_collision[index].ans = false;
 	DelGameObject(g_collision[index].gameObjectIndex);
+	g_collision[index].use = false;
+
 #ifdef _DEBUG
 	DelGameModel(g_collision[index].gameModelIndex);
 #endif // _DEBUG

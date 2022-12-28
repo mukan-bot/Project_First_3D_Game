@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #define BUFFER_SIZE 1024
 
 #include "convenient.h"
@@ -269,3 +272,7 @@ bool RayCast(XMFLOAT3 xp0, XMFLOAT3 xp1, XMFLOAT3 xp2, XMFLOAT3 xpos, XMFLOAT3 x
 
     return(true);	// 当たっている！(hitには当たっている交点が入っている。normalには法線が入っている)
 }
+
+
+
+

@@ -141,6 +141,12 @@ int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi,CULL_MODE cullM
 		ans = i;
 		break;
 	}
+#ifdef _DEBUG
+	if (ans == -1) {
+		OutputDebug("SetGameModel‚Å-1‚ª•Ô‚³‚ê‚Ü‚µ‚½");
+	}
+#endif // _DEBUG
+
 	return ans;
 }
 

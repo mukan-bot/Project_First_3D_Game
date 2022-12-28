@@ -20,7 +20,11 @@
 #define	VIEW_FAR_Z		(10000.0f)										// ビュー平面のFarZ値
 
 //グローバル変数
-static int g_gameObjectIndex = SetGameObject();
+static int g_gameObjectIndex;
+
+void InitCameraM_Game(void) {
+	g_gameObjectIndex = SetGameObject();
+}
 
 
 void UpdateCamera(void) {

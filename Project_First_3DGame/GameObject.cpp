@@ -22,9 +22,6 @@ struct GAME_OBJECT
 GAME_OBJECT g_gameObject[MAX_OBJECT];
 
 
-
-
-
 void UpdateGameObject(void) {
 	for (int i = 0; i < MAX_OBJECT; i++) {
 		if (!g_gameObject[i].use) continue;
@@ -65,7 +62,9 @@ int SetGameObject(void) {
 		break;
 	}
 #ifdef _DEBUG
-	if (ans == -1)OutputDebug("SetGameObject‚Å-1‚ª•Ô‚³‚ê‚Ü‚µ‚½B\n");
+	if (ans == -1) {
+		OutputDebug("SetGameObject‚Å-1‚ª•Ô‚³‚ê‚Ü‚µ‚½B\n");
+	}
 #endif // _DEBUG
 
 	return ans;

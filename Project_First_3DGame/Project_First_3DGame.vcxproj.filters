@@ -34,6 +34,15 @@
     <Filter Include="ゲーム\ヘッダー">
       <UniqueIdentifier>{c746bc15-0863-4aee-8586-9f56cf8eb9d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="タイトル">
+      <UniqueIdentifier>{5b66c3c8-6030-4104-88f3-c6dd0dfc2f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="タイトル\ソース">
+      <UniqueIdentifier>{a4805892-24e7-4a11-8c53-9a6c65a8325f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="タイトル\ヘッダー">
+      <UniqueIdentifier>{e05ad7ab-1692-4182-a3ce-80f5e88cb184}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -63,9 +72,6 @@
     <ClCompile Include="GameModel.cpp">
       <Filter>システム\基本システム</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>ゲーム\ソース</Filter>
     </ClCompile>
@@ -82,6 +88,24 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="collision.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite.cpp">
+      <Filter>システム\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>システム\基本システム</Filter>
+    </ClCompile>
+    <ClCompile Include="M_title.cpp">
+      <Filter>タイトル\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="title_bg.cpp">
+      <Filter>タイトル\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="title_ui.cpp">
+      <Filter>タイトル\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
       <Filter>ゲーム\ソース</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,9 +137,6 @@
     <ClInclude Include="GameModel.h">
       <Filter>システム\基本システム</Filter>
     </ClInclude>
-    <ClInclude Include="test.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="player.h">
       <Filter>ゲーム\ヘッダー</Filter>
     </ClInclude>
@@ -132,6 +153,24 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="collision.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite.h">
+      <Filter>システム\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>システム\基本システム</Filter>
+    </ClInclude>
+    <ClInclude Include="M_title.h">
+      <Filter>タイトル\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="title_bg.h">
+      <Filter>タイトル\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="title_ui.h">
+      <Filter>タイトル\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
       <Filter>ゲーム\ヘッダー</Filter>
     </ClInclude>
   </ItemGroup>

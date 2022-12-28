@@ -12,7 +12,6 @@
 using namespace DirectX;
 
 
-
 void UpdateGameObject(void);	//GameObjectの更新（Updateの一番下に置く）
 
 int SetGameObject(void);		//GameObjectを使う（戻り地はインデックス番号）
