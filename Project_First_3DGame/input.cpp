@@ -93,22 +93,48 @@ int GetInputPress(ButtonName button, int padNo) {
 	bool ans = false;	//戻り地はintだけどboolで管理する。戻り地がintなのは計算で使いやすくするため
 
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-		if (GetKeyboardPress(KeyName[button])) ans = true;
-		if (IsButtonPressed(padNo, DinputName[button])) ans = true;
-		XINPUT_STATE state = GetXinput(padNo);
-		if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+		switch (g_selectController)
+		{
+		case KEYBOARD:
+			if (GetKeyboardPress(KeyName[button])) ans = true;
+			break;
+		case XBOX:
+			XINPUT_STATE state = GetXinput(padNo);
+			if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+			break;
+		case PS:
+			if (IsButtonPressed(padNo, DinputName[button])) ans = true;
+			break;
+		default:
+			break;
+		}
+		
+		
+
 	}
 	return (int)ans;
 }
 
+//使用Controllerの決定も含めてる
 int GetInputTrigger(ButtonName button, int padNo) {
 	bool ans = false;	//戻り地はintだけどboolで管理する。戻り地がintなのは計算で使いやすくするため
 
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-		if (GetKeyboardTrigger(KeyName[button])) ans = true;
-		if (IsButtonTriggered(padNo, DinputName[button])) ans = true;
+
+		if (GetKeyboardTrigger(KeyName[button])) {
+
+			SetSelectController(KEYBOARD);
+			ans = (int)true;
+		}
 		XINPUT_STATE state = GetXinputTrigger(padNo);
-		if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+		if (state.Gamepad.wButtons & XinputName[button]) {
+			SetSelectController(XBOX);
+			ans = (int)true;
+		}
+		if (IsButtonTriggered(padNo, DinputName[button])) {
+			SetSelectController(PS);
+			ans = (int)true;
+		}
 	}
 	return (int)ans;
 }
@@ -116,10 +142,21 @@ int GetInputTrigger(ButtonName button, int padNo) {
 int GetInputRelease(ButtonName button, int padNo) {
 	bool ans = false;	//戻り地はintだけどboolで管理する。戻り地がintなのは計算で使いやすくするため
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-		if (GetKeyboardRelease(KeyName[button])) ans = true;
-
-		XINPUT_STATE state = GetXinputRelease(padNo);
-		if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+		switch (g_selectController)
+		{
+		case KEYBOARD:
+			if (GetKeyboardRelease(KeyName[button])) ans = true;
+			break;
+		case XBOX:
+			XINPUT_STATE state = GetXinputRelease(padNo);
+			if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+			break;
+		case PS:
+			GetInputTrigger(button, padNo);	//MEMO:Triggerの方法がわからん
+			break;
+		default:
+			break;
+		}
 	}
 	return (int)ans;
 }
@@ -129,7 +166,6 @@ XMFLOAT2 GetLookInput(int padNo) {
 	XMFLOAT2 ans = XMFLOAT2(0.0f, 0.0f);
 
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-
 		if (ans.x == 0 && ans.y == 0) {
 			if (GetKeyboardPress(DIK_UP)) ans.y--;
 			if (GetKeyboardPress(DIK_DOWN)) ans.y++;
@@ -144,13 +180,7 @@ XMFLOAT2 GetLookInput(int padNo) {
 		}
 
 		if (ans.x == 0 && ans.y == 0) {
-			//DirectInputのやつ書く
-		}
-
-
-		if (ans.x == 0 && ans.y == 0) {
 			XINPUT_STATE state = GetXinputTrigger(padNo);
-
 
 			// デッドゾーン以下を0にする
 			if ((state.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
@@ -166,8 +196,12 @@ XMFLOAT2 GetLookInput(int padNo) {
 
 				ans.y = -state.Gamepad.sThumbRY * g_XlookSensitive;
 			}
-
 		}
+
+		if (ans.x == 0 && ans.y == 0) {
+			//TODO:Dinputわからん
+		}
+
 	}
 	return ans;
 }

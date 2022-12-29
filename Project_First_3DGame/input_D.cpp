@@ -233,7 +233,6 @@ bool GetKeyboardPress(int key)
 //=============================================================================
 bool GetKeyboardTrigger(int key)
 {
-	SetSelectController(KEYBOARD);
 	return (g_keyStateTrigger[key] & 0x80) ? true : false;
 }
 
@@ -537,7 +536,6 @@ BOOL IsButtonPressed(int padNo,DWORD button)
 
 BOOL IsButtonTriggered(int padNo,DWORD button)
 {
-	SetSelectController(PS);
 	return (button & padTrigger[padNo]);
 }
 

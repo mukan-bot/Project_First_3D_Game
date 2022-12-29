@@ -42,7 +42,6 @@ XINPUT_STATE GetXinputTrigger(int index) {
 	//AND‚ğæ‚Á‚Ä‰Ÿ‚³‚ê‚½ƒL[‚Ì‚İŠ“¾‚·‚é
 	ans.Gamepad.wButtons &= g_state[index].Gamepad.wButtons;
 
-	SetSelectController(XBOX);
 
 	return ans;
 }
