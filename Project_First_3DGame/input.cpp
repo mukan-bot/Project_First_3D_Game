@@ -97,6 +97,12 @@ int GetInputPress(ButtonName button, int padNo) {
 		{
 		case KEYBOARD:
 			if (GetKeyboardPress(KeyName[button])) ans = true;
+			if (button == ATK_1) {
+				if (IsMouseLeftPressed()) ans = true;
+			}
+			else if (button == ATK_2) {
+				if (IsMouseRightPressed()) ans = true;
+			}
 			break;
 		case XBOX:
 			XINPUT_STATE state = GetXinput(padNo);

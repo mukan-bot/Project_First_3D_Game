@@ -37,7 +37,7 @@ HRESULT InitUI(void) {
 	g_UIelement[i].pos = XMFLOAT2(SCREEN_CENTER_X, SCREEN_CENTER_Y);
 	g_UIelement[i].t_size = WHSIZE(1.0f, 1.0f);
 	g_UIelement[i].t_pos = XMFLOAT2(0.0f, 0.0f);
-	g_UIelement[i].color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.0f);
+	g_UIelement[i].color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	g_UIelement[i].TexturName = "./data/TEXTURE/mahouzin.png";
 	g_UIelement[i].Texture = NULL;
 	D3DX11CreateShaderResourceViewFromFile(GetDevice(), g_UIelement[i].TexturName,NULL,NULL,&g_UIelement[i].Texture,NULL);

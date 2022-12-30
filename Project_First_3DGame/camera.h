@@ -11,3 +11,4 @@ void UpdateCamera(void);
 void DrawCamera(void);
 
 int GetCameraIndex(void);
+XMFLOAT4X4 GetCameraMtxView(void);

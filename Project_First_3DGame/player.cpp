@@ -10,6 +10,7 @@
 #include "collision.h"
 #include "field.h"
 #include "attack.h"
+#include "UI.h"
 
 #define MOVE_POWER	(0.03f)
 #define DASH_POWER	(0.03f)
@@ -131,7 +132,13 @@ void UpdatePlayer(void) {
 	//UŒ‚ˆ—
 	{
 		if ((GetInputPress(ATK_1))) {
+			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
+			ui->use = true;
 			SetAttack(ATK_PLAYER_1, g_cameraIndex);
+		}
+		else {
+			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
+			ui->use = false;
 		}
 
 		if ((GetInputPress(ATK_2))) {

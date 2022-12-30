@@ -134,3 +134,6 @@ XMFLOAT3 GetScale(int index) {
 int GetGameObjectParent(int index) {
 	return g_gameObject[index].parentIndex;
 }
+bool GetGameObjectUse(int index) {
+	return g_gameObject[index].use;
+}

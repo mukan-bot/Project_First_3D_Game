@@ -154,6 +154,7 @@
     <ClCompile Include="model.cpp" />
     <ClCompile Include="M_game.cpp" />
     <ClCompile Include="M_title.cpp" />
+    <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="GameModel.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="model.h" />
     <ClInclude Include="M_game.h" />
     <ClInclude Include="M_title.h" />
+    <ClInclude Include="particle.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="GameModel.h" />

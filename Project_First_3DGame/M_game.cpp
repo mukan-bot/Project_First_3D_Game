@@ -12,6 +12,7 @@
 #include "player.h"
 #include "UI.h"
 #include "attack.h"
+#include "particle.h"
 
 
 
@@ -23,6 +24,7 @@ HRESULT InitGame(void) {
 
 	InitField();
 
+	InitParticle();
 
 	InitPlayer();
 
@@ -40,6 +42,8 @@ void UninitGame(void) {
 
 	UninitField();
 
+	UninitParticle();
+
 	UninitPlayer();
 
 	UninitUI();
@@ -55,6 +59,7 @@ void UpdateGame(void) {
 	UpdateCollision();
 	UpdateAttack();
 	UpdateUI();
+	UpdateParticle();
 
 	XMFLOAT3 pos1 = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	XMFLOAT3 pos2 = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -73,12 +78,15 @@ void DrawGame(void) {
 	
 	DrawField();
 
+
 	// 2Dの物を描画する処理
 	// Z比較なし
 	SetDepthEnable(false);
 	// ライティングを無効
 	SetLightEnable(false);
 
+
+	DrawParticle();
 
 	DrawUI();
 

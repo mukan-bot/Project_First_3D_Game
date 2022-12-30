@@ -108,6 +108,12 @@
     <ClCompile Include="UI.cpp">
       <Filter>ゲーム\ソース</Filter>
     </ClCompile>
+    <ClCompile Include="attack.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -171,6 +177,12 @@
       <Filter>タイトル\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="attack.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="particle.h">
       <Filter>ゲーム\ヘッダー</Filter>
     </ClInclude>
   </ItemGroup>

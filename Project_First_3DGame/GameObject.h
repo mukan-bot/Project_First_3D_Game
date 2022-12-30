@@ -30,3 +30,4 @@ XMFLOAT3 GetPosition(int index);
 XMFLOAT3 GetRotation(int index);
 XMFLOAT3 GetScale(int index);
 int GetGameObjectParent(int index);
+bool GetGameObjectUse(int index);

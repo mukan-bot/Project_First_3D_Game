@@ -5,6 +5,7 @@
 //=============================================================================
 #include "attack.h"
 #include "collision.h"
+#include "particle.h"
 
 #define ATK_MAX	(125)
 
@@ -81,22 +82,24 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 		switch (type)
 		{
 		case ATK_PLAYER_1:
-			g_atk[i].maxFlame = 120;
+			g_atk[i].maxFlame = 60;
 
 			g_atk[i].colIndex = SetCollision(LAYER_PLAYER_ATK, TYPE_BC);
 			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
+			
+			SetParticle(g_atk[i].colObjIndex, PLAYER_ATK1, XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
 			break;
 
 		case ATK_PLAYER_2:
-			g_atk[i].maxFlame = 20;
+			g_atk[i].maxFlame = 5;
 			g_atk[i].colIndex = SetCollision(LAYER_PLAYER_ATK, TYPE_BC);
 			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
 			SetPosition(index, pos);
 			SetRotation(index, rot);
-			SetScale(index, XMFLOAT3(1.0f, 1.0f, 1.0f));
+			SetScale(index, XMFLOAT3(0.1f, 0.1f, 0.1f));
 			break;
 
 		case ATK_ENEMY_1:
