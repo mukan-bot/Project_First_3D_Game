@@ -295,6 +295,8 @@ void Draw(void){
 		DrawGame();
 		break;
 	case MODE_RESULT:
+		DrawGameModel();	//RESULTで背景にゲーム画面を使いたいから
+		DrawGame();
 		break;
 	case MODE_MAX:
 		break;
@@ -330,7 +332,7 @@ void SetMode(PLAY_MODE mode) {
 	//MEMO:シーンごとの終了処理
 
 	UninitTitle();
-	UninitGame();
+	
 
 	//MEMO:モードごとの初期化処理
 	switch (mode)
@@ -341,6 +343,7 @@ void SetMode(PLAY_MODE mode) {
 	case MODE_TUTORIAL:
 		break;
 	case MODE_GAME:
+		UninitGame();	//MEMO:リザルトの背景で使いたいからここで終了処理をする
 		InitGame();
 		break;
 	case MODE_RESULT:

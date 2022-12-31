@@ -13,6 +13,9 @@
 #include "UI.h"
 #include "attack.h"
 #include "particle.h"
+#include "enemy.h"
+
+
 
 
 
@@ -28,13 +31,13 @@ HRESULT InitGame(void) {
 
 	InitPlayer();
 
+	InitEnemy();
+
 	InitUI();
 
 	InitAttack();
 	
 	SetCursorMove(false);
-
-	int index = SetCollision(LAYER_ENEMY, TYPE_BC);
 	
 
 
@@ -49,6 +52,8 @@ void UninitGame(void) {
 
 	UninitPlayer();
 
+	UninitEnemy();
+
 	UninitUI();
 
 	UninitAttack();
@@ -59,24 +64,19 @@ void UninitGame(void) {
 }
 void UpdateGame(void) {
 	UpdatePlayer();
-	UpdateCollision();
+	UpdateEnemy();
 	UpdateAttack();
+
+
+	UpdateCollision();
 	UpdateUI();
 	UpdateParticle();
-
-	XMFLOAT3 pos1 = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	XMFLOAT3 pos2 = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	XMFLOAT3 pos3 = XMFLOAT3(0.0f, 2.0f, 0.0f);
-	XMFLOAT3 pos4 = XMFLOAT3(0.0f, 2.0f, 0.0f);
-
-
-
 }
 
 
 void DrawGame(void) {
 	DrawPlayer();
-	
+	DrawEnemy();
 	DrawAttack();
 	
 	DrawField();
