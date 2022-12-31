@@ -14,6 +14,7 @@
 
 #include "M_title.h"
 #include "M_game.h"
+#include "M_result.h"
 
 
 //*****************************************************************************
@@ -48,7 +49,9 @@ PLAY_MODE g_Mode = MODE_TITLE;
 long g_MouseX = 0;
 long g_MouseY = 0;
 
-bool g_WindowActive = false;
+bool g_WindowActive = false;	//ウインドウがアクティブか
+
+bool g_isClear = false;		//ゲームシーンでクリアしたか
 
 
 //=============================================================================
@@ -268,6 +271,7 @@ void Update(void){
 		UpdateGameObject();
 		break;
 	case MODE_RESULT:
+		UpdateResult();
 		break;
 	case MODE_MAX:
 		break;
@@ -297,6 +301,7 @@ void Draw(void){
 	case MODE_RESULT:
 		DrawGameModel();	//RESULTで背景にゲーム画面を使いたいから
 		DrawGame();
+		DrawResult();
 		break;
 	case MODE_MAX:
 		break;
@@ -332,7 +337,7 @@ void SetMode(PLAY_MODE mode) {
 	//MEMO:シーンごとの終了処理
 
 	UninitTitle();
-	
+	UninitResult();
 
 	//MEMO:モードごとの初期化処理
 	switch (mode)
@@ -347,6 +352,7 @@ void SetMode(PLAY_MODE mode) {
 		InitGame();
 		break;
 	case MODE_RESULT:
+		InitResult();
 		break;
 	case MODE_MAX:
 		break;
@@ -364,4 +370,12 @@ PLAY_MODE GetMode(void) {
 
 bool GetWindowActive(void) {
 	return g_WindowActive;
+}
+
+bool GetIsClear(void) {
+	return g_isClear;
+}
+
+void SetIsClear(bool is) {
+	g_isClear = is;
 }
