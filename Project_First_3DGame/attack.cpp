@@ -33,7 +33,12 @@ void UpdateAttack(void) {
 		// İ’èƒtƒŒ[ƒ€”“®‚¢‚½‚çíœ
 		if (g_atk[i].countFlame >= g_atk[i].maxFlame) {
 			DelAtack(i);
-			OutputDebug("íœ‚PF%d\n",g_atk[i].colObjIndex);
+			continue;
+		}
+
+		// “–‚½‚Á‚½‚çíœ
+		if (GetColAns(g_atk[i].colIndex)) {
+			DelAtack(i);
 			continue;
 		}
 

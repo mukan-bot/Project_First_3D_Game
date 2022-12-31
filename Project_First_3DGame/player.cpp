@@ -55,7 +55,7 @@ void InitPlayer(void) {
 
 
 	g_hitColIndex = SetCollision(LAYER_ENEMY_ATK, TYPE_BC);
-	index = GetColObjectIndex(g_colIndex);
+	index = GetColObjectIndex(g_hitColIndex);
 	SetScale(index, XMFLOAT3(PLAYER_SIZE_X, PLAYER_SIZE_Y, PLAYER_SIZE_Z));
 	SetPosition(index, GetPosition(g_objIndex));
 

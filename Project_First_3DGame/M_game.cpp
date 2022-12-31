@@ -34,7 +34,10 @@ HRESULT InitGame(void) {
 	
 	SetCursorMove(false);
 
+	int index = SetCollision(LAYER_ENEMY, TYPE_BC);
 	
+
+
 
 	return S_OK;
 }

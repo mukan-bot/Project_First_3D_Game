@@ -156,7 +156,6 @@ bool CollisionBB(XMFLOAT3 pos1, XMFLOAT3 size1, XMFLOAT3 pos2, XMFLOAT3 size2) {
 //BC‚Ì“–‚½‚è”»’è
 bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2) {
     BOOL ans = false;
-
     // ”¼Œa‚ğ2æ‚µ‚½•¨
     float len = (r1 + r2) * (r1 + r2);
     XMVECTOR temp = XMLoadFloat3(&pos1) - XMLoadFloat3(&pos2);
@@ -169,7 +168,6 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2) {
     if (len > lenSq) {
         ans = true;
     }
-
     return ans;
 }
 
