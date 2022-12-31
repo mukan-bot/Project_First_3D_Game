@@ -65,10 +65,10 @@ void UninitGame(void) {
 void UpdateGame(void) {
 	UpdatePlayer();
 	UpdateEnemy();
-	UpdateAttack();
-
 
 	UpdateCollision();
+	UpdateAttack();
+
 	UpdateUI();
 	UpdateParticle();
 }
