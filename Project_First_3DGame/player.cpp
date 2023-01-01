@@ -143,23 +143,24 @@ void UpdatePlayer(void) {
 		if (GetInputPress(ATK_2)) {
 			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
 			ui->use = true;
-			if (GetInputPress(ATK_1) && ATK_DELAY < g_ATKDelayCount) {
-				ui->color = XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f);
-				OutputDebug("%f\n\n\n\n\n\n\n\n\n", ui->color.w);
-				SetAttack(ATK_PLAYER_1, g_cameraIndex);
-				g_ATK_timesCount++;
-				if (g_ATK_timesCount >= ATK_TIME) {
-					g_ATKDelayCount = 0;
-					g_ATK_timesCount = 0;
-					ui->color.w = 0.0f;
+			if (ATK_DELAY < g_ATKDelayCount) {
+				if (GetInputPress(ATK_1)) {
+					ui->color = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+					SetAttack(ATK_PLAYER_1, g_cameraIndex);
+					g_ATK_timesCount++;
+					if (g_ATK_timesCount >= ATK_TIME) {
+						g_ATKDelayCount = 0;
+						g_ATK_timesCount = 0;
+						ui->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+					}
 				}
 			}
 			else {
 				g_ATKDelayCount++;
-				ui->color.w += (1.0f/ ATK_DELAY);
-				OutputDebug("%f\n", ui->color.w);
-				
+				ui->color.y -= (1.0f / ATK_DELAY);
+				ui->color.z -= (1.0f / ATK_DELAY);
 			}
+
 		}
 		else {
 			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
