@@ -99,9 +99,9 @@ void UpdateEnemy(void) {
 				g_enemy[i].HP--;
 			}
 			if (g_enemy[i].HP < 0) {
+				SetIsClear(true);
 				SetMode(MODE_RESULT);
 			}
-
 		}
 	}
 }

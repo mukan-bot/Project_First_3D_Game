@@ -115,9 +115,6 @@ void UpdateParticle(void){
 		if (!g_element[i].use) continue;
 
 		g_element[i].use = GetGameObjectUse(g_element[i].objIndex);
-		if (!g_element[i].use) {
-			OutputDebug("çÌèú\n");
-		}
 	}
 }
 

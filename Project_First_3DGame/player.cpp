@@ -25,12 +25,20 @@
 #define PLAYER_SIZE_Y	(0.20f)
 #define PLAYER_SIZE_Z	(0.05f)
 
+//UŒ‚‚Ì’²®—p
+#define ATK_DELAY	(120)	//UŒ‚n‚ß‚é‚Ü‚Å‚Ì‘Ò‚¿ŠÔ
+#define ATK_TIME	(60)	//UŒ‚‚ğ”­Ë‚·‚é‰ñ”
+
+
+
 static int g_cameraIndex;
 static int g_objIndex;
 static int g_colIndex;
 static int g_hitColIndex;
 
-static int g_HP;
+static int g_HP;			// PLAYER‚Ì‘Ì—Í
+static int g_ATK_timesCount;		// UŒ‚‚Ì‘Ò‚¿ŠÔ
+static int g_ATKDelayCount;	// UŒ‚‚Ì‘Ò‚¿ŠÔ‚ÌCount
 
 
 void InitPlayer(void) {
@@ -61,7 +69,8 @@ void InitPlayer(void) {
 
 
 	g_HP = 100;
-
+	g_ATKDelayCount = 0;
+	g_ATK_timesCount = 0;
 }
 
 void UninitPlayer(void) {
@@ -131,19 +140,36 @@ void UpdatePlayer(void) {
 
 	//UŒ‚ˆ—
 	{
-		if ((GetInputPress(ATK_1))) {
+		if (GetInputPress(ATK_2)) {
 			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
 			ui->use = true;
-			SetAttack(ATK_PLAYER_1, g_cameraIndex);
+			if (GetInputPress(ATK_1) && ATK_DELAY < g_ATKDelayCount) {
+				ui->color = XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f);
+				OutputDebug("%f\n\n\n\n\n\n\n\n\n", ui->color.w);
+				SetAttack(ATK_PLAYER_1, g_cameraIndex);
+				g_ATK_timesCount++;
+				if (g_ATK_timesCount >= ATK_TIME) {
+					g_ATKDelayCount = 0;
+					g_ATK_timesCount = 0;
+					ui->color.w = 0.0f;
+				}
+			}
+			else {
+				g_ATKDelayCount++;
+				ui->color.w += (1.0f/ ATK_DELAY);
+				OutputDebug("%f\n", ui->color.w);
+				
+			}
 		}
 		else {
 			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
 			ui->use = false;
+			if (GetInputPress(ATK_1)) {
+				SetAttack(ATK_PLAYER_2, g_cameraIndex);
+			}
 		}
+		
 
-		if ((GetInputPress(ATK_2))) {
-			SetAttack(ATK_PLAYER_2, g_cameraIndex);
-		}
 	}
 
 	//“–‚½‚è”»’è
@@ -153,6 +179,12 @@ void UpdatePlayer(void) {
 		if (GetColAns(g_hitColIndex)) {
 			g_HP--;		//UŒ‚‚Ìí—Ş‚É‚©‚¬‚ç‚¸‚Pƒ_ƒ[ƒWi‹­‚¢UŒ‚‚Íd‚Ë‚ê‚Î‚Ç‚¤‚É‚©‚È‚éj
 		}
+
+		if (g_HP <= 0) {
+			SetIsClear(false);
+			SetMode(MODE_RESULT);
+		}
+
 
 		//ˆÚ“®‚É‘Î‚·‚é“–‚½‚è”»’è‚ÌXV
 		int index = GetColObjectIndex(g_colIndex);
