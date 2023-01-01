@@ -17,12 +17,15 @@ DWORD XinputName[BUTTON_MAX];
 float g_XlookSensitive = 0.00003f;
 float g_MlookSensitive = 0.01f;
 
+SELECT_CONTROLLER g_selectController = KEYBOARD;
+
 
 HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 	InitDinput(hInst, hWnd);
 	InitMinput(hWnd);
 	//ボタンの名前を整える
 	//TODO:ボタン配置はプレイしやすいように調整する
+	//TODO:マウス操作は要検証
 	for (int i = 0; i < BUTTON_MAX; i++){
 		ButtonName name = (ButtonName)i;
 		switch (name)
@@ -90,22 +93,54 @@ int GetInputPress(ButtonName button, int padNo) {
 	bool ans = false;	//戻り地はintだけどboolで管理する。戻り地がintなのは計算で使いやすくするため
 
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-		if (GetKeyboardPress(KeyName[button])) ans = true;
-		if (IsButtonPressed(padNo, DinputName[button])) ans = true;
-		XINPUT_STATE state = GetXinput(padNo);
-		if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+		switch (g_selectController)
+		{
+		case KEYBOARD:
+			if (GetKeyboardPress(KeyName[button])) ans = true;
+			if (button == ATK_1) {
+				if (IsMouseLeftPressed()) ans = true;
+			}
+			else if (button == ATK_2) {
+				if (IsMouseRightPressed()) ans = true;
+			}
+			break;
+		case XBOX:
+			XINPUT_STATE state = GetXinput(padNo);
+			if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+			break;
+		case PS:
+			if (IsButtonPressed(padNo, DinputName[button])) ans = true;
+			break;
+		default:
+			break;
+		}
+		
+		
+
 	}
 	return (int)ans;
 }
 
+//使用Controllerの決定も含めてる
 int GetInputTrigger(ButtonName button, int padNo) {
 	bool ans = false;	//戻り地はintだけどboolで管理する。戻り地がintなのは計算で使いやすくするため
 
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-		if (GetKeyboardTrigger(KeyName[button])) ans = true;
-		if (IsButtonTriggered(padNo, DinputName[button])) ans = true;
+
+		if (GetKeyboardTrigger(KeyName[button])) {
+
+			SetSelectController(KEYBOARD);
+			ans = (int)true;
+		}
 		XINPUT_STATE state = GetXinputTrigger(padNo);
-		if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+		if (state.Gamepad.wButtons & XinputName[button]) {
+			SetSelectController(XBOX);
+			ans = (int)true;
+		}
+		if (IsButtonTriggered(padNo, DinputName[button])) {
+			SetSelectController(PS);
+			ans = (int)true;
+		}
 	}
 	return (int)ans;
 }
@@ -113,10 +148,21 @@ int GetInputTrigger(ButtonName button, int padNo) {
 int GetInputRelease(ButtonName button, int padNo) {
 	bool ans = false;	//戻り地はintだけどboolで管理する。戻り地がintなのは計算で使いやすくするため
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-		if (GetKeyboardRelease(KeyName[button])) ans = true;
-
-		XINPUT_STATE state = GetXinputRelease(padNo);
-		if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+		switch (g_selectController)
+		{
+		case KEYBOARD:
+			if (GetKeyboardRelease(KeyName[button])) ans = true;
+			break;
+		case XBOX:
+			XINPUT_STATE state = GetXinputRelease(padNo);
+			if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+			break;
+		case PS:
+			GetInputTrigger(button, padNo);	//MEMO:Triggerの方法がわからん
+			break;
+		default:
+			break;
+		}
 	}
 	return (int)ans;
 }
@@ -126,7 +172,6 @@ XMFLOAT2 GetLookInput(int padNo) {
 	XMFLOAT2 ans = XMFLOAT2(0.0f, 0.0f);
 
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-
 		if (ans.x == 0 && ans.y == 0) {
 			if (GetKeyboardPress(DIK_UP)) ans.y--;
 			if (GetKeyboardPress(DIK_DOWN)) ans.y++;
@@ -141,13 +186,7 @@ XMFLOAT2 GetLookInput(int padNo) {
 		}
 
 		if (ans.x == 0 && ans.y == 0) {
-			//DirectInputのやつ書く
-		}
-
-
-		if (ans.x == 0 && ans.y == 0) {
 			XINPUT_STATE state = GetXinputTrigger(padNo);
-
 
 			// デッドゾーン以下を0にする
 			if ((state.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
@@ -163,8 +202,12 @@ XMFLOAT2 GetLookInput(int padNo) {
 
 				ans.y = -state.Gamepad.sThumbRY * g_XlookSensitive;
 			}
-
 		}
+
+		if (ans.x == 0 && ans.y == 0) {
+			//TODO:Dinputわからん
+		}
+
 	}
 	return ans;
 }
@@ -174,4 +217,11 @@ void SetXinputSensitive(float sensitive) {
 }
 float GetXinputSensitive(void) {
 	return g_XlookSensitive;
+}
+
+void SetSelectController(SELECT_CONTROLLER select) {
+	g_selectController = select;
+}
+SELECT_CONTROLLER GetSelectController(void) {
+	return g_selectController;
 }

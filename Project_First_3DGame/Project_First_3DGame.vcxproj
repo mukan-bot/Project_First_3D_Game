@@ -140,9 +140,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="attack.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="convenient.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="input.cpp" />
@@ -152,10 +154,13 @@
     <ClCompile Include="input_X.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="M_game.cpp" />
+    <ClCompile Include="M_result.cpp" />
     <ClCompile Include="M_title.cpp" />
+    <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="GameModel.cpp" />
+    <ClCompile Include="result_bg.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="title_bg.cpp" />
@@ -163,9 +168,11 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="attack.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="convenient.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="input.h" />
@@ -175,10 +182,13 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="M_game.h" />
+    <ClInclude Include="M_result.h" />
     <ClInclude Include="M_title.h" />
+    <ClInclude Include="particle.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="GameModel.h" />
+    <ClInclude Include="result_bg.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="title_bg.h" />

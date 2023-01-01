@@ -62,7 +62,9 @@ int SetGameObject(void) {
 		break;
 	}
 #ifdef _DEBUG
-	if (ans == -1)OutputDebug("SetGameObject‚Å-1‚ª•Ô‚³‚ê‚Ü‚µ‚½B\n");
+	if (ans == -1) {
+		OutputDebug("SetGameObject‚Å-1‚ª•Ô‚³‚ê‚Ü‚µ‚½B\n");
+	}
 #endif // _DEBUG
 
 	return ans;
@@ -131,4 +133,7 @@ XMFLOAT3 GetScale(int index) {
 }
 int GetGameObjectParent(int index) {
 	return g_gameObject[index].parentIndex;
+}
+bool GetGameObjectUse(int index) {
+	return g_gameObject[index].use;
 }

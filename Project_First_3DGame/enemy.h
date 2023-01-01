@@ -3,12 +3,12 @@
 // Author : TakeuchiHiroto
 //
 //=============================================================================
+#pragma once
 
-#include "main.h"
 
-void InitCameraM_Game(void);	
-void UpdateCamera(void);
-void DrawCamera(void);
+HRESULT InitEnemy(void);
+void UninitEnemy(void);
+void UpdateEnemy(void);
+void DrawEnemy(void);
 
-int GetCameraIndex(void);
-XMFLOAT4X4 GetCameraMtxView(void);
+void SetEnemy(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scl);

@@ -3,12 +3,9 @@
 // Author : TakeuchiHiroto
 //
 //=============================================================================
+#pragma once
 
-#include "main.h"
-
-void InitCameraM_Game(void);	
-void UpdateCamera(void);
-void DrawCamera(void);
-
-int GetCameraIndex(void);
-XMFLOAT4X4 GetCameraMtxView(void);
+HRESULT InitResultBG(void);
+void UninitResultBG(void);
+void UpdateResultBG(void);
+void DrawResultBG(void);

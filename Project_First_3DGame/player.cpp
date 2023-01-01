@@ -9,6 +9,8 @@
 #include "GameObject.h"
 #include "collision.h"
 #include "field.h"
+#include "attack.h"
+#include "UI.h"
 
 #define MOVE_POWER	(0.03f)
 #define DASH_POWER	(0.03f)
@@ -26,6 +28,9 @@
 static int g_cameraIndex;
 static int g_objIndex;
 static int g_colIndex;
+static int g_hitColIndex;
+
+static int g_HP;
 
 
 void InitPlayer(void) {
@@ -47,6 +52,15 @@ void InitPlayer(void) {
 		SetPosition(index, pos);
 	}
 	SetPosition(g_objIndex, GetPosition(index));
+
+
+	g_hitColIndex = SetCollision(LAYER_ENEMY_ATK, TYPE_BC);
+	index = GetColObjectIndex(g_hitColIndex);
+	SetScale(index, XMFLOAT3(PLAYER_SIZE_X, PLAYER_SIZE_Y, PLAYER_SIZE_Z));
+	SetPosition(index, GetPosition(g_objIndex));
+
+
+	g_HP = 100;
 
 }
 
@@ -117,12 +131,30 @@ void UpdatePlayer(void) {
 
 	//攻撃処理
 	{
+		if ((GetInputPress(ATK_1))) {
+			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
+			ui->use = true;
+			SetAttack(ATK_PLAYER_1, g_cameraIndex);
+		}
+		else {
+			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
+			ui->use = false;
+		}
 
+		if ((GetInputPress(ATK_2))) {
+			SetAttack(ATK_PLAYER_2, g_cameraIndex);
+		}
 	}
 
 	//当たり判定
 	{
+		//攻撃に対する当たり判定の更新
+		SetPosition(GetColObjectIndex(g_hitColIndex), pos);
+		if (GetColAns(g_hitColIndex)) {
+			g_HP--;		//攻撃の種類にかぎらず１ダメージ（強い攻撃は重ねればどうにかなる）
+		}
 
+		//移動に対する当たり判定の更新
 		int index = GetColObjectIndex(g_colIndex);
 		//XMFLOAT3 pos = GetPosition(g_objIndex);
 		SetPosition(index, pos);
@@ -144,15 +176,16 @@ void UpdatePlayer(void) {
 
 		}
 
-
-
-
 	}
 
 
 	//カメラの更新
 	SetGameObjectZERO(g_cameraIndex);	//親からみた情報を０にする
 	SetPosition(g_cameraIndex, XMFLOAT3(0.0f, 2.5f, 0.0f));	//親からみた座標を少し高くする
+
+
+	//シーン遷移
+	if (g_HP <= 0) SetMode(MODE_RESULT);
 
 }
 void DrawPlayer(void) {

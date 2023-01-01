@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #define BUFFER_SIZE 1024
 
 #include "convenient.h"
@@ -153,7 +156,6 @@ bool CollisionBB(XMFLOAT3 pos1, XMFLOAT3 size1, XMFLOAT3 pos2, XMFLOAT3 size2) {
 //BCの当たり判定
 bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2) {
     BOOL ans = false;
-
     // 半径を2乗した物
     float len = (r1 + r2) * (r1 + r2);
     XMVECTOR temp = XMLoadFloat3(&pos1) - XMLoadFloat3(&pos2);
@@ -166,7 +168,6 @@ bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2) {
     if (len > lenSq) {
         ans = true;
     }
-
     return ans;
 }
 
@@ -269,3 +270,7 @@ bool RayCast(XMFLOAT3 xp0, XMFLOAT3 xp1, XMFLOAT3 xp2, XMFLOAT3 xpos, XMFLOAT3 x
 
     return(true);	// 当たっている！(hitには当たっている交点が入っている。normalには法線が入っている)
 }
+
+
+
+

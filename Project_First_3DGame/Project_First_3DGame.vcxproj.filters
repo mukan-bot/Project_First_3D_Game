@@ -43,6 +43,15 @@
     <Filter Include="タイトル\ヘッダー">
       <UniqueIdentifier>{e05ad7ab-1692-4182-a3ce-80f5e88cb184}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リザルト">
+      <UniqueIdentifier>{63fa0871-de8e-4548-a62c-f8ec34faf342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リザルト\ヘッダー">
+      <UniqueIdentifier>{beb9445a-23c6-47e3-b082-5cd0c172f97a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リザルト\ソース">
+      <UniqueIdentifier>{7b7f87cf-2b58-4174-98d2-fa8b753f7b64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,6 +117,21 @@
     <ClCompile Include="UI.cpp">
       <Filter>ゲーム\ソース</Filter>
     </ClCompile>
+    <ClCompile Include="attack.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>ゲーム\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="M_result.cpp">
+      <Filter>リザルト\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="result_bg.cpp">
+      <Filter>リザルト\ソース</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -172,6 +196,21 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="attack.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ゲーム\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="M_result.h">
+      <Filter>リザルト\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="result_bg.h">
+      <Filter>リザルト\ヘッダー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

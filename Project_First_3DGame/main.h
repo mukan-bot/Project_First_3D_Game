@@ -94,3 +94,6 @@ void SetMode(PLAY_MODE mode);
 PLAY_MODE GetMode(void);		
 //ウインドウがアクティブか
 bool GetWindowActive(void);
+
+bool GetIsClear(void);		//ゲームシーンでクリアしたかどうかを判断
+void SetIsClear(bool is);	//ゲームシーンでクリアしたらtrueをセット

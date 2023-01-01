@@ -20,7 +20,12 @@
 #define	VIEW_FAR_Z		(10000.0f)										// ビュー平面のFarZ値
 
 //グローバル変数
-static int g_gameObjectIndex = SetGameObject();
+static int g_gameObjectIndex;
+static XMFLOAT4X4 g_mtxView;
+
+void InitCameraM_Game(void) {
+	g_gameObjectIndex = SetGameObject();
+}
 
 
 void UpdateCamera(void) {
@@ -49,6 +54,7 @@ void DrawCamera(void) {
 
 	mtxView = XMMatrixInverse(nullptr, world);
 
+	XMStoreFloat4x4(&g_mtxView, mtxView);	// ビルボードとかで使うため
 	SetViewMatrix(& mtxView);
 
 	//プロジェクションマトリックス設定
@@ -61,3 +67,5 @@ void DrawCamera(void) {
 
 
 int GetCameraIndex(void) { return g_gameObjectIndex; };
+
+XMFLOAT4X4 GetCameraMtxView(void) { return g_mtxView; };
