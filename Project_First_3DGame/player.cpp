@@ -12,8 +12,8 @@
 #include "attack.h"
 #include "UI.h"
 
-#define MOVE_POWER	(0.03f)
-#define DASH_POWER	(0.03f)
+#define MOVE_POWER	(0.06f)
+#define DASH_POWER	(0.06f)
 
 //プレイヤーの初期位置（Yは目線の高さ）
 #define PLAYER_OFFSET_X	(0.0f)

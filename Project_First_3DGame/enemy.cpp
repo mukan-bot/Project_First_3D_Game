@@ -67,7 +67,12 @@ HRESULT InitEnemy(void) {
 	return S_OK;
 }
 void UninitEnemy(void) {
-
+	for (int i = 0; i < ENEMY_MAX; i++) {
+		g_enemy[i].use = false;
+		DelCollision(g_enemy[i].colIndex);
+		DelCollision(g_enemy[i].hitColIndex);
+		DelGameObject(g_enemy[i].objIndex);
+	}
 }
 void UpdateEnemy(void) {
 

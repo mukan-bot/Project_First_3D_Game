@@ -37,6 +37,8 @@ struct DX11_MODEL
 
 	DX11_SUBSET* SubsetArray;
 	unsigned short	SubsetNum;
+
+	bool is_load;
 };
 
 

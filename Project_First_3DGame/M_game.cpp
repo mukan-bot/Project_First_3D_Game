@@ -20,8 +20,11 @@
 
 
 HRESULT InitGame(void) {
-	
+	InitGameObject();
+
 	InitGameModel();
+
+	InitCollision();
 
 	InitCameraM_Game();
 
@@ -40,7 +43,7 @@ HRESULT InitGame(void) {
 	SetCursorMove(false);
 	
 
-
+	
 
 	return S_OK;
 }
@@ -63,10 +66,9 @@ void UninitGame(void) {
 
 }
 void UpdateGame(void) {
+	UpdateCollision();
 	UpdatePlayer();
 	UpdateEnemy();
-
-	UpdateCollision();
 	UpdateAttack();
 
 	UpdateUI();

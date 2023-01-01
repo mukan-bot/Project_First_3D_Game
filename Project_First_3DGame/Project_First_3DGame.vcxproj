@@ -161,6 +161,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="result_bg.cpp" />
+    <ClCompile Include="result_ui.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="title_bg.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="result_bg.h" />
+    <ClInclude Include="result_ui.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="title_bg.h" />

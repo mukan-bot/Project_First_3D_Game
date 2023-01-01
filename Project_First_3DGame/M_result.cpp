@@ -6,19 +6,22 @@
 #include "M_result.h"
 
 #include "result_bg.h"
+#include "result_ui.h"
 
 
 
 HRESULT InitResult(void) {
 	InitResultBG();
-
+	InitResultUI();
 	return S_OK;
 }
 void UninitResult(void) {
 	UninitResultBG();
+	UninitResultUI();
 }
 void UpdateResult(void) {
 	UpdateResultBG();
+	UpdateResultUI();
 }
 void DrawResult(void) {
 	// 2Dの物を描画する処理
@@ -29,7 +32,7 @@ void DrawResult(void) {
 
 
 	DrawResultBG();
-
+	DrawResultUI();
 
 	// ライティングを有効に
 	SetLightEnable(false);	//TODO:ライト作ったらtrueに変える

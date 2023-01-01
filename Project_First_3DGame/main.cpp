@@ -245,6 +245,7 @@ void Uninit(void){
 
 	UninitInput();
 
+	
 }
 
 //=============================================================================
@@ -343,12 +344,12 @@ void SetMode(PLAY_MODE mode) {
 	switch (mode)
 	{
 	case MODE_TITLE:
+		UninitGame();	//MEMO:リザルトの背景で使いたいからここで終了処理をする
 		InitTitle();
 		break;
 	case MODE_TUTORIAL:
 		break;
 	case MODE_GAME:
-		UninitGame();	//MEMO:リザルトの背景で使いたいからここで終了処理をする
 		InitGame();
 		break;
 	case MODE_RESULT:

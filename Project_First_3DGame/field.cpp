@@ -56,11 +56,9 @@ HRESULT InitField(void) {
 
 
 	for (int i = 0; i < g_elementCount; i++) {
-		fopen_s(&fp, CSV_FILE_PATH, "r");
+		fopen_s(&fp, CSV_FILE_PATH, "r");	//毎回ファイルを開くのは効率悪いかも
 		LEVEL_ELEMENT ans;
 		GetLevel_Csv(fp, i, &ans);
-		//OutputDebug("%d\n", i);
-		//if (&ans == NULL) continue;
 
 
 		//オブジェクトの名前が連番になるので連番部分の削除
@@ -108,7 +106,9 @@ HRESULT InitField(void) {
 	return S_OK;
 }
 void UninitField(void) {
-
+	for (int i = 0; i < g_elementCount; i++) {
+		DelGameModel(g_setObject[i].gameModelIndex);
+	}
 }
 void UpdateField(void) {
 

@@ -12,14 +12,17 @@ HRESULT InitTitle(void) {
 	InitTitleUI();
 	return S_OK;
 }
+
 void UninitTitle(void) {
 	UninitTitleBG();
 	UninitTitleUI();
 }
+
 void UpdateTitle(void) {
 	UpdateTitleBG();
 	UpdateTitleUI();
 }
+
 void DrawTitle(void) {
 	// 2D‚Ì•¨‚ğ•`‰æ‚·‚éˆ—
 	// Z”äŠr‚È‚µ
