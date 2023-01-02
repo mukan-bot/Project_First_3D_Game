@@ -63,13 +63,18 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 		case ATK_1:
 			KeyName[i] = DIK_1;
 			DinputName[i] = BUTTON_A;
-			XinputName[i] = XINPUT_GAMEPAD_B;
+			XinputName[i] = XINPUT_GAMEPAD_LEFT_SHOULDER;
 			break;
 		case ATK_2:
 			KeyName[i] = DIK_2;
 			DinputName[i] = BUTTON_B;
-			XinputName[i] = XINPUT_GAMEPAD_Y;
+			XinputName[i] = XINPUT_GAMEPAD_A;
 			break;
+		case AIMING:
+			KeyName[i] = DIK_Q;
+			DinputName[i] = BUTTON_A;	//TODO:‚ ‚Æ‚Å•Ï‚¦‚é
+			XinputName[i] = XINPUT_GAMEPAD_RIGHT_SHOULDER;
+
 		default:
 			break;
 		}
@@ -100,7 +105,7 @@ int GetInputPress(ButtonName button, int padNo) {
 			if (button == ATK_1) {
 				if (IsMouseLeftPressed()) ans = true;
 			}
-			else if (button == ATK_2) {
+			else if (button == AIMING) {
 				if (IsMouseRightPressed()) ans = true;
 			}
 			break;

@@ -18,7 +18,7 @@ enum ButtonName {
 	MOVE_DASH,
 	ATK_1,
 	ATK_2,
-	
+	AIMING,
 	BUTTON_MAX
 };
 

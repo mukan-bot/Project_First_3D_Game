@@ -25,9 +25,6 @@
 #define PLAYER_SIZE_Y	(0.20f)
 #define PLAYER_SIZE_Z	(0.05f)
 
-//UŒ‚‚Ì’²®—p
-#define ATK_DELAY	(120)	//UŒ‚Žn‚ß‚é‚Ü‚Å‚Ì‘Ò‚¿ŽžŠÔ
-#define ATK_TIME	(60)	//UŒ‚‚ð”­ŽË‚·‚é‰ñ”
 
 
 
@@ -37,8 +34,6 @@ static int g_colIndex;
 static int g_hitColIndex;
 
 static int g_HP;			// PLAYER‚Ì‘Ì—Í
-static int g_ATK_timesCount;		// UŒ‚‚Ì‘Ò‚¿ŽžŠÔ
-static int g_ATKDelayCount;	// UŒ‚‚Ì‘Ò‚¿ŽžŠÔ‚ÌCount
 
 
 void InitPlayer(void) {
@@ -69,8 +64,6 @@ void InitPlayer(void) {
 
 
 	g_HP = 100;
-	g_ATKDelayCount = 0;
-	g_ATK_timesCount = 0;
 }
 
 void UninitPlayer(void) {
@@ -140,37 +133,22 @@ void UpdatePlayer(void) {
 
 	//UŒ‚ˆ—
 	{
-		if (GetInputPress(ATK_2)) {
+
+		if(GetInputPress(AIMING)) {
 			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
 			ui->use = true;
-			if (ATK_DELAY < g_ATKDelayCount) {
-				if (GetInputPress(ATK_1)) {
-					ui->color = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
-					SetAttack(ATK_PLAYER_1, g_cameraIndex);
-					g_ATK_timesCount++;
-					if (g_ATK_timesCount >= ATK_TIME) {
-						g_ATKDelayCount = 0;
-						g_ATK_timesCount = 0;
-						ui->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-					}
-				}
-			}
-			else {
-				g_ATKDelayCount++;
-				ui->color.y -= (1.0f / ATK_DELAY);
-				ui->color.z -= (1.0f / ATK_DELAY);
-			}
-
 		}
 		else {
 			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
 			ui->use = false;
 			if (GetInputPress(ATK_1)) {
-				SetAttack(ATK_PLAYER_2, g_cameraIndex);
+				
+				SetAttack(ATK_PLAYER_1, g_cameraIndex);
 			}
 		}
-		
-
+		if (GetInputPress(ATK_2)) {
+			SetAttack(ATK_PLAYER_2, g_cameraIndex);
+		}
 	}
 
 	//“–‚½‚è”»’è

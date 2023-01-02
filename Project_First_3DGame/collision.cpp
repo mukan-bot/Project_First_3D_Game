@@ -12,6 +12,7 @@
 #ifdef _DEBUG
 
 #define CUBE_MODEL ("data/MODEL/collision_cube.obj")
+#define SPHERE_MODEL ("data/MODEL/collision_sphere.obj")
 
 #endif // _DEBUG
 
@@ -32,7 +33,8 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 		g_collision[i].use = true;
 #ifdef _DEBUG
 		//	デバック時はcollisionの範囲を表示しておく
-		g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
+		if (type == TYPE_BB)g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
+		else if (type == TYPE_BC)g_collision[i].gameModelIndex = SetGameModel(SPHERE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
 #endif // _DEBUG 
 
 		ans = i;

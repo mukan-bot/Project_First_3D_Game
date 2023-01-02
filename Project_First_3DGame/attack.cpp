@@ -6,9 +6,10 @@
 #include "attack.h"
 #include "collision.h"
 #include "particle.h"
+#include "UI.h"
 
 #define ATK_MAX	(125)
-
+#define PLAYER_ATK1_MODEL	("data/MODEL/collision_sphere.obj")	//collisionの範囲の表示用のモデルだけどATKの攻撃に重ねる（見た目がそのほうがいいと思ったから）
 //グローバル変数
 ATTACK g_atk[ATK_MAX];
 
@@ -81,7 +82,8 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 
 
 		g_atk[i].countFlame = 0;
-
+		
+		
 
 		int index = -1;
 		switch (type)
@@ -94,8 +96,9 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
-			
+			//見た目
 			SetParticle(g_atk[i].colObjIndex, PLAYER_ATK1, XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+			g_atk[i].modelIndex = SetGameModel(PLAYER_ATK1_MODEL, index, 0, CULL_MODE_NONE);
 			break;
 
 		case ATK_PLAYER_2:
