@@ -12,20 +12,22 @@
 #include "attack.h"
 #include "UI.h"
 
-#define MOVE_POWER	(0.06f)
-#define DASH_POWER	(0.06f)
+#define MOVE_POWER	(0.12f)
+#define DASH_POWER	(0.12f)
 
 //プレイヤーの初期位置（Yは目線の高さ）
 #define PLAYER_OFFSET_X	(0.0f)
 #define PLAYER_OFFSET_Y	(0.20f)
 #define PLAYER_OFFSET_Z	(-10.0f)
-
+#define CAMERA_OFFSET	(2.5f)
 //プレイヤーの当たり判定の大きさ
 #define PLAYER_SIZE_X	(0.05f)
 #define PLAYER_SIZE_Y	(0.20f)
 #define PLAYER_SIZE_Z	(0.05f)
 
-
+//攻撃系
+#define ATK_RAND_MAX	(1000)
+#define ATK_RAND_MUL	(0.0001)
 
 
 static int g_cameraIndex;
@@ -34,6 +36,7 @@ static int g_colIndex;
 static int g_hitColIndex;
 
 static int g_HP;			// PLAYERの体力
+static float g_isAiming;
 
 
 void InitPlayer(void) {
@@ -78,7 +81,7 @@ void UpdatePlayer(void) {
 
 
 
-
+	
 
 
 	//プレイヤーの移動処理
@@ -108,11 +111,17 @@ void UpdatePlayer(void) {
 		if (ComparisonXMFLOAT3(vec, XMFLOAT3(0.0f, 0.0f, 0.0f))) {
 			vec = NormalizeXMFLOAT3(vec);
 			// ダッシュ
-			if (GetInputPress(MOVE_DASH)) {
-				vec = MulXMFLOAT3(vec, SetXMFLOAT3(MOVE_POWER+DASH_POWER));
+			if (GetInputPress(MOVE_DASH) && !g_isAiming) {
+				vec = MulXMFLOAT3(vec, SetXMFLOAT3(MOVE_POWER + DASH_POWER));
 			}
 			else {
-				vec = MulXMFLOAT3(vec, SetXMFLOAT3(MOVE_POWER));
+				if (g_isAiming) {
+					vec = MulXMFLOAT3(vec, SetXMFLOAT3(MOVE_POWER/4.0f));
+				}
+				else {
+					vec = MulXMFLOAT3(vec, SetXMFLOAT3(MOVE_POWER));
+				}
+				
 			}
 
 			pos = AddXMFLOAT3(pos, vec);
@@ -130,26 +139,10 @@ void UpdatePlayer(void) {
 		SetRotation(g_objIndex, rot);
 	}
 
+	//カメラの更新
+	SetGameObjectZERO(g_cameraIndex);	//親からみた情報を０にする
+	SetPosition(g_cameraIndex, XMFLOAT3(0.0f, CAMERA_OFFSET, 0.0f));	//親からみた座標を少し高くする
 
-	//攻撃処理
-	{
-
-		if(GetInputPress(AIMING)) {
-			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
-			ui->use = true;
-		}
-		else {
-			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
-			ui->use = false;
-			if (GetInputPress(ATK_1)) {
-				
-				SetAttack(ATK_PLAYER_1, g_cameraIndex);
-			}
-		}
-		if (GetInputPress(ATK_2)) {
-			SetAttack(ATK_PLAYER_2, g_cameraIndex);
-		}
-	}
 
 	//当たり判定
 	{
@@ -190,9 +183,72 @@ void UpdatePlayer(void) {
 	}
 
 
-	//カメラの更新
-	SetGameObjectZERO(g_cameraIndex);	//親からみた情報を０にする
-	SetPosition(g_cameraIndex, XMFLOAT3(0.0f, 2.5f, 0.0f));	//親からみた座標を少し高くする
+
+
+
+	//攻撃処理
+	{
+		//覗く
+		if (GetInputPress(AIMING)) {
+			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
+			ui->use = true;
+			g_isAiming = true;
+			if (GetInputPress(ATK_1)) {
+				int index = SetGameObject();
+				pos.y += CAMERA_OFFSET;
+
+				//発射位置を自分より少し前に移動する
+				XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
+				vec.x += sinf(rot.x);
+				vec.z += cosf(rot.x);
+				vec.y -= tanf(rot.z);
+				vec = NormalizeXMFLOAT3(vec);
+				pos = AddXMFLOAT3(pos, vec);
+				SetPosition(index, pos);
+
+				SetRotation(index, rot);
+				SetScale(index, scl);
+				//攻撃力を調整するために二回Setする
+				SetAttack(ATK_PLAYER_1, index);
+				SetAttack(ATK_PLAYER_1, index);
+				DelGameObject(index);
+			}
+		}
+		//腰撃ち
+		else {
+			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
+			ui->use = false;
+			g_isAiming = false;
+			if (GetInputPress(ATK_1)) {
+				int index = SetGameObject();
+				pos.y += CAMERA_OFFSET;
+
+				//発射位置を自分より少し前に移動する
+				XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
+				vec.x += sinf(rot.x);
+				vec.z += cosf(rot.x);
+				vec.y -= tanf(rot.z);
+				vec = NormalizeXMFLOAT3(vec);
+				pos = AddXMFLOAT3(pos, vec);
+				SetPosition(index, pos);
+
+				//弾道のブレを発生させる
+				XMFLOAT3 tempRot = XMFLOAT3((rand() % ATK_RAND_MAX), (rand() % ATK_RAND_MAX), (rand() % ATK_RAND_MAX));
+				tempRot = SubXMFLOAT3(tempRot, SetXMFLOAT3(ATK_RAND_MAX / 2));
+				tempRot = MulXMFLOAT3(tempRot, SetXMFLOAT3(ATK_RAND_MUL));
+				tempRot = AddXMFLOAT3(rot, tempRot);
+				SetRotation(index, tempRot);
+
+				//一応スケールも更新しておく
+				SetScale(index, scl);
+				SetAttack(ATK_PLAYER_1, index);
+				DelGameObject(index);
+			}
+		}
+		if (GetInputPress(ATK_2)) {
+			SetAttack(ATK_PLAYER_2, g_cameraIndex);
+		}
+	}
 
 
 	//シーン遷移

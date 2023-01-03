@@ -170,6 +170,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				Update();			// 更新処理
 				Draw();				// 描画処理
 
+#ifdef _DEBUG	// デバッグ版の時だけ表示する
+				SetWindowText(hWnd, g_DebugStr);
+#endif
+
+
 				dwFrameCount++;
 			}
 		}

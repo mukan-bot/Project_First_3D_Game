@@ -46,7 +46,8 @@ HRESULT InitField(void) {
 	XMFLOAT3 pos, rot, scl;
 	fopen_s(&fp, CSV_FILE_PATH, "r");
 	if (fp != NULL) {
-		while (fscanf_s(fp, "%[^,],%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f", name, _countof(name), &pos.x, &pos.y, &pos.z, &rot.x, &rot.y, &rot.z, &scl.x, &scl.y, &scl.z) != EOF)
+		//while (fscanf_s(fp, "%[^,],%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f", name, _countof(name), &pos.x, &pos.y, &pos.z, &rot.x, &rot.y, &rot.z, &scl.x, &scl.y, &scl.z) != EOF)
+		while (fscanf_s(fp, "%[^,],%f,%f,%f,%f,%f,%f,%f,%f,%f", name, _countof(name), &pos.x, &pos.y, &pos.z, &rot.x, &rot.y, &rot.z, &scl.x, &scl.y, &scl.z) != EOF)
 		{
 			g_elementCount++;
 		}
@@ -93,6 +94,8 @@ HRESULT InitField(void) {
 					int index = GetColObjectIndex(g_setObject[i].collisonIndex);
 					SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));
 					SetScale(index, ans.scl);
+					OutputDebug("ÉRÉäÉWÉáÉìÇê›íu%s\n", g_modelPath[j][1]);
+					OutputDebug("%d", index);
 				}
 				break;
 			}

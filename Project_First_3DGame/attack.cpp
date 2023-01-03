@@ -98,7 +98,7 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
 			//Œ©‚½–Ú
 			SetParticle(g_atk[i].colObjIndex, PLAYER_ATK1, XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
-			g_atk[i].modelIndex = SetGameModel(PLAYER_ATK1_MODEL, index, 0, CULL_MODE_NONE);
+			//g_atk[i].modelIndex = SetGameModel(PLAYER_ATK1_MODEL, index, 0, CULL_MODE_NONE);
 			break;
 
 		case ATK_PLAYER_2:
