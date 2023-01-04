@@ -6,7 +6,7 @@
 #include "main.h"
 
 #include "GameObject.h"
-#define MAX_OBJECT	(256)	//Ç∆ÇËÇ†Ç¶Ç∏âΩÇ‡çlÇ¶Ç∏ÇQÇTÇUÇ…ÇµÇƒÇ®Ç≠
+#define MAX_OBJECT	(1024)	//Ç∆ÇËÇ†Ç¶Ç∏âΩÇ‡çlÇ¶Ç∏ÇQÇTÇUÇ…ÇµÇƒÇ®Ç≠
 
 
 struct GAME_OBJECT

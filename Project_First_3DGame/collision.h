@@ -23,7 +23,7 @@ enum COLLISION_LAYER
 	LAYER_OBSTACLE		// マップに配置する障害物
 };
 
-#define COLLISION_MAX (256)
+#define COLLISION_MAX (512)
 
 //*****************************************************************************
 // 構造体定義

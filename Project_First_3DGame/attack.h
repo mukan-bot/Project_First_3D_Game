@@ -21,6 +21,8 @@ struct ATTACK{
 
 	int colIndex;
 	int colObjIndex;
+	int fieldColIndex;
+	int fieldColObjIndex;
 	int modelIndex;
 
 	int maxFlame;

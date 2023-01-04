@@ -58,7 +58,14 @@ void UpdateAttack(void) {
 		pos = AddXMFLOAT3(pos, vec);
 		SetPosition(index, pos);
 
+		index = g_atk[i].fieldColObjIndex;
 
+		SetPosition(index, pos);
+
+		if (GetColAns(g_atk[i].fieldColIndex)) {
+			DelAtack(i);
+			continue;
+		}
 
 
 		
@@ -96,6 +103,14 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
+
+			//フィールドとの当たり判定
+			g_atk[i].fieldColIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+			index = g_atk[i].fieldColObjIndex = GetColObjectIndex(g_atk[i].fieldColIndex);
+			SetPosition(index, pos);
+			SetRotation(index, rot);
+			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
+
 			//見た目
 			SetParticle(g_atk[i].colObjIndex, PLAYER_ATK1, XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
 			//g_atk[i].modelIndex = SetGameModel(PLAYER_ATK1_MODEL, index, 0, CULL_MODE_NONE);
@@ -108,6 +123,13 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(0.1f, 0.1f, 0.1f));
+
+			//フィールドとの当たり判定
+			g_atk[i].fieldColIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
+			SetPosition(index, pos);
+			SetRotation(index, rot);
+			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
 			break;
 
 		case ATK_ENEMY_1:
@@ -117,6 +139,13 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(1.0f, 1.0f, 1.0f));
+
+			//フィールドとの当たり判定
+			g_atk[i].fieldColIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
+			SetPosition(index, pos);
+			SetRotation(index, rot);
+			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
 			break;
 
 		case ATK_ENEMY_2:
@@ -126,6 +155,13 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(1.0f, 1.0f, 1.0f));
+
+			//フィールドとの当たり判定
+			g_atk[i].fieldColIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
+			SetPosition(index, pos);
+			SetRotation(index, rot);
+			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
 			break;
 		}
 
@@ -143,6 +179,7 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 
 void DelAtack(int index) {
 	DelCollision(g_atk[index].colIndex);
+	DelCollision(g_atk[index].fieldColIndex);
 	g_atk[index].use = false;
 }
 
