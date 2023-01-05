@@ -20,7 +20,8 @@ enum COLLISION_LAYER
 	LAYER_PLAYER_ATK,	// プレイヤーの攻撃
 	LAYER_ENEMY,		// エネミーの体
 	LAYER_ENEMY_ATK,	// エネミーの攻撃
-	LAYER_OBSTACLE		// マップに配置する障害物
+	LAYER_OBSTACLE,		// マップに配置する障害物
+	LAYER_FIELD,
 };
 
 #define COLLISION_MAX (512)

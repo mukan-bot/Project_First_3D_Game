@@ -106,7 +106,7 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
 
 			//フィールドとの当たり判定
-			g_atk[i].fieldColIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+			g_atk[i].fieldColIndex = SetCollision(LAYER_FIELD, TYPE_BB);
 			index = g_atk[i].fieldColObjIndex = GetColObjectIndex(g_atk[i].fieldColIndex);
 			SetPosition(index, pos);
 			SetRotation(index, rot);

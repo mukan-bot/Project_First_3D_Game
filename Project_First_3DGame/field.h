@@ -7,6 +7,7 @@ struct SET_OBJECT {
 	int gameObjectIndex;
 	int gameModelIndex;
 	int collisonIndex;
+	int fieldCollisonIndex;
 };
 
 

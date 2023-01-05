@@ -273,4 +273,10 @@ bool RayCast(XMFLOAT3 xp0, XMFLOAT3 xp1, XMFLOAT3 xp2, XMFLOAT3 xpos, XMFLOAT3 x
 
 
 
+float RadToDeg(float rad) {
+    return rad * 180.0f / XM_PI;
+}
+float DegToRad(float deg) {
+    return deg * XM_PI / 180.0f;
+}
 

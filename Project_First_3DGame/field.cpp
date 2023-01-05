@@ -40,6 +40,7 @@ HRESULT InitField(void) {
 
 	for (int i = 0; i < SET_OBJECT_MAX; i++) {
 		g_setObject[i].collisonIndex = -1;
+		g_setObject[i].fieldCollisonIndex = -1;
 		g_setObject[i].gameModelIndex = -1;
 		g_setObject[i].gameObjectIndex = -1;
 	}
@@ -128,11 +129,13 @@ HRESULT InitField(void) {
 		SetRotation(index, ans.rot);
 		SetScale(index, ans.scl);
 
+		//その他のオブジェクトを配置
 		for (int j = 0; j < FIELD_MODEL_MAX; j++) {
 			if (strcmp(ans.name, g_modelPath[j][1])==0) {
 				g_setObject[i].gameModelIndex = SetGameModel(g_modelPath[j][0], index, 0, CULL_MODE_BACK);
 				if (strcmp("1", g_modelPath[j][2]) == 0) {	//collisionを配置するオブジェクトなら配置する
 					g_setObject[i].collisonIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
+					g_setObject[i].fieldCollisonIndex = SetCollision(LAYER_FIELD, TYPE_BB);
 					int index = GetColObjectIndex(g_setObject[i].collisonIndex);
 					SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));
 					SetScale(index, ans.scl);
