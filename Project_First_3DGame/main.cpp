@@ -7,6 +7,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "input.h"
+#include "input_M.h"
 #include "camera.h"
 #include "GameObject.h"
 #include "GameModel.h"
@@ -351,14 +352,21 @@ void SetMode(PLAY_MODE mode) {
 	case MODE_TITLE:
 		UninitGame();	//MEMO:リザルトの背景で使いたいからここで終了処理をする
 		InitTitle();
+		SetCursorMove(true);
+		ShowCursor(true);
 		break;
 	case MODE_TUTORIAL:
 		break;
 	case MODE_GAME:
 		InitGame();
+		ShowCursor(false);
+		SetCursorMove(false);
+		ShowCursor(false);
 		break;
 	case MODE_RESULT:
 		InitResult();
+		SetCursorMove(true);
+		ShowCursor(true);
 		break;
 	case MODE_MAX:
 		break;

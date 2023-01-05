@@ -43,25 +43,25 @@ void InitPlayer(void) {
 	g_objIndex = SetGameObject();
 	g_cameraIndex = GetCameraIndex();
 	SetGameObjectParent(g_cameraIndex, g_objIndex);
-	SetPosition(g_objIndex, XMFLOAT3(PLAYER_OFFSET_X, PLAYER_OFFSET_Y, PLAYER_OFFSET_Z));
+//	SetPosition(g_objIndex, XMFLOAT3(PLAYER_OFFSET_X, PLAYER_OFFSET_Y, PLAYER_OFFSET_Z));
 
 	g_colIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
-	int index = GetColObjectIndex(g_colIndex);
-	SetScale(index, XMFLOAT3(PLAYER_SIZE_X, PLAYER_SIZE_Y, PLAYER_SIZE_Z));
-	SetPosition(index, GetPosition(g_objIndex));
+	//int index = GetColObjectIndex(g_colIndex);
+	//SetScale(index, XMFLOAT3(PLAYER_SIZE_X, PLAYER_SIZE_Y, PLAYER_SIZE_Z));
+	//SetPosition(index, GetPosition(g_objIndex));
 
-	//èâä˙ÇÃÇﬂÇËçûÇ›Çâè¡Ç∑ÇÈ
-	while (GetColAnsUpdate(g_colIndex))
-	{
-		XMFLOAT3 pos = GetPosition(index);
-		pos.y += 0.01f;
-		SetPosition(index, pos);
-	}
-	SetPosition(g_objIndex, GetPosition(index));
+	////èâä˙ÇÃÇﬂÇËçûÇ›Çâè¡Ç∑ÇÈ
+	//while (GetColAnsUpdate(g_colIndex))
+	//{
+	//	XMFLOAT3 pos = GetPosition(index);
+	//	pos.y += 0.01f;
+	//	SetPosition(index, pos);
+	//}
+	//SetPosition(g_objIndex, GetPosition(index));
 
 
 	g_hitColIndex = SetCollision(LAYER_ENEMY_ATK, TYPE_BC);
-	index = GetColObjectIndex(g_hitColIndex);
+	int index = GetColObjectIndex(g_hitColIndex);
 	SetScale(index, XMFLOAT3(PLAYER_SIZE_X, PLAYER_SIZE_Y, PLAYER_SIZE_Z));
 	SetPosition(index, GetPosition(g_objIndex));
 
@@ -210,7 +210,7 @@ void UpdatePlayer(void) {
 				SetScale(index, scl);
 				//çUåÇóÕÇí≤êÆÇ∑ÇÈÇΩÇﬂÇ…ìÒâÒSetÇ∑ÇÈ
 				SetAttack(ATK_PLAYER_1, index);
-				SetAttack(ATK_PLAYER_1, index);
+				//SetAttack(ATK_PLAYER_1, index);
 				DelGameObject(index);
 			}
 		}
@@ -257,4 +257,15 @@ void UpdatePlayer(void) {
 }
 void DrawPlayer(void) {
 
+}
+
+
+int GetPlayerGameObjectIndex(void) {
+	return g_objIndex;
+}
+int GetPlayerColObjectIndex(void) {
+	return g_colIndex;
+}
+int GetPlayerHitColObjectIndex(void) {
+	return g_hitColIndex;
 }

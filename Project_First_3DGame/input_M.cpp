@@ -94,5 +94,4 @@ XMFLOAT2 GetMousePos(void) {
 
 void SetCursorMove(bool is) {
 	g_cursorMove = is;
-	ShowCursor(is);	//MEMO:カーソルが固定されているときはカーソルを非表示にする
 }

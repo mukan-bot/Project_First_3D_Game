@@ -11,7 +11,7 @@
 
 
 //ƒ}ƒNƒ’è‹`
-#define MAX_MODEL	(256)	//‚Æ‚è‚ ‚¦‚¸256ŒÂ‚É‚µ‚Ä‚¨‚­
+#define MAX_MODEL	(512)	//‚Æ‚è‚ ‚¦‚¸256ŒÂ‚É‚µ‚Ä‚¨‚­
 
 struct GameModel{
 	bool is_load;

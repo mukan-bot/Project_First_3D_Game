@@ -62,7 +62,7 @@ HRESULT InitEnemy(void) {
 
 	}
 
-	SetEnemy(XMFLOAT3(0.0f, 10.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.01f, 0.01f, 0.01f));
+	//SetEnemy(XMFLOAT3(0.0f, 10.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.01f, 0.01f, 0.01f));
 
 	return S_OK;
 }
@@ -82,6 +82,13 @@ void UpdateEnemy(void) {
 		XMFLOAT3 pos = GetPosition(g_enemy[i].objIndex);
 		XMFLOAT3 rot = GetRotation(g_enemy[i].objIndex);
 		XMFLOAT3 scl = GetScale(g_enemy[i].objIndex);
+
+		//ˆÚ“®
+		{
+			
+		}
+
+
 
 		//“–‚½‚è”»’è
 		{

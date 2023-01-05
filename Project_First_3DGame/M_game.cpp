@@ -28,22 +28,17 @@ HRESULT InitGame(void) {
 
 	InitCameraM_Game();
 
-	InitField();
-
 	InitParticle();
 
 	InitPlayer();
 
 	InitEnemy();
 
+	InitField();
+
 	InitUI();
 
 	InitAttack();
-	
-	SetCursorMove(false);
-	
-
-	
 
 	return S_OK;
 }
@@ -73,6 +68,8 @@ void UpdateGame(void) {
 
 	UpdateUI();
 	UpdateParticle();
+
+	UpdateField();
 }
 
 

@@ -32,9 +32,9 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 		g_collision[i].type = type;
 		g_collision[i].use = true;
 #ifdef _DEBUG
-		//	デバック時はcollisionの範囲を表示しておく
-		//if (type == TYPE_BB)g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_BACK);
-		//else if (type == TYPE_BC)g_collision[i].gameModelIndex = SetGameModel(SPHERE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
+		//	デバック時はcollisionの範囲を表示しておく（重いから一旦消しておく）
+		if (type == TYPE_BB)g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_BACK);
+		else if (type == TYPE_BC)g_collision[i].gameModelIndex = SetGameModel(SPHERE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
 #endif // _DEBUG 
 
 		ans = i;

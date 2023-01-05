@@ -14,7 +14,7 @@ struct GAME_OBJECT
 	XMFLOAT3 position;		//座標
 	XMFLOAT3 rotation;		//回転
 	XMFLOAT3 scale;			//大きさ
-	bool use;				//使われているか
+	bool use = false;				//使われているか
 	int parentIndex;		//親のインデックス番号（親なら-1）
 };
 
