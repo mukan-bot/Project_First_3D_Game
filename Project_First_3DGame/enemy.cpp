@@ -6,6 +6,7 @@
 
 #include "main.h"
 #include "enemy.h"
+#include "player.h"
 #include "collision.h"
 
 #define ENEMY_MAX	(20)
@@ -22,7 +23,6 @@ enum ENEMY_STATE{
 	ENEMY_ROTATION,
 	ENEMY_CALCULATION,
 	ENEMY_MOVE,
-
 	ENEMY_STATE_MAX
 };
 
@@ -115,6 +115,7 @@ void UpdateEnemy(void) {
 				g_enemy[i].rot.y = DegToRad(((rand() % MOVE_ROT_ANGLE) - MOVE_ROT_ANGLE) / MOVE_ROT_SPEED);
 				g_enemy[i].state = ENEMY_ROTATION;
 				g_enemy[i].count = MOVE_ROT_SPEED;
+				//g_enemy[i].state = ENEMY_ATK;
 				break;
 			case ENEMY_ROTATION://‘½•ªOK
 				if (g_enemy[i].count > 0) {
@@ -194,7 +195,13 @@ void UpdateEnemy(void) {
 				g_enemy[i].use = false;
 			}
 		}
+
+
+
+
 	}
+
+	//ƒNƒŠƒA”»’è
 	bool isAllKill = false;
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		if (g_enemy[i].use) {
@@ -225,4 +232,12 @@ void SetEnemy(XMFLOAT3 pos,XMFLOAT3 rot, XMFLOAT3 scl) {
 		g_enemy[i].use = true;
 		break;
 	}
+}
+
+int GetAliveEnemy(void) {
+	int ans = 0;
+	for (int i = 0; i < ENEMY_MAX; i++) {
+		if (g_enemy[i].use) ans++;
+	}
+	return ans;
 }

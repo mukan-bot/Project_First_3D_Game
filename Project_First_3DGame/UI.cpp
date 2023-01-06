@@ -6,7 +6,8 @@
 #include "main.h"
 #include "sprite.h"
 #include "UI.h"
-
+#include "enemy.h"
+#include "text.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -32,7 +33,7 @@ HRESULT InitUI(void) {
 	UI i;
 
 	i = ATK_MAHOUZIN;
-	g_UIelement[i].use = true;
+	g_UIelement[i].use = false;
 	g_UIelement[i].size = WHSIZE(400, 400);
 	g_UIelement[i].pos = XMFLOAT2(SCREEN_CENTER_X, SCREEN_CENTER_Y);
 	g_UIelement[i].t_size = WHSIZE(1.0f, 1.0f);
@@ -43,7 +44,7 @@ HRESULT InitUI(void) {
 	D3DX11CreateShaderResourceViewFromFile(GetDevice(), g_UIelement[i].TexturName,NULL,NULL,&g_UIelement[i].Texture,NULL);
 
 	i = ICON_MAHOUZIN;
-	g_UIelement[i].use = true;
+	g_UIelement[i].use = false;
 	g_UIelement[i].size = WHSIZE(100, 100);
 	g_UIelement[i].pos = XMFLOAT2(SCREEN_WIDTH - 110 - 50, SCREEN_HEIGHT- 10 - 50);
 	g_UIelement[i].t_size = WHSIZE(1.0f, 1.0f);
@@ -54,7 +55,7 @@ HRESULT InitUI(void) {
 	D3DX11CreateShaderResourceViewFromFile(GetDevice(), g_UIelement[i].TexturName, NULL, NULL, &g_UIelement[i].Texture, NULL);
 
 	i = BLIND_MAHOUZIN;		//TODO:âÊëúÇÇ»ÇÒÇ©Ç¢Ç¢ÇÃÇ…ïœÇ¶ÇÈ
-	g_UIelement[i].use = true;
+	g_UIelement[i].use = false;
 	g_UIelement[i].size = WHSIZE(100, 100);
 	g_UIelement[i].pos = XMFLOAT2(SCREEN_WIDTH - 110 - 50, SCREEN_HEIGHT - 10 - 50);
 	g_UIelement[i].t_size = WHSIZE(1.0f, 1.0f);
@@ -105,7 +106,13 @@ void UninitUI(void) {
 	g_Load = FALSE;
 }
 void UpdateUI(void) {
-
+	TEXT text;
+	text.color = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	text.pos = XMFLOAT2(180.0f, 30.0f);
+	text.size = 30;
+	SetText(text, "Ç`ÇkÇhÇuÇdÅ@ÇdÇmÇdÇlÇx");
+	text.pos = XMFLOAT2(400.0f, 30.0f);
+	SetText_d(text, GetAliveEnemy());
 }
 void DrawUI(void) {
 

@@ -115,7 +115,6 @@ HRESULT InitField(void) {
 				SetPosition(index, pos);
 			}
 			SetPosition(objIndex, GetPosition(index));
-
 			continue;
 		}
 
@@ -135,8 +134,12 @@ HRESULT InitField(void) {
 				g_setObject[i].gameModelIndex = SetGameModel(g_modelPath[j][0], index, 0, CULL_MODE_BACK);
 				if (strcmp("1", g_modelPath[j][2]) == 0) {	//collisionを配置するオブジェクトなら配置する
 					g_setObject[i].collisonIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
-					g_setObject[i].fieldCollisonIndex = SetCollision(LAYER_FIELD, TYPE_BB);
 					int index = GetColObjectIndex(g_setObject[i].collisonIndex);
+					SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));
+					SetScale(index, ans.scl);
+
+					g_setObject[i].fieldCollisonIndex = SetCollision(LAYER_FIELD, TYPE_BB);
+					index = GetColObjectIndex(g_setObject[i].fieldCollisonIndex);
 					SetPosition(index, MulXMFLOAT3(ans.pos, SetXMFLOAT3(10.0f)));
 					SetScale(index, ans.scl);
 				}
@@ -178,7 +181,6 @@ float CharToFloat(char* text) {
 		char* end;
 		ans = strtof(text, &end);
 	}
-
 	return ans;
 }
 
@@ -188,3 +190,4 @@ SET_OBJECT* GetFieldObject(int* objectCount) {
 	objectCount[0] = g_elementCount;
 	return g_setObject;
 }
+
