@@ -45,6 +45,9 @@ static ID3D11ShaderResourceView* g_Texture[TEXTURE_MAX] = { NULL };	// ÉeÉNÉXÉ`É
 static char* g_TextureName[TEXTURE_MAX] =
 {
 	"data/TEXTURE/effect01.png",
+	"data/TEXTURE/effect01.png",
+	"data/TEXTURE/effect01.png",
+	"data/TEXTURE/effect01.png",
 };
 
 static BOOL						g_Load = FALSE;

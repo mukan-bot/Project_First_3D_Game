@@ -24,7 +24,7 @@ enum COLLISION_LAYER
 	LAYER_FIELD,
 };
 
-#define COLLISION_MAX (512)
+#define COLLISION_MAX (1024)
 
 //*****************************************************************************
 // ç\ë¢ëÃíËã`

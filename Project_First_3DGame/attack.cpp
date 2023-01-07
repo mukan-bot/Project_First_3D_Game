@@ -67,11 +67,8 @@ void UpdateAttack(void) {
 			DelAtack(i);
 			continue;
 		}
-
-
 		
 		g_atk[i].countFlame++;
-
 	}
 }
 void DrawAttack(void) {
@@ -124,18 +121,11 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(0.1f, 0.1f, 0.1f));
-
-			//フィールドとの当たり判定
-			g_atk[i].fieldColIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
-			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
-			SetPosition(index, pos);
-			SetRotation(index, rot);
-			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
 			break;
 
 		case ATK_ENEMY_1:
 			g_atk[i].maxFlame = 120;
-			g_atk[i].colIndex = SetCollision(LAYER_ENEMY_ATK, TYPE_BB);
+			g_atk[i].colIndex = SetCollision(LAYER_ENEMY_ATK, TYPE_BC);
 			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
 			SetPosition(index, pos);
 			SetRotation(index, rot);
@@ -147,6 +137,9 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
+
+			//見た目
+			SetParticle(g_atk[i].colObjIndex, PLAYER_ATK1, XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
 			break;
 
 		case ATK_ENEMY_2:
@@ -156,13 +149,6 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(1.0f, 1.0f, 1.0f));
-
-			//フィールドとの当たり判定
-			g_atk[i].fieldColIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
-			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
-			SetPosition(index, pos);
-			SetRotation(index, rot);
-			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
 			break;
 		}
 

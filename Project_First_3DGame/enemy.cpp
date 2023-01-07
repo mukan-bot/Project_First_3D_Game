@@ -8,10 +8,12 @@
 #include "enemy.h"
 #include "player.h"
 #include "collision.h"
+#include "attack.h"
 
 #define ENEMY_MAX	(20)
 
-#define MODEL_PATH	("./data/MODEL/Drone/main.obj")
+#define MODEL_PATH	("./data/MODEL/Skull/skull.obj")
+#define MODEL_PARTS_PATH	("./data/MODEL/Skull/jaw.obj")
 
 #define MOVE_ROT_ANGLE		(180)
 #define MOVE_ROT_SPEED		(30)
@@ -35,6 +37,8 @@ struct ENEMY{
 	int colIndex;
 	int hitColIndex;
 	int modelIndex;
+	int modelPartsIndex;
+	int objPartsIndex;
 	int HP;
 
 	ENEMY_STATE state;
@@ -44,6 +48,7 @@ struct ENEMY{
 	XMFLOAT3 pos2;
 	XMFLOAT3 vec;
 
+	XMFLOAT3 c_pos;
 	XMFLOAT3 c_size;
 };
 
@@ -52,16 +57,24 @@ struct ENEMY{
 ENEMY g_enemy[20];
 
 
+
+
 HRESULT InitEnemy(void) {
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		g_enemy[i].objIndex = SetGameObject();
 		SetPosition(g_enemy[i].objIndex, XMFLOAT3(0.0f, -1000.0f, 0.0f));	//見えない所に生成しておく
+		g_enemy[i].modelIndex = SetGameModel(MODEL_PATH, g_enemy[i].objIndex, 0, CULL_MODE_BACK);
 
-		g_enemy[i].modelIndex = SetGameModel(MODEL_PATH, g_enemy[i].objIndex, 1, CULL_MODE_NONE);
+		g_enemy[i].objPartsIndex = SetGameObject();
+		SetGameObjectParent(g_enemy[i].objPartsIndex, g_enemy[i].objIndex);
+		g_enemy[i].modelPartsIndex = SetGameModel(MODEL_PARTS_PATH, g_enemy[i].objPartsIndex, 0, CULL_MODE_BACK);
+		SetGameObjectZERO(g_enemy[i].objPartsIndex);
+
 		g_enemy[i].colIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
 		g_enemy[i].hitColIndex = SetCollision(LAYER_ENEMY, TYPE_BC);
 
-		g_enemy[i].c_size = XMFLOAT3(10.0f, 10.0f, 10.0f);	//collisionのサイズ
+		g_enemy[i].c_size = XMFLOAT3(0.5f, 0.5f, 0.5f);	//collisionのサイズ
+		g_enemy[i].c_pos = XMFLOAT3(0.0f, 1.0f, 0.0f);
 		g_enemy[i].HP = 100;
 		g_enemy[i].use = false;
 
@@ -88,14 +101,17 @@ HRESULT InitEnemy(void) {
 
 	return S_OK;
 }
+
 void UninitEnemy(void) {
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		g_enemy[i].use = false;
 		DelCollision(g_enemy[i].colIndex);
 		DelCollision(g_enemy[i].hitColIndex);
 		DelGameObject(g_enemy[i].objIndex);
+		DelGameObject(g_enemy[i].objPartsIndex);
 	}
 }
+
 void UpdateEnemy(void) {
 
 	for (int i = 0; i < ENEMY_MAX; i++) {
@@ -107,6 +123,16 @@ void UpdateEnemy(void) {
 
 		bool isOK = true;
 
+
+		//パーツ
+		{
+			SetGameObjectZERO(g_enemy[i].objPartsIndex);
+			if (g_enemy[i].isATK) {
+				SetPosition(g_enemy[i].objPartsIndex, XMFLOAT3(0.0f, -0.2f, 0.0f));
+				SetRotation(g_enemy[i].objPartsIndex, XMFLOAT3(-0.5f, 0.0f, 0.0f));
+			}
+		}
+
 		//移動
 		{
 			switch (g_enemy[i].state)
@@ -115,7 +141,7 @@ void UpdateEnemy(void) {
 				g_enemy[i].rot.y = DegToRad(((rand() % MOVE_ROT_ANGLE) - MOVE_ROT_ANGLE) / MOVE_ROT_SPEED);
 				g_enemy[i].state = ENEMY_ROTATION;
 				g_enemy[i].count = MOVE_ROT_SPEED;
-				//g_enemy[i].state = ENEMY_ATK;
+				//SetAttack(ATK_ENEMY_1, g_enemy[i].objIndex);
 				break;
 			case ENEMY_ROTATION://多分OK
 				if (g_enemy[i].count > 0) {
@@ -176,11 +202,11 @@ void UpdateEnemy(void) {
 		{
 			int index;
 			index = GetColObjectIndex(g_enemy[i].colIndex);
-			SetPosition(index, pos);
+			SetPosition(index, AddXMFLOAT3(pos, g_enemy[i].c_pos));
 			SetRotation(index, rot);
 			SetScale(index, MulXMFLOAT3(scl,g_enemy[i].c_size));
 			index = GetColObjectIndex(g_enemy[i].hitColIndex);
-			SetPosition(index, pos);
+			SetPosition(index, AddXMFLOAT3(pos, g_enemy[i].c_pos));
 			SetRotation(index, rot);
 			SetScale(index, MulXMFLOAT3(scl, g_enemy[i].c_size));
 
@@ -192,6 +218,8 @@ void UpdateEnemy(void) {
 				DelCollision(g_enemy[i].colIndex);
 				DelCollision(g_enemy[i].hitColIndex);
 				DelGameModel(g_enemy[i].modelIndex);
+				DelGameModel(g_enemy[i].modelPartsIndex);
+				DelGameObject(g_enemy[i].objPartsIndex);
 				g_enemy[i].use = false;
 			}
 		}
@@ -241,3 +269,5 @@ int GetAliveEnemy(void) {
 	}
 	return ans;
 }
+
+

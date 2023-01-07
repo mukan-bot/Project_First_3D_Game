@@ -33,8 +33,8 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 		g_collision[i].use = true;
 #ifdef _DEBUG
 		//	デバック時はcollisionの範囲を表示しておく（重いから一旦消しておく）
-		//if (type == TYPE_BB)g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_BACK);
-		//else if (type == TYPE_BC)g_collision[i].gameModelIndex = SetGameModel(SPHERE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
+		if (type == TYPE_BB)g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_BACK);
+		else if (type == TYPE_BC)g_collision[i].gameModelIndex = SetGameModel(SPHERE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
 #endif // _DEBUG 
 
 		ans = i;
@@ -98,7 +98,7 @@ void UpdateCollision(void) {
 		if (!g_collision[i].use) continue;
 
 		//BCなら半径を求める
-		float r1;
+		float r1 = 0.0f;
 		if (g_collision[i].type == TYPE_BC) {	
 			XMFLOAT3 size = GetScale(g_collision[i].gameObjectIndex);
 			r1 = (size.x + size.y + size.z) / 3.0f;

@@ -158,19 +158,21 @@ HRESULT InitField(void) {
 
 	return S_OK;
 }
+
 void UninitField(void) {
 	for (int i = 0; i < g_elementCount; i++) {
 		DelGameModel(g_setObject[i].gameModelIndex);
 	}
 }
+
 void UpdateField(void) {
 	for (int i = 0; i < g_elementCount; i++) {
 		if (ComparisonXMFLOAT3(g_setObjectPos[i], GetPosition(g_setObject[i].gameObjectIndex))) {
 			OutputDebug("フィールドオブジェクトの座標が移動されました\n");
 		}
 	}
-
 }
+
 void DrawField(void) {
 }
 

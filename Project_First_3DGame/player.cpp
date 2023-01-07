@@ -60,7 +60,7 @@ void InitPlayer(void) {
 	//SetPosition(g_objIndex, GetPosition(index));
 
 
-	g_hitColIndex = SetCollision(LAYER_ENEMY_ATK, TYPE_BC);
+	g_hitColIndex = SetCollision(LAYER_PLAYER, TYPE_BC);
 	int index = GetColObjectIndex(g_hitColIndex);
 	SetScale(index, XMFLOAT3(PLAYER_SIZE_X, PLAYER_SIZE_Y, PLAYER_SIZE_Z));
 	SetPosition(index, GetPosition(g_objIndex));
@@ -78,10 +78,6 @@ void UpdatePlayer(void) {
 	XMFLOAT3 bachPos = pos;
 	XMFLOAT3 rot = GetRotation(g_objIndex);
 	XMFLOAT3 scl = GetScale(g_objIndex);
-
-
-
-	
 
 
 	//ÉvÉåÉCÉÑÅ[ÇÃà⁄ìÆèàóù
