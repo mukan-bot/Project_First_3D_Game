@@ -8,8 +8,14 @@
 #include "particle.h"
 #include "UI.h"
 
+#include "player.h"
+
 #define ATK_MAX	(125)
-#define PLAYER_ATK1_MODEL	("data/MODEL/collision_sphere.obj")	//collisionの範囲の表示用のモデルだけどATKの攻撃に重ねる（見た目がそのほうがいいと思ったから）
+
+#define ENEMY_ATK_SPEED	(30.00f)
+
+
+
 //グローバル変数
 ATTACK g_atk[ATK_MAX];
 
@@ -31,6 +37,7 @@ void UpdateAttack(void) {
 
 		int index = g_atk[i].colObjIndex;
 
+
 		// 設定フレーム数動いたら削除
 		if (g_atk[i].countFlame >= g_atk[i].maxFlame) {
 			DelAtack(i);
@@ -43,25 +50,42 @@ void UpdateAttack(void) {
 			OutputDebug("Hit\n");
 			continue;
 		}
-
+		
 
 		XMFLOAT3 pos = GetPosition(index);
 		XMFLOAT3 rot = GetRotation(index);
 
 		XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
-		vec.x += sinf(rot.x);
-		vec.z += cosf(rot.x);
-		vec.y -= tanf(rot.z);
+		switch (g_atk[i].type)
+		{
+		//プレイヤーのは視点に合わせて移動させる
+		case(ATK_PLAYER_1):
+		case(ATK_PLAYER_2):
+			vec.x += sinf(rot.x);
+			vec.z += cosf(rot.x);
+			vec.y -= tanf(rot.z);
 
-		vec = NormalizeXMFLOAT3(vec);
+			vec = NormalizeXMFLOAT3(vec);
 
-		pos = AddXMFLOAT3(pos, vec);
-		SetPosition(index, pos);
+			pos = AddXMFLOAT3(pos, vec);
+			SetPosition(index, pos);
 
-		index = g_atk[i].fieldColObjIndex;
+			index = g_atk[i].fieldColObjIndex;
 
-		SetPosition(index, pos);
+			SetPosition(index, pos);
+			break;
+		//ENEMYのは設置したタイミングのプレイヤーの座標へ移動
+		case(ATK_ENEMY_1):
+		case(ATK_ENEMY_2):
+			pos = AddXMFLOAT3(pos, g_atk[i].vec);
+			SetPosition(index, pos);
+			break;
+		default:
+			break;
+		}
+
+
 
 		if (GetColAns(g_atk[i].fieldColIndex)) {
 			DelAtack(i);
@@ -77,7 +101,7 @@ void DrawAttack(void) {
 
 void SetAttack(ATK_TYPE type, int objIndex) {
 
-	//ループの外でやったほうが早いと思う
+	//必要な情報の取り出し
 	XMFLOAT3 pos = GetPosition(objIndex);
 	XMFLOAT3 rot = GetRotation(objIndex);
 	XMFLOAT3 scl = GetScale(objIndex);
@@ -85,10 +109,10 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 	for (int i = 0; i < ATK_MAX; i++) {
 		if (g_atk[i].use) continue;
 
-
+		//共通の初期化
 		g_atk[i].countFlame = 0;
-		
-		
+
+		g_atk[i].type = type;
 
 		int index = -1;
 		switch (type)
@@ -129,17 +153,22 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
 			SetPosition(index, pos);
 			SetRotation(index, rot);
-			SetScale(index, XMFLOAT3(1.0f, 1.0f, 1.0f));
+			SetScale(index, XMFLOAT3(0.05f, 0.05f, 0.05f));
 
 			//フィールドとの当たり判定
-			g_atk[i].fieldColIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
-			index = g_atk[i].colObjIndex = GetColObjectIndex(g_atk[i].colIndex);
+			g_atk[i].fieldColIndex = SetCollision(LAYER_FIELD, TYPE_BB);
+			index = g_atk[i].fieldColObjIndex = GetColObjectIndex(g_atk[i].fieldColIndex);
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
 
 			//見た目
 			SetParticle(g_atk[i].colObjIndex, PLAYER_ATK1, XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));
+
+			g_atk[i].vec = SubXMFLOAT3(GetPosition(GetPlayerGameObjectIndex()), GetPosition(objIndex));
+			g_atk[i].vec = DivXMFLOAT3(g_atk[i].vec, SetXMFLOAT3(ENEMY_ATK_SPEED));
+
+
 			break;
 
 		case ATK_ENEMY_2:
@@ -149,6 +178,10 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			SetPosition(index, pos);
 			SetRotation(index, rot);
 			SetScale(index, XMFLOAT3(1.0f, 1.0f, 1.0f));
+
+			g_atk[i].vec = SubXMFLOAT3(GetPosition(GetPlayerGameObjectIndex()), GetPosition(objIndex));
+			g_atk[i].vec = DivXMFLOAT3(g_atk[i].vec, SetXMFLOAT3(ENEMY_ATK_SPEED));
+
 			break;
 		}
 

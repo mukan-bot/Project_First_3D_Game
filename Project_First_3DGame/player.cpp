@@ -43,21 +43,8 @@ void InitPlayer(void) {
 	g_objIndex = SetGameObject();
 	g_cameraIndex = GetCameraIndex();
 	SetGameObjectParent(g_cameraIndex, g_objIndex);
-//	SetPosition(g_objIndex, XMFLOAT3(PLAYER_OFFSET_X, PLAYER_OFFSET_Y, PLAYER_OFFSET_Z));
 
 	g_colIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
-	//int index = GetColObjectIndex(g_colIndex);
-	//SetScale(index, XMFLOAT3(PLAYER_SIZE_X, PLAYER_SIZE_Y, PLAYER_SIZE_Z));
-	//SetPosition(index, GetPosition(g_objIndex));
-
-	////èâä˙ÇÃÇﬂÇËçûÇ›Çâè¡Ç∑ÇÈ
-	//while (GetColAnsUpdate(g_colIndex))
-	//{
-	//	XMFLOAT3 pos = GetPosition(index);
-	//	pos.y += 0.01f;
-	//	SetPosition(index, pos);
-	//}
-	//SetPosition(g_objIndex, GetPosition(index));
 
 
 	g_hitColIndex = SetCollision(LAYER_PLAYER, TYPE_BC);
@@ -66,7 +53,7 @@ void InitPlayer(void) {
 	SetPosition(index, GetPosition(g_objIndex));
 
 
-	g_HP = 100;
+	g_HP = 10;
 }
 
 void UninitPlayer(void) {

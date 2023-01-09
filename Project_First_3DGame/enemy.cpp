@@ -20,18 +20,21 @@
 #define MOVE_LENGTH			(10)
 #define MOVE_FRONT_SPEED	(30)
 
+#define ATK_DELAY		(60)	//プレイヤーを見つけてから(口を開けてから)60F後に攻撃を発射
+#define LOOK_PLAYER		(XMFLOAT3(20.0f,20.0f,20.0f))	//プレイヤーを探知できる範囲
+
 enum ENEMY_STATE{
 	ENEMY_STOP,
 	ENEMY_ROTATION,
 	ENEMY_CALCULATION,
 	ENEMY_MOVE,
+	ENEMY_ATK,
 	ENEMY_STATE_MAX
 };
 
 
 struct ENEMY{
 	bool use;
-	bool isATK;		//攻撃してるか
 	bool isMove;	//移動状態かどうか
 	int objIndex;
 	int colIndex;
@@ -40,26 +43,39 @@ struct ENEMY{
 	int modelPartsIndex;
 	int objPartsIndex;
 	int HP;
-
+	//行動patternを作るために使う
 	ENEMY_STATE state;
 	int count;
+	//移動とか回転に使う
 	XMFLOAT3 rot;
 	XMFLOAT3 pos1;
 	XMFLOAT3 pos2;
 	XMFLOAT3 vec;
-
+	//コリジョンのoffset
 	XMFLOAT3 c_pos;
 	XMFLOAT3 c_size;
+	//攻撃
+	bool isATK;		//攻撃してるか
+	int atkCount;	//攻撃までのカウントダウン
+
+
+	
 };
 
 
-
+//グローバル変数
 ENEMY g_enemy[20];
+int g_pObjectIndex;	// プレイヤーのオブジェクトインデックスを所得
+XMFLOAT3 g_pPos;	// プレイヤーの座標を保存する
 
-
+//プロトタイプ宣言
+void LookPlayer(ENEMY* enemy);	// プレイヤーが近くに要るかを判断
 
 
 HRESULT InitEnemy(void) {
+
+	g_pObjectIndex = GetPlayerGameObjectIndex();
+
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		g_enemy[i].objIndex = SetGameObject();
 		SetPosition(g_enemy[i].objIndex, XMFLOAT3(0.0f, -1000.0f, 0.0f));	//見えない所に生成しておく
@@ -97,7 +113,6 @@ HRESULT InitEnemy(void) {
 
 	}
 
-	//SetEnemy(XMFLOAT3(0.0f, 10.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.01f, 0.01f, 0.01f));
 
 	return S_OK;
 }
@@ -114,6 +129,8 @@ void UninitEnemy(void) {
 
 void UpdateEnemy(void) {
 
+	//ループ外でできることはループの外でやる
+	g_pPos = GetPosition(g_pObjectIndex);
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		if (!g_enemy[i].use) continue;
 
@@ -122,7 +139,6 @@ void UpdateEnemy(void) {
 		XMFLOAT3 scl = GetScale(g_enemy[i].objIndex);
 
 		bool isOK = true;
-
 
 		//パーツ
 		{
@@ -133,15 +149,20 @@ void UpdateEnemy(void) {
 			}
 		}
 
+
+		if (g_enemy[i].state != ENEMY_ATK) {
+			LookPlayer(&g_enemy[i]);
+		}
+
+
 		//移動
 		{
 			switch (g_enemy[i].state)
 			{
 			case ENEMY_STOP://多分OK
-				g_enemy[i].rot.y = DegToRad(((rand() % MOVE_ROT_ANGLE) - MOVE_ROT_ANGLE) / MOVE_ROT_SPEED);
+				g_enemy[i].rot.y = DegToRad(((rand() % MOVE_ROT_ANGLE) - MOVE_ROT_ANGLE / 2) / MOVE_ROT_SPEED);
 				g_enemy[i].state = ENEMY_ROTATION;
 				g_enemy[i].count = MOVE_ROT_SPEED;
-				//SetAttack(ATK_ENEMY_1, g_enemy[i].objIndex);
 				break;
 			case ENEMY_ROTATION://多分OK
 				if (g_enemy[i].count > 0) {
@@ -179,9 +200,34 @@ void UpdateEnemy(void) {
 					pos.y += g_enemy[i].vec.y;
 					pos.z += g_enemy[i].vec.z;
 					g_enemy[i].count--;
+
+					//if (g_enemy[i].state != ENEMY_ATK) {
+					//	LookPlayer(&g_enemy[i]);
+					//}
+
 				}
 				else {
 					g_enemy[i].state = ENEMY_CALCULATION;
+				}
+				break;
+			case ENEMY_ATK:
+				if (g_enemy[i].atkCount < 0) {
+					if (g_enemy[i].atkCount > -30) {
+						SetAttack(ATK_ENEMY_1, g_enemy[i].objIndex);	//MEMO:こうするとしばらく口の中に溜まっているように見えるはず
+					}
+					if(g_enemy[i].atkCount < -ATK_DELAY) {
+						g_enemy[i].state = ENEMY_CALCULATION;
+						g_enemy[i].isATK = false;
+					}
+					rot.y += g_enemy[i].rot.y;
+					g_enemy[i].rot.y -= 0.01f;
+					g_enemy[i].atkCount--;
+				}
+				else {	//ATK_DELAYの回数分待つ
+					g_enemy[i].atkCount--;
+					//回転させる（徐々に早く）
+					rot.y += g_enemy[i].rot.y;
+					g_enemy[i].rot.y += 0.01f;
 				}
 				break;
 			case ENEMY_STATE_MAX:
@@ -246,7 +292,6 @@ void UpdateEnemy(void) {
 	}
 }
 void DrawEnemy(void) {
-
 }
 
 void SetEnemy(XMFLOAT3 pos,XMFLOAT3 rot, XMFLOAT3 scl) {
@@ -271,3 +316,35 @@ int GetAliveEnemy(void) {
 }
 
 
+void LookPlayer(ENEMY* enemy) {
+	if (enemy->atkCount > 0) {
+		if (CollisionBB(GetPosition(enemy->objIndex), LOOK_PLAYER, g_pPos, LOOK_PLAYER)) {
+			enemy->isATK = true;
+			enemy->state = ENEMY_ATK;
+			enemy->atkCount = ATK_DELAY;
+			XMFLOAT3 pos = GetPosition(enemy->objIndex);
+			XMFLOAT3 rot = GetRotation(enemy->objIndex);
+
+			enemy->rot.y = 0.01f;
+
+
+
+
+
+			//D3DXVec3Normalize(&AB, &AB);
+			//D3DXVec3Normalize(&AC, &AC);
+			//float rot = acos(D3DXVec3Dot(&AB, &AC));	// 角度(なす角)を算出
+			//// 方向を算出し、-であれば反転する
+			//if (D3DXVec3Cross(&AB, &AC) < 0)
+			//{
+			//	rot = -rot;
+			//}
+			//// その後は場合に応じてデグリーやラジアンに変換し使用する
+			//例：D3DXMatrixRotationX(&Mat, D3DXToRadian(rot));
+
+		}
+	}
+	else {
+		enemy->atkCount++;
+	}
+}
