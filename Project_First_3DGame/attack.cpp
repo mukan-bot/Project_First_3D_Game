@@ -70,10 +70,6 @@ void UpdateAttack(void) {
 
 			pos = AddXMFLOAT3(pos, vec);
 			SetPosition(index, pos);
-
-			index = g_atk[i].fieldColObjIndex;
-
-			SetPosition(index, pos);
 			break;
 		//ENEMYのは設置したタイミングのプレイヤーの座標へ移動
 		case(ATK_ENEMY_1):
@@ -85,6 +81,10 @@ void UpdateAttack(void) {
 			break;
 		}
 
+
+		index = g_atk[i].fieldColObjIndex;
+
+		SetPosition(index, pos);
 
 
 		if (GetColAns(g_atk[i].fieldColIndex)) {
@@ -160,7 +160,7 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			index = g_atk[i].fieldColObjIndex = GetColObjectIndex(g_atk[i].fieldColIndex);
 			SetPosition(index, pos);
 			SetRotation(index, rot);
-			SetScale(index, XMFLOAT3(0.01f, 0.01f, 0.01f));
+			SetScale(index, XMFLOAT3(0.001f, 0.001f, 0.001f));
 
 			//見た目
 			SetParticle(g_atk[i].colObjIndex, PLAYER_ATK1, XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f));

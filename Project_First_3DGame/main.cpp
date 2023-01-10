@@ -12,6 +12,7 @@
 #include "GameObject.h"
 #include "GameModel.h"
 #include "text.h"
+#include "light.h"
 
 #include "M_title.h"
 #include "M_game.h"
@@ -228,6 +229,9 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	//レンダー
 	InitRenderer(hInstance, hWnd, bWindow);
 
+	//ライト
+	InitLight();
+
 	//text
 	Init_text();
 
@@ -285,6 +289,8 @@ void Update(void){
 	default:
 		break;
 	}
+
+	UpdateLight();
 }
 
 //=============================================================================
@@ -326,7 +332,7 @@ void Draw(void){
 	Draw_text();
 
 	// ライティングを有効に
-	SetLightEnable(false);	//TODO:ライト作ったらtrueに変える
+	SetLightEnable(true);	//TODO:ライト作ったらtrueに変える
 
 	// Z比較あり
 	SetDepthEnable(true);

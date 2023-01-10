@@ -21,7 +21,7 @@
 #define MOVE_FRONT_SPEED	(30)
 
 #define ATK_DELAY		(60)	//プレイヤーを見つけてから(口を開けてから)60F後に攻撃を発射
-#define LOOK_PLAYER		(XMFLOAT3(20.0f,20.0f,20.0f))	//プレイヤーを探知できる範囲
+#define LOOK_PLAYER		(XMFLOAT3(40.0f,40.0f,40.0f))	//プレイヤーを探知できる範囲
 
 enum ENEMY_STATE{
 	ENEMY_STOP,

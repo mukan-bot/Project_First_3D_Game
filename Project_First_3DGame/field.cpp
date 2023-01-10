@@ -25,7 +25,7 @@ static char* g_modelPath[FIELD_MODEL_MAX][3]{
 	{"./data/MODEL/field/cone.obj" ,"Cone","0"},
 	{"./data/MODEL/field/Ground001.obj" ,"Ground001","1"},
 	{"./data/MODEL/field/Ground002.obj" ,"Ground002","1"},
-	{"./data/MODEL/field/Ground003.obj" ,"Ground003","2"},
+	{"./data/MODEL/field/Ground003.obj" ,"Ground003","1"},
 
 };
 

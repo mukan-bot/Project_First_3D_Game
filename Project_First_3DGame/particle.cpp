@@ -195,7 +195,7 @@ void DrawParticle(void){
 	SetBlendState(BLEND_MODE_ALPHABLEND);
 
 	// フォグ有効
-	SetFogEnable(false);	//TODO:あとで変える
+	SetFogEnable(true);
 
 }
 

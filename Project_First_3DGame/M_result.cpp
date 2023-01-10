@@ -35,7 +35,7 @@ void DrawResult(void) {
 	DrawResultUI();
 
 	// ライティングを有効に
-	SetLightEnable(false);	//TODO:ライト作ったらtrueに変える
+	SetLightEnable(true);	//TODO:ライト作ったらtrueに変える
 	// Z比較あり
 	SetDepthEnable(true);
 }

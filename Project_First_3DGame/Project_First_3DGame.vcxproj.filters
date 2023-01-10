@@ -135,8 +135,11 @@
     <ClCompile Include="result_bg.cpp">
       <Filter>モード\リザルト\ソース</Filter>
     </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>システム\DX11</Filter>
+    </ClCompile>
     <ClCompile Include="result_ui.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>モード\リザルト\ソース</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,8 +221,11 @@
     <ClInclude Include="result_bg.h">
       <Filter>モード\リザルト\ヘッダー</Filter>
     </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>システム\DX11</Filter>
+    </ClInclude>
     <ClInclude Include="result_ui.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>モード\リザルト\ヘッダー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

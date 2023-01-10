@@ -26,7 +26,7 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 	//ボタンの名前を整える
 	//TODO:ボタン配置はプレイしやすいように調整する
 	//TODO:マウス操作は要検証
-	for (int i = 0; i < BUTTON_MAX; i++){
+	for (int i = 0; i < BUTTON_MAX; i++) {
 		ButtonName name = (ButtonName)i;
 		switch (name)
 		{
@@ -112,6 +112,44 @@ int GetInputPress(ButtonName button, int padNo) {
 		case XBOX:
 			XINPUT_STATE state = GetXinput(padNo);
 			if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+
+			else {
+				// デッドゾーン以下を0にする
+				if (state.Gamepad.sThumbLX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2 &&
+					state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2) {
+					state.Gamepad.sThumbLX = 0;
+				}
+				if (state.Gamepad.sThumbLY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2 &&
+					state.Gamepad.sThumbLY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2){
+					state.Gamepad.sThumbLY = 0;
+				}
+
+				switch (button)
+				{
+				case MOVE_FRONT:
+					if (state.Gamepad.sThumbLY > 0) {
+						ans = true;
+					}
+					break;
+				case MOVE_BACK:
+					if (state.Gamepad.sThumbLY < 0) {
+						ans = true;
+					}
+					break;
+				case MOVE_LEFT:
+					if (state.Gamepad.sThumbLX < 0) {
+						ans = true;
+					}
+					break;
+				case MOVE_RIGHT:
+					if (state.Gamepad.sThumbLX > 0) {
+						ans = true;
+					}
+					break;
+
+				}
+			}
+
 			break;
 		case PS:
 			if (IsButtonPressed(padNo, DinputName[button])) ans = true;

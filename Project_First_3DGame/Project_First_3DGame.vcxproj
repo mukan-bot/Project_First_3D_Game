@@ -156,6 +156,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="input_D.cpp" />
     <ClCompile Include="input_M.cpp" />
+    <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input_X.cpp" />
     <ClCompile Include="model.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="input_D.h" />
     <ClInclude Include="input_M.h" />
     <ClInclude Include="input_X.h" />
+    <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="M_game.h" />
