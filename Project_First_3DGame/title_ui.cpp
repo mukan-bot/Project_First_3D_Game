@@ -24,9 +24,17 @@
 #define OPTION_TEXT_POS_Y_PLUS	(80)				// テキストのYの座標の差
 
 #define TUTORIAL_TEXT_POS_X		(SCREEN_WIDTH / 2)	// テキストのXの座標
-#define TUTORIAL_TEXT_POS_Y		(100)				// テキストのYの座標
-#define TUTORIAL_TEXT_POS_Y_PLUS	(80)				// テキストのYの座標の差
+#define TUTORIAL_TEXT_POS_Y		(50)				// テキストのYの座標
+#define TUTORIAL_TEXT_POS_Y_PLUS	(30)				// テキストのYの座標の差
+#define TUTORIAL_TEXT_SIZE1	(20)	// 選択されていないときのサイズ
+#define TUTORIAL_TEXT_SIZE2	(30)	// 選択されている時のサイズ
 
+#define TUTORIAL_TEXT_MAIN	(5)
+#define TUTORIAL_TEXT_MAIN_POS_X		(SCREEN_WIDTH / 2)	// テキストのXの座標
+#define TUTORIAL_TEXT_MAIN_POS_Y		(200)				// テキストのYの座標
+#define TUTORIAL_TEXT_MAIN_POS_Y_PLUS	(70)				// テキストのYの座標の差
+#define TUTORIAL_TEXT_MAIN_SIZE1		(40)	// 選択されていないときのサイズ
+#define TUTORIAL_TEXT_MAIN_SIZE2		(50)	// 選択されている時のサイズ
 
 enum MENUE {
 	START,
@@ -45,7 +53,7 @@ enum OPTION_MENUE {
 };
 
 enum TUTORIAL {
-	TUTORIAL_KEYBOARD,
+	TUTORIAL_KEYBOARD = 0,
 	TUTORIAL_D_INPUT,
 	TUTORIAL_X_INPUT,
 	TUTORIAL_BACK,
@@ -129,10 +137,10 @@ void UpdateTitleUI(void) {
 	}
 	else if (g_isTutorial) {
 		// 選択されている物を変更する
-		if (GetInputTrigger(MOVE_FRONT)) g_optionSelect--;
-		if (GetInputTrigger(MOVE_BACK)) g_optionSelect++;
+		if (GetInputTrigger(MOVE_FRONT)) g_tutorialSelect--;
+		if (GetInputTrigger(MOVE_BACK)) g_tutorialSelect++;
 
-		g_tutorialSelect = (int)Clamp((float)g_optionSelect, 0.0, (float)OPTION_MAX - 1);
+		g_tutorialSelect = (int)Clamp((float)g_tutorialSelect, 0.0, (float)TUTORIAL_MAX - 1);
 
 		// 選択の決定
 		if (GetInputTrigger(MOVE_JUMP)) {
@@ -166,27 +174,25 @@ void UpdateTitleUI(void) {
 			switch (g_menueSelect)
 			{
 			case START:
+				//ロード画面を表示
 				TEXT text;
 				text.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 				text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 130);
 				text.size = 80;
 				SetText(text, "ナウローディング");
-
 				Clear();
 				// 2Dの物を描画する処理
 				// Z比較なし
 				SetDepthEnable(false);
 				// ライティングを無効
 				SetLightEnable(false);
-
 				Draw_text();
-
 				// ライティングを有効に
 				SetLightEnable(true);	//TODO:ライト作ったらtrueに変える
 				// Z比較あり
 				SetDepthEnable(true);
 				Present();
-
+				//ロード画面のままゲームモード移行する
 				SetMode(MODE_GAME);
 				break;
 			case OPTION:
@@ -210,6 +216,7 @@ void UpdateTitleUI(void) {
 }
 
 void DrawTitleUI(void) {
+	//タイトル画面（設定）
 	if (g_isOption) {
 		//選択されている文字の色とサイズを変える。
 		for (int i = 0; i < OPTION_MAX; i++) {
@@ -226,21 +233,86 @@ void DrawTitleUI(void) {
 		}
 	}
 
+	//タイトル画面（チュートリアル）
 	else if (g_isTutorial) {		//選択されている文字の色とサイズを変える。
-		for (int i = 0; i < OPTION_MAX; i++) {
+		for (int i = 0; i < TUTORIAL_MAX; i++) {
 			g_tutorialTextParameter[i].color = TEXT_COLOR1;
-			g_tutorialTextParameter[i].size = TEXT_SIZE1;
-			g_tutorialTextParameter[i].pos = XMFLOAT2((float)OPTION_TEXT_POS_X, (float)(OPTION_TEXT_POS_Y + (i * OPTION_TEXT_POS_Y_PLUS)));
+			g_tutorialTextParameter[i].size = TUTORIAL_TEXT_SIZE1;
+			g_tutorialTextParameter[i].pos = XMFLOAT2((float)TUTORIAL_TEXT_POS_X, (float)(TUTORIAL_TEXT_POS_Y + (i * TUTORIAL_TEXT_POS_Y_PLUS)));
 		}
 		g_tutorialTextParameter[g_tutorialSelect].color = TEXT_COLOR2;
-		g_tutorialTextParameter[g_tutorialSelect].size = TEXT_SIZE2;
+		g_tutorialTextParameter[g_tutorialSelect].size = TUTORIAL_TEXT_SIZE2;
 
-
-		for (int i = 0; i < OPTION_MAX; i++) {
+		for (int i = 0; i < TUTORIAL_MAX; i++) {
 			SetText(g_tutorialTextParameter[i], g_tutorialText[i]);
 		}
+
+
+		switch (g_tutorialSelect)
+		{
+		case KEYBOARD:
+		{
+			TEXT tutorialTextMainP[TUTORIAL_TEXT_MAIN];
+			char tutorialTextMain[TUTORIAL_TEXT_MAIN][128] = {
+				{"いどう…ＷＡＳＤ"},
+				{"ダッシュ…ＳＨＩＦＴ"},
+				{"してん…やじるしキーｏｒマウス"},
+				{"こうげき…１"},
+				{"レティクル…Ｑ"},
+			};
+			for (int i = 0; i < TUTORIAL_TEXT_MAIN; i++) {
+				tutorialTextMainP[i].color = TEXT_COLOR2;
+				tutorialTextMainP[i].size = TUTORIAL_TEXT_MAIN_SIZE1;
+				tutorialTextMainP[i].pos = XMFLOAT2((float)TUTORIAL_TEXT_MAIN_POS_X, (float)(TUTORIAL_TEXT_MAIN_POS_Y + (i * TUTORIAL_TEXT_MAIN_POS_Y_PLUS)));
+				SetText(tutorialTextMainP[i], tutorialTextMain[i]);
+			}
+			break;
+		}
+		case XBOX:
+		{
+			TEXT tutorialTextMainP[TUTORIAL_TEXT_MAIN];
+			char tutorialTextMain[TUTORIAL_TEXT_MAIN][128] = {
+				{"いどう…Ｌスティック"},
+				{"ダッシュ…Ｌ３"},
+				{"してん…Ｒスティック"},
+				{"こうげき…ＬＢ"},
+				{"レティクル…ＲＢ"},
+			};
+			for (int i = 0; i < TUTORIAL_TEXT_MAIN; i++) {
+				tutorialTextMainP[i].color = TEXT_COLOR2;
+				tutorialTextMainP[i].size = TUTORIAL_TEXT_MAIN_SIZE1;
+				tutorialTextMainP[i].pos = XMFLOAT2((float)TUTORIAL_TEXT_MAIN_POS_X, (float)(TUTORIAL_TEXT_MAIN_POS_Y + (i * TUTORIAL_TEXT_MAIN_POS_Y_PLUS)));
+				SetText(tutorialTextMainP[i], tutorialTextMain[i]);
+			}
+			break;
+		}
+		case PS:
+		{
+			TEXT tutorialTextMainP[TUTORIAL_TEXT_MAIN];
+			char tutorialTextMain[TUTORIAL_TEXT_MAIN][128] = {
+				{"いどう…Ｌスティック"},
+				{"ダッシュ…Ｌ３"},
+				{"してん…Ｒスティック"},
+				{"こうげき…Ｌ１"},
+				{"レティクル…Ｒ１"},
+			};
+			for (int i = 0; i < TUTORIAL_TEXT_MAIN; i++) {
+				tutorialTextMainP[i].color = TEXT_COLOR2;
+				tutorialTextMainP[i].size = TUTORIAL_TEXT_MAIN_SIZE1;
+				tutorialTextMainP[i].pos = XMFLOAT2((float)TUTORIAL_TEXT_MAIN_POS_X, (float)(TUTORIAL_TEXT_MAIN_POS_Y + (i * TUTORIAL_TEXT_MAIN_POS_Y_PLUS)));
+				SetText(tutorialTextMainP[i], tutorialTextMain[i]);
+			}
+			break;
+		}
+		default:
+			break;
+		}
+
+
+
 	}
 
+	//タイトル画面（メイン）
 	else {
 		//選択されている文字の色とサイズを変える。
 		for (int i = 0; i < MENUE_MAX; i++) {
@@ -261,10 +333,6 @@ void DrawTitleUI(void) {
 		text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 130);
 		text.size = 80;
 		SetText(text, "ドクロをたおすゲーム");
-
-
-
-
 	}
 
 }
