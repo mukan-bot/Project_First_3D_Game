@@ -25,7 +25,7 @@ void UpdateResult(void) {
 }
 void DrawResult(void) {
 	// 2Dの物を描画する処理
-// Z比較なし
+	// Z比較なし
 	SetDepthEnable(false);
 	// ライティングを無効
 	SetLightEnable(false);

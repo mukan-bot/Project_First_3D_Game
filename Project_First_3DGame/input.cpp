@@ -112,7 +112,6 @@ int GetInputPress(ButtonName button, int padNo) {
 		case XBOX:
 			XINPUT_STATE state = GetXinput(padNo);
 			if (state.Gamepad.wButtons & XinputName[button]) ans = true;
-
 			else {
 				// デッドゾーン以下を0にする
 				if (state.Gamepad.sThumbLX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2 &&
@@ -146,7 +145,6 @@ int GetInputPress(ButtonName button, int padNo) {
 						ans = true;
 					}
 					break;
-
 				}
 			}
 
@@ -215,42 +213,51 @@ XMFLOAT2 GetLookInput(int padNo) {
 	XMFLOAT2 ans = XMFLOAT2(0.0f, 0.0f);
 
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-		if (ans.x == 0 && ans.y == 0) {
-			if (GetKeyboardPress(DIK_UP)) ans.y--;
-			if (GetKeyboardPress(DIK_DOWN)) ans.y++;
-			if (GetKeyboardPress(DIK_RIGHT)) ans.x++;
-			if (GetKeyboardPress(DIK_LEFT)) ans.x--;
-		}
-
-		if (ans.x == 0 && ans.y == 0) {
-			ans = GetMouseVec();
-			ans.x *= g_MlookSensitive;
-			ans.y *= g_MlookSensitive;
-		}
-
-		if (ans.x == 0 && ans.y == 0) {
-			XINPUT_STATE state = GetXinputTrigger(padNo);
-
-			// デッドゾーン以下を0にする
-			if ((state.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
-				state.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) &&
-				(state.Gamepad.sThumbRY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
-					state.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE))
-			{
-				state.Gamepad.sThumbRX = 0;
-				state.Gamepad.sThumbRY = 0;
+		switch (g_selectController)
+		{
+		case KEYBOARD:
+			if (ans.x == 0 && ans.y == 0) {
+				if (GetKeyboardPress(DIK_UP)) ans.y--;
+				if (GetKeyboardPress(DIK_DOWN)) ans.y++;
+				if (GetKeyboardPress(DIK_RIGHT)) ans.x++;
+				if (GetKeyboardPress(DIK_LEFT)) ans.x--;
 			}
-			else {
-				ans.x = state.Gamepad.sThumbRX * g_XlookSensitive;
-
-				ans.y = -state.Gamepad.sThumbRY * g_XlookSensitive;
+			if (ans.x == 0 && ans.y == 0) {
+				ans = GetMouseVec();
+				ans.x *= g_MlookSensitive;
+				ans.y *= g_MlookSensitive;
 			}
-		}
+			break;
+		case XBOX:
+			if (ans.x == 0 && ans.y == 0) {
+				XINPUT_STATE state = GetXinputTrigger(padNo);
 
-		if (ans.x == 0 && ans.y == 0) {
-			//TODO:Dinputわからん
+				// デッドゾーン以下を0にする
+				if ((state.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+					state.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) &&
+					(state.Gamepad.sThumbRY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+						state.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE))
+				{
+					state.Gamepad.sThumbRX = 0;
+					state.Gamepad.sThumbRY = 0;
+				}
+				else {
+					ans.x = state.Gamepad.sThumbRX * g_XlookSensitive;
+					ans.y = -state.Gamepad.sThumbRY * g_XlookSensitive;
+				}
+			}
+			break;
+		case PS:
+			if (ans.x == 0 && ans.y == 0) {
+				//TODO:Dinputわからん
+				DIJOYSTATE dij = GetGamePad(padNo);
+				ans.x = dij.rglSlider[0] * g_XlookSensitive;
+				ans.y = dij.rglSlider[0] *g_XlookSensitive;
+			}
+			break;
+		default:
+			break;
 		}
-
 	}
 	return ans;
 }

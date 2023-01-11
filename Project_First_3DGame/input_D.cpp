@@ -541,3 +541,8 @@ BOOL IsButtonTriggered(int padNo,DWORD button)
 
 
 
+DIJOYSTATE GetGamePad(int index) {
+	DIJOYSTATE ans;
+	pGamePad[index]->GetDeviceState(sizeof(DIJOYSTATE), &ans);	// デバイス状態を読み取る
+	return ans;
+}

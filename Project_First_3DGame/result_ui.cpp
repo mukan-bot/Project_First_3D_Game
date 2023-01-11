@@ -1,3 +1,9 @@
+//=============================================================================
+//
+// Author : TakeuchiHiroto
+//
+//=============================================================================
+
 #include "result_ui.h"
 #include "input.h"
 #include "input_M.h"
@@ -11,12 +17,9 @@
 #define TEXT_SIZE2	(50)	// 選択されている時のサイズ
 
 #define MENUE_TEXT_POS_X		(SCREEN_WIDTH / 2)	// テキストのXの座標
-#define MENUE_TEXT_POS_Y		(350)				// テキストのYの座標
+#define MENUE_TEXT_POS_Y		(250)				// テキストのYの座標
 #define MENUE_TEXT_POS_Y_PLUS	(80)				// テキストのYの座標の差
 
-#define OPTION_TEXT_POS_X		(SCREEN_WIDTH / 2)	// テキストのXの座標
-#define OPTION_TEXT_POS_Y		(100)				// テキストのYの座標
-#define OPTION_TEXT_POS_Y_PLUS	(80)				// テキストのYの座標の差
 
 enum MENUE {
 	BACK_TO_TITLE,
@@ -25,25 +28,14 @@ enum MENUE {
 	MENUE_MAX,
 };
 
-enum OPTION_MENUE {
-	BGM_VOLUME,
-	SE_VOLUME,
-	LOOK_SENSITIVE,
-	BACK,
-	OPTION_MAX,
-};
-
 
 static TEXT g_menueTextParameter[MENUE_MAX];
 static int g_menueSelect;
-static bool g_isOption;
+//static bool g_isOption;
 static char g_menueText[MENUE_MAX][128] = { {"ＢＡＣＫ ＴＯ ＴＩＴＬＥ"},
 										{"ＲＥＳＴＡＲＴ"},
 										{"ＥＸＩＴ"}
 };
-static TEXT g_optionTextParameter[OPTION_MAX];
-static int g_optionSelect;
-static char g_optionText[OPTION_MAX][128] = { {"ＢＧＭ　ＶＯＬＵＭＥ"},{"ＳＥ　ＶＯＬＵＭＥ"},{"ＬＯＯＫ　ＳＥＮＳＩＴＩＶＥ"},{"ＢＡＣＫ"} };
 
 HRESULT InitResultUI(void) {
 	SetCursorMove(true);	//カーソルを動くようにしておく
@@ -54,12 +46,6 @@ HRESULT InitResultUI(void) {
 	}
 	g_menueSelect = 0;
 
-	for (int i = 0; i < OPTION_MAX; i++) {
-		g_optionTextParameter[i].color = TEXT_COLOR1;
-		g_optionTextParameter[i].size = TEXT_SIZE1;
-		g_optionTextParameter[i].pos = XMFLOAT2((float)OPTION_TEXT_POS_X, (float)(OPTION_TEXT_POS_Y + (i * OPTION_TEXT_POS_Y_PLUS)));
-	}
-	g_optionSelect = 0;
 
 	return S_OK;
 }
@@ -96,37 +82,29 @@ void UpdateResultUI(void) {
 }
 
 void DrawResultUI(void) {
+	//選択されている文字の色とサイズを変える。
+	for (int i = 0; i < MENUE_MAX; i++) {
+		g_menueTextParameter[i].color = TEXT_COLOR1;
+		g_menueTextParameter[i].size = TEXT_SIZE1;
+		g_menueTextParameter[i].pos = XMFLOAT2((float)MENUE_TEXT_POS_X, (float)(MENUE_TEXT_POS_Y + (i * MENUE_TEXT_POS_Y_PLUS)));
+	}
+	g_menueTextParameter[g_menueSelect].color = TEXT_COLOR2;
+	g_menueTextParameter[g_menueSelect].size = TEXT_SIZE2;
 
-	if (!g_isOption) {
-		//選択されている文字の色とサイズを変える。
-		for (int i = 0; i < MENUE_MAX; i++) {
-			g_menueTextParameter[i].color = TEXT_COLOR1;
-			g_menueTextParameter[i].size = TEXT_SIZE1;
-			g_menueTextParameter[i].pos = XMFLOAT2((float)MENUE_TEXT_POS_X, (float)(MENUE_TEXT_POS_Y + (i * MENUE_TEXT_POS_Y_PLUS)));
-		}
-		g_menueTextParameter[g_menueSelect].color = TEXT_COLOR2;
-		g_menueTextParameter[g_menueSelect].size = TEXT_SIZE2;
-
-
-		for (int i = 0; i < MENUE_MAX; i++) {
-			SetText(g_menueTextParameter[i], g_menueText[i]);
-		}
+	for (int i = 0; i < MENUE_MAX; i++) {
+		SetText(g_menueTextParameter[i], g_menueText[i]);
 	}
 
+
+	TEXT text;
+	text.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	text.size = 80;
+	if (GetIsClear()) {
+		text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 130);
+		SetText(text, "ゲームクリアー");
+	}
 	else {
-		//選択されている文字の色とサイズを変える。
-		for (int i = 0; i < OPTION_MAX; i++) {
-			g_optionTextParameter[i].color = TEXT_COLOR1;
-			g_optionTextParameter[i].size = TEXT_SIZE1;
-			g_optionTextParameter[i].pos = XMFLOAT2((float)OPTION_TEXT_POS_X, (float)(OPTION_TEXT_POS_Y + (i * OPTION_TEXT_POS_Y_PLUS)));
-		}
-		g_optionTextParameter[g_optionSelect].color = TEXT_COLOR2;
-		g_optionTextParameter[g_optionSelect].size = TEXT_SIZE2;
-
-
-		for (int i = 0; i < OPTION_MAX; i++) {
-			SetText(g_optionTextParameter[i], g_optionText[i]);
-		}
+		text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 130);
+		SetText(text, "ゲームオーバー");
 	}
-
 }

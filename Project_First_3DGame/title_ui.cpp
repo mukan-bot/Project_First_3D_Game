@@ -1,3 +1,8 @@
+//=============================================================================
+//
+// Author : TakeuchiHiroto
+//
+//=============================================================================
 #include "title_ui.h"
 #include "input.h"
 #include "input_M.h"
@@ -21,6 +26,7 @@
 enum MENUE {
 	START,
 	OPTION,
+	TUTORIAL,
 	EXIT,
 	MENUE_MAX,
 };
@@ -33,17 +39,19 @@ enum OPTION_MENUE {
 	OPTION_MAX,
 };
 
-
 static TEXT g_menueTextParameter[MENUE_MAX];
 static int g_menueSelect;
 static bool g_isOption;
 static char g_menueText[MENUE_MAX][128] = {	{"‚r‚s‚`‚q‚s"},
 										{"‚n‚o‚s‚h‚n‚m"},
+										{"‚s‚t‚s‚n‚q‚h‚`‚k"},
 										{"‚d‚w‚h‚s"} 
 };
 static TEXT g_optionTextParameter[OPTION_MAX];
 static int g_optionSelect;
 static char g_optionText[OPTION_MAX][128] = { {"‚a‚f‚l@‚u‚n‚k‚t‚l‚d"},{"‚r‚d@‚u‚n‚k‚t‚l‚d"},{"‚k‚n‚n‚j@‚r‚d‚m‚r‚h‚s‚h‚u‚d"},{"‚a‚`‚b‚j"} };
+
+static bool g_load;	//ƒ[ƒh’†‚©
 
 HRESULT InitTitleUI(void) {
 	SetCursorMove(true);	//ƒJ[ƒ\ƒ‹‚ğ“®‚­‚æ‚¤‚É‚µ‚Ä‚¨‚­
@@ -61,6 +69,7 @@ HRESULT InitTitleUI(void) {
 	}
 	g_optionSelect = 0;
 
+	g_load = false;
 	return S_OK;
 }
 void UninitTitleUI(void) {
@@ -79,11 +88,14 @@ void UpdateTitleUI(void) {
 			switch (g_menueSelect)
 			{
 			case START:
+				g_load = true;
 				SetMode(MODE_GAME);
 				break;
 			case OPTION:
 				g_optionSelect = 0;
 				g_isOption = true;
+				break;
+			case TUTORIAL:
 				break;
 			case EXIT:
 				PostQuitMessage(0);
@@ -127,6 +139,14 @@ void UpdateTitleUI(void) {
 }
 
 void DrawTitleUI(void) {
+	if (g_load) {
+		TEXT text;
+		text.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 130);
+		text.size = 80;
+		SetText(text, "ƒiƒEƒ[ƒfƒBƒ“ƒO");
+		return;
+	}
 
 	if (!g_isOption) {
 		//‘I‘ğ‚³‚ê‚Ä‚¢‚é•¶š‚ÌF‚ÆƒTƒCƒY‚ğ•Ï‚¦‚éB
@@ -142,6 +162,12 @@ void DrawTitleUI(void) {
 		for (int i = 0; i < MENUE_MAX; i++) {
 			SetText(g_menueTextParameter[i], g_menueText[i]);
 		}
+
+		TEXT text;
+		text.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2-130);
+		text.size = 80;
+		SetText(text, "ƒhƒNƒ‚ğ‚½‚¨‚·ƒQ[ƒ€");
 	}
 
 	else {

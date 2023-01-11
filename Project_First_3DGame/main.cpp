@@ -41,10 +41,10 @@ void Draw(void);
 // グローバル変数:
 //*****************************************************************************
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 int		g_CountFPS;							// FPSカウンタ
 char	g_DebugStr[2048] = WINDOW_NAME;		// デバッグ文字表示用
-#endif
+//#endif
 
 PLAY_MODE g_Mode = MODE_TITLE;
 
@@ -147,9 +147,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if ((dwCurrentTime - dwFPSLastTime) >= 1000)	// 1秒ごとに実行
 			{
-#ifdef _DEBUG
+//#ifdef _DEBUG
 				g_CountFPS = dwFrameCount;
-#endif
+//#endif
 				dwFPSLastTime = dwCurrentTime;				// FPSを測定した時刻を保存
 				dwFrameCount = 0;							// カウントをクリア
 			}
@@ -157,10 +157,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			{
 				dwExecLastTime = dwCurrentTime;	// 処理した時刻を保存
 
-#ifdef _DEBUG	// デバッグ版の時だけFPSを表示する
+//#ifdef _DEBUG	// デバッグ版の時だけFPSを表示する
 				wsprintf(g_DebugStr, WINDOW_NAME);
 				wsprintf(&g_DebugStr[strlen(g_DebugStr)], " FPS:%d", g_CountFPS);
-#endif
+//#endif
 
 
 				//ウインドウがアクティブか判断
@@ -172,9 +172,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				Update();			// 更新処理
 				Draw();				// 描画処理
 
-#ifdef _DEBUG	// デバッグ版の時だけ表示する
+//#ifdef _DEBUG	// デバッグ版の時だけ表示する
 				SetWindowText(hWnd, g_DebugStr);
-#endif
+//#endif
 
 
 				dwFrameCount++;
