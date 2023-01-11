@@ -23,6 +23,11 @@
 #define OPTION_TEXT_POS_Y		(100)				// ƒeƒLƒXƒg‚ÌY‚ÌÀ•W
 #define OPTION_TEXT_POS_Y_PLUS	(80)				// ƒeƒLƒXƒg‚ÌY‚ÌÀ•W‚Ì·
 
+#define TUTORIAL_TEXT_POS_X		(SCREEN_WIDTH / 2)	// ƒeƒLƒXƒg‚ÌX‚ÌÀ•W
+#define TUTORIAL_TEXT_POS_Y		(100)				// ƒeƒLƒXƒg‚ÌY‚ÌÀ•W
+#define TUTORIAL_TEXT_POS_Y_PLUS	(80)				// ƒeƒLƒXƒg‚ÌY‚ÌÀ•W‚Ì·
+
+
 enum MENUE {
 	START,
 	OPTION,
@@ -39,6 +44,14 @@ enum OPTION_MENUE {
 	OPTION_MAX,
 };
 
+enum TUTORIAL {
+	TUTORIAL_KEYBOARD,
+	TUTORIAL_D_INPUT,
+	TUTORIAL_X_INPUT,
+	TUTORIAL_BACK,
+	TUTORIAL_MAX,
+};
+
 static TEXT g_menueTextParameter[MENUE_MAX];
 static int g_menueSelect;
 static bool g_isOption;
@@ -49,8 +62,19 @@ static char g_menueText[MENUE_MAX][128] = {	{"‚r‚s‚`‚q‚s"},
 };
 static TEXT g_optionTextParameter[OPTION_MAX];
 static int g_optionSelect;
-static char g_optionText[OPTION_MAX][128] = { {"‚a‚f‚l@‚u‚n‚k‚t‚l‚d"},{"‚r‚d@‚u‚n‚k‚t‚l‚d"},{"‚k‚n‚n‚j@‚r‚d‚m‚r‚h‚s‚h‚u‚d"},{"‚a‚`‚b‚j"} };
+static char g_optionText[OPTION_MAX][128] = { {"‚a‚f‚l@‚u‚n‚k‚t‚l‚d"},
+											{"‚r‚d@‚u‚n‚k‚t‚l‚d"},
+											{"‚k‚n‚n‚j@‚r‚d‚m‚r‚h‚s‚h‚u‚d"},
+											{"‚a‚`‚b‚j"} };
 
+static TEXT g_tutorialTextParameter[MENUE_MAX];
+static int g_tutorialSelect;
+static bool g_isTutorial;
+static char g_tutorialText[TUTORIAL_MAX][128] = { {"ƒL[ƒ{[ƒh"},
+												{"‚c‚‰‚’‚…‚ƒ‚”‚h‚‚‚•‚”"},
+												{"‚w‚h‚‚‚•‚”"},
+												{"‚a‚`‚b‚j"}
+};
 static bool g_load;	//ƒ[ƒh’†‚©
 
 HRESULT InitTitleUI(void) {
@@ -76,39 +100,7 @@ void UninitTitleUI(void) {
 }
 void UpdateTitleUI(void) {
 
-	if (!g_isOption) {
-		// ‘I‘ğ‚³‚ê‚Ä‚¢‚é•¨‚ğ•ÏX‚·‚é
-		if (GetInputTrigger(MOVE_FRONT)) g_menueSelect--;
-		if (GetInputTrigger(MOVE_BACK)) g_menueSelect++;
-
-		g_menueSelect = (int)Clamp((float)g_menueSelect, 0.0, (float)MENUE_MAX - 1);
-
-		// ‘I‘ğ‚ÌŒˆ’è
-		if (GetInputTrigger(MOVE_JUMP)) {
-			switch (g_menueSelect)
-			{
-			case START:
-				g_load = true;
-				SetMode(MODE_GAME);
-				break;
-			case OPTION:
-				g_optionSelect = 0;
-				g_isOption = true;
-				break;
-			case TUTORIAL:
-				break;
-			case EXIT:
-				PostQuitMessage(0);
-				break;
-			case MENUE_MAX:
-				break;
-			default:
-				break;
-			}
-		}
-	}
-
-	else{
+	if (g_isOption) {
 		// ‘I‘ğ‚³‚ê‚Ä‚¢‚é•¨‚ğ•ÏX‚·‚é
 		if (GetInputTrigger(MOVE_FRONT)) g_optionSelect--;
 		if (GetInputTrigger(MOVE_BACK)) g_optionSelect++;
@@ -134,6 +126,67 @@ void UpdateTitleUI(void) {
 				break;
 			}
 		}
+
+
+	}
+	else if (g_isTutorial) {
+		// ‘I‘ğ‚³‚ê‚Ä‚¢‚é•¨‚ğ•ÏX‚·‚é
+		if (GetInputTrigger(MOVE_FRONT)) g_optionSelect--;
+		if (GetInputTrigger(MOVE_BACK)) g_optionSelect++;
+
+		g_tutorialSelect = (int)Clamp((float)g_optionSelect, 0.0, (float)OPTION_MAX - 1);
+
+		// ‘I‘ğ‚ÌŒˆ’è
+		if (GetInputTrigger(MOVE_JUMP)) {
+			switch (g_tutorialSelect)
+			{
+			case TUTORIAL_KEYBOARD:
+				break;
+			case TUTORIAL_D_INPUT:
+				break;
+			case TUTORIAL_X_INPUT:
+				break;
+			case TUTORIAL_BACK:
+				g_isTutorial = false;
+				break;
+			case TUTORIAL_MAX:
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	else{
+		// ‘I‘ğ‚³‚ê‚Ä‚¢‚é•¨‚ğ•ÏX‚·‚é
+		if (GetInputTrigger(MOVE_FRONT)) g_menueSelect--;
+		if (GetInputTrigger(MOVE_BACK)) g_menueSelect++;
+
+		g_menueSelect = (int)Clamp((float)g_menueSelect, 0.0, (float)MENUE_MAX - 1);
+
+		// ‘I‘ğ‚ÌŒˆ’è
+		if (GetInputTrigger(MOVE_JUMP)) {
+			switch (g_menueSelect)
+			{
+			case START:
+				g_load = true;
+				SetMode(MODE_GAME);
+				break;
+			case OPTION:
+				g_optionSelect = 0;
+				g_isOption = true;
+				break;
+			case TUTORIAL:
+				g_isTutorial = true;
+				break;
+			case EXIT:
+				PostQuitMessage(0);
+				break;
+			case MENUE_MAX:
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 }
@@ -148,7 +201,38 @@ void DrawTitleUI(void) {
 		return;
 	}
 
-	if (!g_isOption) {
+	if (g_isOption) {
+		//‘I‘ğ‚³‚ê‚Ä‚¢‚é•¶š‚ÌF‚ÆƒTƒCƒY‚ğ•Ï‚¦‚éB
+		for (int i = 0; i < OPTION_MAX; i++) {
+			g_optionTextParameter[i].color = TEXT_COLOR1;
+			g_optionTextParameter[i].size = TEXT_SIZE1;
+			g_optionTextParameter[i].pos = XMFLOAT2((float)OPTION_TEXT_POS_X, (float)(OPTION_TEXT_POS_Y + (i * OPTION_TEXT_POS_Y_PLUS)));
+		}
+		g_optionTextParameter[g_optionSelect].color = TEXT_COLOR2;
+		g_optionTextParameter[g_optionSelect].size = TEXT_SIZE2;
+
+
+		for (int i = 0; i < OPTION_MAX; i++) {
+			SetText(g_optionTextParameter[i], g_optionText[i]);
+		}
+	}
+
+	else if (g_isTutorial) {		//‘I‘ğ‚³‚ê‚Ä‚¢‚é•¶š‚ÌF‚ÆƒTƒCƒY‚ğ•Ï‚¦‚éB
+		for (int i = 0; i < OPTION_MAX; i++) {
+			g_tutorialTextParameter[i].color = TEXT_COLOR1;
+			g_tutorialTextParameter[i].size = TEXT_SIZE1;
+			g_tutorialTextParameter[i].pos = XMFLOAT2((float)OPTION_TEXT_POS_X, (float)(OPTION_TEXT_POS_Y + (i * OPTION_TEXT_POS_Y_PLUS)));
+		}
+		g_tutorialTextParameter[g_tutorialSelect].color = TEXT_COLOR2;
+		g_tutorialTextParameter[g_tutorialSelect].size = TEXT_SIZE2;
+
+
+		for (int i = 0; i < OPTION_MAX; i++) {
+			SetText(g_tutorialTextParameter[i], g_tutorialText[i]);
+		}
+	}
+
+	else {
 		//‘I‘ğ‚³‚ê‚Ä‚¢‚é•¶š‚ÌF‚ÆƒTƒCƒY‚ğ•Ï‚¦‚éB
 		for (int i = 0; i < MENUE_MAX; i++) {
 			g_menueTextParameter[i].color = TEXT_COLOR1;
@@ -165,25 +249,13 @@ void DrawTitleUI(void) {
 
 		TEXT text;
 		text.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2-130);
+		text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 130);
 		text.size = 80;
 		SetText(text, "ƒhƒNƒ‚ğ‚½‚¨‚·ƒQ[ƒ€");
-	}
-
-	else {
-		//‘I‘ğ‚³‚ê‚Ä‚¢‚é•¶š‚ÌF‚ÆƒTƒCƒY‚ğ•Ï‚¦‚éB
-		for (int i = 0; i < OPTION_MAX; i++) {
-			g_optionTextParameter[i].color = TEXT_COLOR1;
-			g_optionTextParameter[i].size = TEXT_SIZE1;
-			g_optionTextParameter[i].pos = XMFLOAT2((float)OPTION_TEXT_POS_X, (float)(OPTION_TEXT_POS_Y + (i * OPTION_TEXT_POS_Y_PLUS)));
-		}
-		g_optionTextParameter[g_optionSelect].color = TEXT_COLOR2;
-		g_optionTextParameter[g_optionSelect].size = TEXT_SIZE2;
 
 
-		for (int i = 0; i < OPTION_MAX; i++) {
-			SetText(g_optionTextParameter[i], g_optionText[i]);
-		}
+
+
 	}
 
 }
