@@ -75,7 +75,6 @@ static char g_tutorialText[TUTORIAL_MAX][128] = { {"キーボード"},
 												{"ＸＩｎｐｕｔ"},
 												{"ＢＡＣＫ"}
 };
-static bool g_load;	//ロード中か
 
 HRESULT InitTitleUI(void) {
 	SetCursorMove(true);	//カーソルを動くようにしておく
@@ -93,7 +92,6 @@ HRESULT InitTitleUI(void) {
 	}
 	g_optionSelect = 0;
 
-	g_load = false;
 	return S_OK;
 }
 void UninitTitleUI(void) {
@@ -168,7 +166,27 @@ void UpdateTitleUI(void) {
 			switch (g_menueSelect)
 			{
 			case START:
-				g_load = true;
+				TEXT text;
+				text.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+				text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 130);
+				text.size = 80;
+				SetText(text, "ナウローディング");
+
+				Clear();
+				// 2Dの物を描画する処理
+				// Z比較なし
+				SetDepthEnable(false);
+				// ライティングを無効
+				SetLightEnable(false);
+
+				Draw_text();
+
+				// ライティングを有効に
+				SetLightEnable(true);	//TODO:ライト作ったらtrueに変える
+				// Z比較あり
+				SetDepthEnable(true);
+				Present();
+
 				SetMode(MODE_GAME);
 				break;
 			case OPTION:
@@ -192,15 +210,6 @@ void UpdateTitleUI(void) {
 }
 
 void DrawTitleUI(void) {
-	if (g_load) {
-		TEXT text;
-		text.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 130);
-		text.size = 80;
-		SetText(text, "ナウローディング");
-		return;
-	}
-
 	if (g_isOption) {
 		//選択されている文字の色とサイズを変える。
 		for (int i = 0; i < OPTION_MAX; i++) {
