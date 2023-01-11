@@ -16,9 +16,6 @@
 #include "enemy.h"
 
 
-
-
-
 HRESULT InitGame(void) {
 	InitGameObject();
 
@@ -61,19 +58,25 @@ void UninitGame(void) {
 
 }
 void UpdateGame(void) {
+
+
 	UpdateCollision();
 	UpdatePlayer();
 	UpdateEnemy();
+
+
 	UpdateAttack();
 
 	UpdateUI();
 	UpdateParticle();
 
 	UpdateField();
+
 }
 
 
 void DrawGame(void) {
+
 	DrawPlayer();
 	DrawEnemy();
 	DrawAttack();

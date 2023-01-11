@@ -327,21 +327,6 @@ void LookPlayer(ENEMY* enemy) {
 
 			enemy->rot.y = 0.01f;
 
-
-
-
-
-			//D3DXVec3Normalize(&AB, &AB);
-			//D3DXVec3Normalize(&AC, &AC);
-			//float rot = acos(D3DXVec3Dot(&AB, &AC));	// 角度(なす角)を算出
-			//// 方向を算出し、-であれば反転する
-			//if (D3DXVec3Cross(&AB, &AC) < 0)
-			//{
-			//	rot = -rot;
-			//}
-			//// その後は場合に応じてデグリーやラジアンに変換し使用する
-			//例：D3DXMatrixRotationX(&Mat, D3DXToRadian(rot));
-
 		}
 	}
 	else {

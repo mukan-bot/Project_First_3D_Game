@@ -47,7 +47,6 @@ void UpdateAttack(void) {
 		// ìñÇΩÇ¡ÇΩÇÁçÌèú
 		if (GetColAns(g_atk[i].colIndex)) {
 			DelAtack(i);
-			OutputDebug("Hit\n");
 			continue;
 		}
 		
@@ -91,7 +90,6 @@ void UpdateAttack(void) {
 			DelAtack(i);
 			continue;
 		}
-		
 		g_atk[i].countFlame++;
 	}
 }

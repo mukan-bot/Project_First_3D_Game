@@ -53,7 +53,7 @@ void InitPlayer(void) {
 	SetPosition(index, GetPosition(g_objIndex));
 
 
-	g_HP = 10;
+	g_HP = 100;
 }
 
 void UninitPlayer(void) {
@@ -143,7 +143,6 @@ void UpdatePlayer(void) {
 
 		//ˆÚ“®‚É‘Î‚·‚é“–‚½‚è”»’è‚ÌXV
 		int index = GetColObjectIndex(g_colIndex);
-		//XMFLOAT3 pos = GetPosition(g_objIndex);
 		SetPosition(index, pos);
 
 
