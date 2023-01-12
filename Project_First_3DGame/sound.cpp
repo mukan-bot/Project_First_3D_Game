@@ -33,10 +33,10 @@ DWORD g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
 // 各音素材のパラメータ（-１BGM：0SE）
 SOUNDPARAM g_aParam[SOUND_LABEL_MAX] =
 {
-	{ (char*)"data/bgm/8bit_result_kati.wav", -1 },	// 
-	{ (char*)"data/bgm/8bit_result_make.wav", -1 },	// 
-	{ (char*)"data/bgm/8bit_game.wav", -1 },	// 
-	{ (char*)"data/bgm/8bit_title.wav", -1 },	// 
+	{ (char*)"data/BGM/title.wav", -1 },	// 
+	{ (char*)"data/BGM/game.wav", -1 },	// 
+	{ (char*)"data/BGM/kati.wav", -1 },	// 
+	{ (char*)"data/BGM/make.wav", -1 },	// 
 
 
 	{ (char*)"data/SE/botton1.wav", 0 },	// 

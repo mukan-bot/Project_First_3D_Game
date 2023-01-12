@@ -85,9 +85,10 @@ static char g_tutorialText[TUTORIAL_MAX][128] = { {"キーボード"},
 												{"ＢＡＣＫ"}
 };
 
-//optionのサウンドボリュームで使うやtu 
+//optionのサウンドボリュームで使うやつ
 float g_temp_bgm_vol;
 float g_temp_se_vol;
+float g_temp_sensitive;
 
 HRESULT InitTitleUI(void) {
 	SetCursorMove(true);	//カーソルを動くようにしておく
@@ -111,6 +112,9 @@ HRESULT InitTitleUI(void) {
 	
 	Sound_BGM_Volume(g_temp_bgm_vol);
 	Sound_SE_Volume(g_temp_se_vol);
+
+	g_temp_sensitive = 0.00003f;
+	SetInputSensitive(g_temp_sensitive);
 
 	return S_OK;
 }
@@ -193,6 +197,38 @@ void UpdateTitleUI(void) {
 			}
 			break;
 		case LOOK_SENSITIVE:
+			if (GetInputPress(MOVE_JUMP)) {
+				if (GetInputTrigger(MOVE_LEFT)) {
+					PlaySound(SOUND_LABEL_SE_select2);
+					g_temp_sensitive -= 0.000001f;
+					g_temp_sensitive = Clamp(g_temp_sensitive * 10000000, 0.0f, 1000.0f);
+					g_temp_sensitive /= 10000000.0f;
+					SetInputSensitive(g_temp_sensitive);
+				}
+				if (GetInputTrigger(MOVE_RIGHT)) {
+					PlaySound(SOUND_LABEL_SE_select2);
+					g_temp_sensitive += 0.000001f;
+					g_temp_sensitive = Clamp(g_temp_sensitive * 10000000, 0.0f, 1000.0f);
+					g_temp_sensitive /= 10000000.0f;
+					SetInputSensitive(g_temp_sensitive);
+				}
+			}
+			else {
+				if (GetInputTrigger(MOVE_LEFT)) {
+					PlaySound(SOUND_LABEL_SE_select2);
+					g_temp_sensitive -= 0.0000001f;
+					g_temp_sensitive = Clamp(g_temp_sensitive * 10000000, 0.0f, 1000.0f);
+					g_temp_sensitive /= 10000000.0f;
+					SetInputSensitive(g_temp_sensitive);
+				}
+				if (GetInputTrigger(MOVE_RIGHT)) {
+					PlaySound(SOUND_LABEL_SE_select2);
+					g_temp_sensitive += 0.0000001f;
+					g_temp_sensitive = Clamp(g_temp_sensitive * 10000000, 0.0f, 1000.0f);
+					g_temp_sensitive /= 10000000.0f;
+					SetInputSensitive(g_temp_sensitive);
+				}
+			}
 			break;
 		case BACK:
 			if (GetInputTrigger(MOVE_JUMP)) {
@@ -332,6 +368,9 @@ void DrawTitleUI(void) {
 				break;
 			case(SE_VOLUME):
 				SetText_d(g_optionTextParameter[i], g_temp_se_vol * 100);
+				break;
+			case(LOOK_SENSITIVE):
+				SetText_d(g_optionTextParameter[i], GetInputSensitive() * 10000000);
 				break;
 			default:
 				break;

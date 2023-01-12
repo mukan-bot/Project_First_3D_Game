@@ -14,10 +14,10 @@
 //*****************************************************************************
 enum
 {
-	SOUND_LABEL_BGM_resultKati,	// BGM0
-	SOUND_LABEL_BGM_resultMake,	// BGM1
-	SOUND_LABEL_BGM_game,		// BGM2
-	SOUND_LABEL_BGM_title,		// BGM3
+	SOUND_LABEL_BGM_title,	// BGM0
+	SOUND_LABEL_BGM_game,	// BGM1
+	SOUND_LABEL_BGM_result_kati,		// BGM2
+	SOUND_LABEL_BGM_result_make,		// BGM3
 
 	SOUND_LABEL_SE_select1,	// 選択１
 	SOUND_LABEL_SE_select2,// 選択２

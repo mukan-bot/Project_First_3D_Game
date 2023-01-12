@@ -8,6 +8,7 @@
 #include "particle.h"
 #include "UI.h"
 #include "light.h"
+#include "sound.h"
 
 #include "player.h"
 
@@ -48,6 +49,12 @@ void UpdateAttack(void) {
 		// ìñÇΩÇ¡ÇΩÇÁçÌèú
 		if (GetColAns(g_atk[i].colIndex)) {
 			DelAtack(i);
+			if (g_atk[i].type == ATK_ENEMY_1 || g_atk[i].type == ATK_ENEMY_2) {
+				PlaySound(SOUND_LABEL_SE_select1);
+			}
+			else {
+				PlaySound(SOUND_LABEL_SE_select2);
+			}
 			continue;
 		}
 		

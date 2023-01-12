@@ -9,6 +9,7 @@
 #include "player.h"
 #include "collision.h"
 #include "attack.h"
+#include "sound.h"
 
 #define ENEMY_MAX	(20)
 
@@ -260,6 +261,7 @@ void UpdateEnemy(void) {
 				g_enemy[i].HP--;
 			}
 			if (g_enemy[i].HP < 0) {
+				PlaySound(SOUND_LABEL_SE_wana3);
 				DelGameObject(g_enemy[i].objIndex);
 				DelCollision(g_enemy[i].colIndex);
 				DelCollision(g_enemy[i].hitColIndex);

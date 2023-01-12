@@ -11,3 +11,5 @@ void DrawPlayer(void);
 int GetPlayerGameObjectIndex(void);
 int GetPlayerColObjectIndex(void);
 int GetPlayerHitColObjectIndex(void);
+
+int GetPlayerHP(void);

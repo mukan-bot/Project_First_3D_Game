@@ -14,9 +14,7 @@ int KeyName[BUTTON_MAX];
 DWORD DinputName[BUTTON_MAX];
 DWORD XinputName[BUTTON_MAX];
 
-float g_XlookSensitive = 0.00003f;
-float g_MlookSensitive = 0.01f;
-
+float g_lookSensitive = 0.00003f;
 SELECT_CONTROLLER g_selectController = KEYBOARD;
 
 
@@ -224,8 +222,8 @@ XMFLOAT2 GetLookInput(int padNo) {
 			}
 			if (ans.x == 0 && ans.y == 0) {
 				ans = GetMouseVec();
-				ans.x *= g_MlookSensitive;
-				ans.y *= g_MlookSensitive;
+				ans.x *= g_lookSensitive * 500;
+				ans.y *= g_lookSensitive * 500;
 			}
 			break;
 		case XBOX:
@@ -242,8 +240,8 @@ XMFLOAT2 GetLookInput(int padNo) {
 					state.Gamepad.sThumbRY = 0;
 				}
 				else {
-					ans.x = state.Gamepad.sThumbRX * g_XlookSensitive;
-					ans.y = -state.Gamepad.sThumbRY * g_XlookSensitive;
+					ans.x = state.Gamepad.sThumbRX * g_lookSensitive;
+					ans.y = -state.Gamepad.sThumbRY * g_lookSensitive;
 				}
 			}
 			break;
@@ -251,18 +249,18 @@ XMFLOAT2 GetLookInput(int padNo) {
 			//コントローラーによってデータが乗ってるところが違うのなんで？
 			DIJOYSTATE dij = GetGamePad(padNo);
 			if (ans.x == 0 && ans.y == 0) {
-				ans.x = dij.rglSlider[0] * g_XlookSensitive;
-				ans.y = dij.rglSlider[1] * g_XlookSensitive;
+				ans.x = dij.rglSlider[0] * g_lookSensitive;
+				ans.y = dij.rglSlider[1] * g_lookSensitive;
 
 			}
 			if (ans.x == 0 && ans.y == 0) {
 				dij.lZ -= D_INPUT_MEDIAN;
 				dij.lRz -= D_INPUT_MEDIAN;
 				if (fabsf(dij.lZ) > D_INPUT_DEAD_ZONE) {
-					ans.x = dij.lZ * g_XlookSensitive;
+					ans.x = dij.lZ * g_lookSensitive;
 				}
 				if (fabsf(dij.lRz) > D_INPUT_DEAD_ZONE) {
-					ans.y = dij.lRz * g_XlookSensitive;
+					ans.y = dij.lRz * g_lookSensitive;
 				}
 			}
 			break;
@@ -273,11 +271,11 @@ XMFLOAT2 GetLookInput(int padNo) {
 	return ans;
 }
 
-void SetXinputSensitive(float sensitive) {
-	g_XlookSensitive = sensitive;
+void SetInputSensitive(float sensitive) {
+	g_lookSensitive = sensitive;
 }
-float GetXinputSensitive(void) {
-	return g_XlookSensitive;
+float GetInputSensitive(void) {
+	return g_lookSensitive;
 }
 
 void SetSelectController(SELECT_CONTROLLER select) {

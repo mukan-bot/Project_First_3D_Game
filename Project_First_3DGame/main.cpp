@@ -357,10 +357,13 @@ void SetMode(PLAY_MODE mode) {
 	UninitTitle();
 	UninitResult();
 
+	StopSound();
+
 	//MEMO:モードごとの初期化処理
 	switch (mode)
 	{
 	case MODE_TITLE:
+		PlaySound(SOUND_LABEL_BGM_title);
 		UninitGame();	//MEMO:リザルトの背景で使いたいからここで終了処理をする
 		InitTitle();
 		SetCursorMove(true);
@@ -369,12 +372,19 @@ void SetMode(PLAY_MODE mode) {
 	case MODE_TUTORIAL:
 		break;
 	case MODE_GAME:
+		PlaySound(SOUND_LABEL_BGM_game);
 		InitGame();
 		ShowCursor(false);
 		SetCursorMove(false);
 		ShowCursor(false);
 		break;
 	case MODE_RESULT:
+		if (GetIsClear) {
+			PlaySound(SOUND_LABEL_BGM_result_kati);
+		}
+		else {
+			PlaySound(SOUND_LABEL_BGM_result_make);
+		}
 		InitResult();
 		SetCursorMove(true);
 		ShowCursor(true);

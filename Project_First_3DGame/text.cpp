@@ -239,4 +239,7 @@ void SetText_d(TEXT text_p, int d) {
 		d /= 10;
 		text_p.pos.x -= text_p.size;
 	}
+	if (d == 0) {
+		SetText(text_p, "‚O");
+	}
 }

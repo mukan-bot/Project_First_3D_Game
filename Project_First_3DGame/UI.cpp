@@ -8,6 +8,7 @@
 #include "UI.h"
 #include "enemy.h"
 #include "text.h"
+#include "player.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -115,10 +116,13 @@ void UpdateUI(void) {
 	SetText(text, "‚`‚k‚h‚u‚d@‚d‚m‚d‚l‚x");
 	text.pos = XMFLOAT2(400.0f, 30.0f);
 	SetText_d(text, GetAliveEnemy());
+	text.pos = XMFLOAT2(180.0f, 70.0f);
+	SetText(text, "‚o‚k‚`‚x‚d‚q ‚g‚o");
+	text.pos = XMFLOAT2(400.0f, 70.0f);
+	SetText_d(text, GetPlayerHP());
+
 }
 void DrawUI(void) {
-
-	//SetAlphaTestEnable(true);
 
 	// ’¸“_ƒoƒbƒtƒ@İ’è
 	UINT stride = sizeof(VERTEX_3D);

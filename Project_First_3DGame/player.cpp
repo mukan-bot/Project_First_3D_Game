@@ -11,6 +11,7 @@
 #include "field.h"
 #include "attack.h"
 #include "UI.h"
+#include "sound.h"
 
 #define MOVE_POWER	(0.12f)
 #define DASH_POWER	(0.12f)
@@ -176,6 +177,7 @@ void UpdatePlayer(void) {
 			ui->use = true;
 			g_isAiming = true;
 			if (GetInputPress(ATK_1)) {
+
 				int index = SetGameObject();
 				pos.y += CAMERA_OFFSET;
 
@@ -190,9 +192,8 @@ void UpdatePlayer(void) {
 
 				SetRotation(index, rot);
 				SetScale(index, scl);
-				//UŒ‚—Í‚ð’²®‚·‚é‚½‚ß‚É“ñ‰ñSet‚·‚é
+				
 				SetAttack(ATK_PLAYER_1, index);
-				//SetAttack(ATK_PLAYER_1, index);
 				DelGameObject(index);
 			}
 		}
@@ -202,6 +203,7 @@ void UpdatePlayer(void) {
 			ui->use = false;
 			g_isAiming = false;
 			if (GetInputPress(ATK_1)) {
+				
 				int index = SetGameObject();
 				pos.y += CAMERA_OFFSET;
 
@@ -250,4 +252,8 @@ int GetPlayerColObjectIndex(void) {
 }
 int GetPlayerHitColObjectIndex(void) {
 	return g_hitColIndex;
+}
+
+int GetPlayerHP(void) {
+	return g_HP;
 }
