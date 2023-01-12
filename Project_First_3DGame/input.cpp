@@ -60,8 +60,8 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 			break;
 		case ATK_1:
 			KeyName[i] = DIK_1;
-			DinputName[i] = BUTTON_L;
-			XinputName[i] = XINPUT_GAMEPAD_LEFT_SHOULDER;
+			DinputName[i] = BUTTON_R;
+			XinputName[i] = XINPUT_GAMEPAD_RIGHT_SHOULDER;
 			break;
 		case ATK_2:
 			KeyName[i] = DIK_2;
@@ -70,8 +70,8 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 			break;
 		case AIMING:
 			KeyName[i] = DIK_Q;
-			DinputName[i] = BUTTON_R;	//TODO:‚ ‚Æ‚Å•Ï‚¦‚é
-			XinputName[i] = XINPUT_GAMEPAD_RIGHT_SHOULDER;
+			DinputName[i] = BUTTON_L;	//TODO:‚ ‚Æ‚Å•Ï‚¦‚é
+			XinputName[i] = XINPUT_GAMEPAD_LEFT_SHOULDER;
 
 		default:
 			break;
