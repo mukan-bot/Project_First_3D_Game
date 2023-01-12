@@ -536,7 +536,12 @@ BOOL IsButtonPressed(int padNo,DWORD button)
 
 BOOL IsButtonTriggered(int padNo,DWORD button)
 {
-	return (button & padTrigger[padNo]);
+	bool ans = false;
+	if ((button & padTrigger[padNo])) {
+		ans = true;
+		SetSelectController(PS);
+	}
+	return ans;
 }
 
 

@@ -7,6 +7,7 @@
 #include "collision.h"
 #include "particle.h"
 #include "UI.h"
+#include "light.h"
 
 #include "player.h"
 
@@ -133,7 +134,9 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 
 			//Œ©‚½–Ú
 			SetParticle(g_atk[i].colObjIndex, PLAYER_ATK1, XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
-			//g_atk[i].modelIndex = SetGameModel(PLAYER_ATK1_MODEL, index, 0, CULL_MODE_NONE);
+			
+
+
 			break;
 
 		case ATK_PLAYER_2:

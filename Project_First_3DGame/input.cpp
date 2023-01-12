@@ -57,12 +57,12 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 			break;
 		case MOVE_DASH:
 			KeyName[i] = DIK_LSHIFT;
-			DinputName[i] = BUTTON_L;
+			DinputName[i] = BUTTON_Y;
 			XinputName[i] = XINPUT_GAMEPAD_LEFT_THUMB;
 			break;
 		case ATK_1:
 			KeyName[i] = DIK_1;
-			DinputName[i] = BUTTON_A;
+			DinputName[i] = BUTTON_L;
 			XinputName[i] = XINPUT_GAMEPAD_LEFT_SHOULDER;
 			break;
 		case ATK_2:
@@ -72,7 +72,7 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 			break;
 		case AIMING:
 			KeyName[i] = DIK_Q;
-			DinputName[i] = BUTTON_A;	//TODO:あとで変える
+			DinputName[i] = BUTTON_R;	//TODO:あとで変える
 			XinputName[i] = XINPUT_GAMEPAD_RIGHT_SHOULDER;
 
 		default:
@@ -248,11 +248,22 @@ XMFLOAT2 GetLookInput(int padNo) {
 			}
 			break;
 		case PS:
+			//コントローラーによってデータが乗ってるところが違うのなんで？
+			DIJOYSTATE dij = GetGamePad(padNo);
 			if (ans.x == 0 && ans.y == 0) {
-				//TODO:Dinputわからん
-				DIJOYSTATE dij = GetGamePad(padNo);
 				ans.x = dij.rglSlider[0] * g_XlookSensitive;
-				ans.y = dij.rglSlider[0] *g_XlookSensitive;
+				ans.y = dij.rglSlider[1] * g_XlookSensitive;
+
+			}
+			if (ans.x == 0 && ans.y == 0) {
+				dij.lZ -= D_INPUT_MEDIAN;
+				dij.lRz -= D_INPUT_MEDIAN;
+				if (fabsf(dij.lZ) > D_INPUT_DEAD_ZONE) {
+					ans.x = dij.lZ * g_XlookSensitive;
+				}
+				if (fabsf(dij.lRz) > D_INPUT_DEAD_ZONE) {
+					ans.y = dij.lRz * g_XlookSensitive;
+				}
 			}
 			break;
 		default:

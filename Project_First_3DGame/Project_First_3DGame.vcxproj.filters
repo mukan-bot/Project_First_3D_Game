@@ -141,6 +141,9 @@
     <ClCompile Include="result_ui.cpp">
       <Filter>モード\リザルト\ソース</Filter>
     </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="result_ui.h">
       <Filter>モード\リザルト\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

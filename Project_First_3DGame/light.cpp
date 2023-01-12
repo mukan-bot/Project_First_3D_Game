@@ -6,6 +6,8 @@
 #include "main.h"
 #include "renderer.h"
 
+#include "player.h"
+
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -50,10 +52,17 @@ void InitLight(void)
 	g_Light[0].Direction = XMFLOAT3(0.0f, -1.0f, 0.0f);		// 光の向き
 	g_Light[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// 光の色
 	g_Light[0].Type = LIGHT_TYPE_DIRECTIONAL;					// 並行光源
-	g_Light[0].Enable = true;									// このライトをON
+	g_Light[0].Enable = false;									// このライトをON
 	SetLight(0, &g_Light[0]);									// これで設定している
 
-
+	// プレイヤー追従ポイントライト
+	g_Light[1].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);		//ポイントライトだから向きは適当
+	g_Light[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// 光の色
+	g_Light[1].Type = LIGHT_TYPE_POINT;						// ポイントライト
+	g_Light[1].Attenuation = 50.0f;	// 減衰距離
+	g_Light[1].Enable = true;								// このライトをON
+	g_Light[1].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定	
+	SetLight(1, &g_Light[1]);								// これで設定している
 
 	// フォグの初期化（霧の効果）
 	g_Fog.FogStart = 100.0f;									// 視点からこの距離離れるとフォグがかかり始める
@@ -72,6 +81,8 @@ void UpdateLight(void)
 {
 
 
+	g_Light[1].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定	
+	SetLight(1, &g_Light[1]);								// これで設定している
 
 }
 

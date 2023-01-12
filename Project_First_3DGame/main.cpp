@@ -13,6 +13,7 @@
 #include "GameModel.h"
 #include "text.h"
 #include "light.h"
+#include "sound.h"
 
 #include "M_title.h"
 #include "M_game.h"
@@ -235,6 +236,9 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	//text
 	Init_text();
 
+	//ÉTÉEÉìÉhÇÃèâä˙âª
+	InitSound(hWnd);
+
 
 	SetMode(MODE_TITLE);
 
@@ -246,6 +250,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 //=============================================================================
 void Uninit(void){
 
+	UninitSound();
 
 	Uninit_text();
 

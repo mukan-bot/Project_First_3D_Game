@@ -116,10 +116,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>Default</LanguageStandard>
       <DisableSpecificWarnings>4190;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <Optimization>Disabled</Optimization>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -169,6 +166,7 @@
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="result_bg.cpp" />
     <ClCompile Include="result_ui.cpp" />
+    <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="title_bg.cpp" />
@@ -199,6 +197,7 @@
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="result_bg.h" />
     <ClInclude Include="result_ui.h" />
+    <ClInclude Include="sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="title_bg.h" />
