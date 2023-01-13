@@ -18,13 +18,17 @@ enum ATK_TYPE {	//MEMO:¡‰ñ‚ÍUŒ‚‚Ílí—ŞŒÅ’è
 
 struct ATTACK{
 	bool use;
-
+	ATK_TYPE type;
 	int colIndex;
 	int colObjIndex;
+	int fieldColIndex;
+	int fieldColObjIndex;
 	int modelIndex;
 
 	int maxFlame;
 	int countFlame;
+
+	XMFLOAT3 vec;
 };
 
 

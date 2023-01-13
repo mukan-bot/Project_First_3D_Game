@@ -12,3 +12,5 @@ void UpdateEnemy(void);
 void DrawEnemy(void);
 
 void SetEnemy(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scl);
+//‰½‘Ì‚ÌENEMY‚ª¶‚«‚Ä‚é‚©
+int GetAliveEnemy(void);

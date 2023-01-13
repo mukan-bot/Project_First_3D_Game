@@ -18,7 +18,7 @@ enum ButtonName {
 	MOVE_DASH,
 	ATK_1,
 	ATK_2,
-	
+	AIMING,
 	BUTTON_MAX
 };
 
@@ -41,8 +41,8 @@ int GetInputRelease(ButtonName button, int padNo = 0);	//ƒL[ƒ{[ƒh‚ÆƒRƒ“ƒgƒ[ƒ
 
 XMFLOAT2 GetLookInput(int padNo);
 
-void SetXinputSensitive(float sensitive);	//XinputƒRƒ“ƒgƒ[ƒ‰[‚Ì‹üŠ´“x‚ğ•ÏX
-float GetXinputSensitive(void);				//XinputƒRƒ“ƒgƒ[ƒ‰[‚Ì‹üŠ´“x‚ğQÆ
+void SetInputSensitive(float sensitive);	//XinputƒRƒ“ƒgƒ[ƒ‰[‚Ì‹üŠ´“x‚ğ•ÏX
+float GetInputSensitive(void);				//XinputƒRƒ“ƒgƒ[ƒ‰[‚Ì‹üŠ´“x‚ğQÆ
 
 void SetSelectController(SELECT_CONTROLLER select);
 SELECT_CONTROLLER GetSelectController(void);

@@ -11,7 +11,7 @@
 
 
 //マクロ定義
-#define MAX_MODEL	(256)	//とりあえず256個にしておく
+#define MAX_MODEL	(512)	//とりあえず256個にしておく
 
 struct GameModel{
 	bool is_load;
@@ -53,10 +53,13 @@ void InitGameModel(void){
 void UninitGameModel (void){
 	// モデルの解放処理
 	for (int i = 0; i < MAX_MODEL; i++) {
-		if (g_gameModel[i].is_load)
+		//if (g_gameModel[i].is_load)
 		{
-			UnloadModel(&g_gameModel[i] .model);
+			UnloadModel(&g_gameModel[i].model);
 			g_gameModel[i] .is_load = false;
+		}
+		if (g_gameModel[i].use) {
+			g_gameModel[i].use = false;
 		}
 	}
 }
@@ -128,9 +131,10 @@ int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi,CULL_MODE cullM
 	int ans = -1;
 	for (int i = 0; i < MAX_MODEL; i++) {
 		if (g_gameModel[i].use) continue;
-
-		LoadModel(modelPath, &g_gameModel[i].model);
-		g_gameModel[i].is_load = true;
+		if (strcmp(modelPath, "NO") != 0) {	//モデルを使用しない時（GetModelで頑張る時）
+			LoadModel(modelPath, &g_gameModel[i].model);
+			g_gameModel[i].is_load = true;
+		}
 
 		g_gameModel[i].gameObjectIndex = gameObjectIndex;
 		g_gameModel[i].is_fuchi = fuchi;
@@ -162,4 +166,8 @@ void DelGameModel(int index) {
 
 void SetGameModelScale(int index, XMFLOAT3 scale) {
 	g_gameModel[index].ofsetScale = scale;
+}
+
+DX11_MODEL* GetModel(int index) {
+	return &g_gameModel[index].model;
 }

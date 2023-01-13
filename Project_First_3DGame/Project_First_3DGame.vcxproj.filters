@@ -25,32 +25,35 @@
     <Filter Include="システム\基本システム">
       <UniqueIdentifier>{08ff8bd1-7f10-4ba6-a829-967e72e3ef77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ゲーム">
-      <UniqueIdentifier>{3b0a5fc0-4d4b-4eb8-b1f0-791fe10ec2e3}</UniqueIdentifier>
+    <Filter Include="モード">
+      <UniqueIdentifier>{155ea0c4-6f36-44c4-aebe-0cf469247f23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ゲーム\ソース">
-      <UniqueIdentifier>{365fef71-b6c7-45df-bb78-12a251abbd46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ゲーム\ヘッダー">
-      <UniqueIdentifier>{c746bc15-0863-4aee-8586-9f56cf8eb9d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="タイトル">
-      <UniqueIdentifier>{5b66c3c8-6030-4104-88f3-c6dd0dfc2f8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="タイトル\ソース">
-      <UniqueIdentifier>{a4805892-24e7-4a11-8c53-9a6c65a8325f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="タイトル\ヘッダー">
-      <UniqueIdentifier>{e05ad7ab-1692-4182-a3ce-80f5e88cb184}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リザルト">
+    <Filter Include="モード\リザルト">
       <UniqueIdentifier>{63fa0871-de8e-4548-a62c-f8ec34faf342}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リザルト\ヘッダー">
+    <Filter Include="モード\リザルト\ヘッダー">
       <UniqueIdentifier>{beb9445a-23c6-47e3-b082-5cd0c172f97a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リザルト\ソース">
+    <Filter Include="モード\リザルト\ソース">
       <UniqueIdentifier>{7b7f87cf-2b58-4174-98d2-fa8b753f7b64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="モード\ゲーム">
+      <UniqueIdentifier>{3b0a5fc0-4d4b-4eb8-b1f0-791fe10ec2e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="モード\ゲーム\ソース">
+      <UniqueIdentifier>{365fef71-b6c7-45df-bb78-12a251abbd46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="モード\ゲーム\ヘッダー">
+      <UniqueIdentifier>{c746bc15-0863-4aee-8586-9f56cf8eb9d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="モード\タイトル">
+      <UniqueIdentifier>{5b66c3c8-6030-4104-88f3-c6dd0dfc2f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="モード\タイトル\ソース">
+      <UniqueIdentifier>{a4805892-24e7-4a11-8c53-9a6c65a8325f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="モード\タイトル\ヘッダー">
+      <UniqueIdentifier>{e05ad7ab-1692-4182-a3ce-80f5e88cb184}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,22 +85,22 @@
       <Filter>システム\基本システム</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>ゲーム\ソース</Filter>
+      <Filter>モード\ゲーム\ソース</Filter>
     </ClCompile>
     <ClCompile Include="M_game.cpp">
-      <Filter>ゲーム\ソース</Filter>
+      <Filter>モード\ゲーム\ソース</Filter>
     </ClCompile>
     <ClCompile Include="input_M.cpp">
       <Filter>システム\インプット</Filter>
     </ClCompile>
     <ClCompile Include="field.cpp">
-      <Filter>ゲーム\ソース</Filter>
+      <Filter>モード\ゲーム\ソース</Filter>
     </ClCompile>
     <ClCompile Include="convenient.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="collision.cpp">
-      <Filter>ゲーム\ソース</Filter>
+      <Filter>モード\ゲーム\ソース</Filter>
     </ClCompile>
     <ClCompile Include="sprite.cpp">
       <Filter>システム\DX11</Filter>
@@ -106,31 +109,40 @@
       <Filter>システム\基本システム</Filter>
     </ClCompile>
     <ClCompile Include="M_title.cpp">
-      <Filter>タイトル\ソース</Filter>
+      <Filter>モード\タイトル\ソース</Filter>
     </ClCompile>
     <ClCompile Include="title_bg.cpp">
-      <Filter>タイトル\ソース</Filter>
+      <Filter>モード\タイトル\ソース</Filter>
     </ClCompile>
     <ClCompile Include="title_ui.cpp">
-      <Filter>タイトル\ソース</Filter>
+      <Filter>モード\タイトル\ソース</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
-      <Filter>ゲーム\ソース</Filter>
+      <Filter>モード\ゲーム\ソース</Filter>
     </ClCompile>
     <ClCompile Include="attack.cpp">
-      <Filter>ゲーム\ソース</Filter>
+      <Filter>モード\ゲーム\ソース</Filter>
     </ClCompile>
     <ClCompile Include="particle.cpp">
-      <Filter>ゲーム\ソース</Filter>
+      <Filter>モード\ゲーム\ソース</Filter>
     </ClCompile>
     <ClCompile Include="enemy.cpp">
-      <Filter>ゲーム\ソース</Filter>
+      <Filter>モード\ゲーム\ソース</Filter>
     </ClCompile>
     <ClCompile Include="M_result.cpp">
-      <Filter>リザルト\ソース</Filter>
+      <Filter>モード\リザルト\ソース</Filter>
     </ClCompile>
     <ClCompile Include="result_bg.cpp">
-      <Filter>リザルト\ソース</Filter>
+      <Filter>モード\リザルト\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>システム\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="result_ui.cpp">
+      <Filter>モード\リザルト\ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,22 +174,22 @@
       <Filter>システム\基本システム</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
-      <Filter>ゲーム\ヘッダー</Filter>
+      <Filter>モード\ゲーム\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="M_game.h">
-      <Filter>ゲーム\ヘッダー</Filter>
+      <Filter>モード\ゲーム\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="input_M.h">
       <Filter>システム\インプット</Filter>
     </ClInclude>
     <ClInclude Include="field.h">
-      <Filter>ゲーム\ヘッダー</Filter>
+      <Filter>モード\ゲーム\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="convenient.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="collision.h">
-      <Filter>ゲーム\ヘッダー</Filter>
+      <Filter>モード\ゲーム\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="sprite.h">
       <Filter>システム\DX11</Filter>
@@ -186,31 +198,40 @@
       <Filter>システム\基本システム</Filter>
     </ClInclude>
     <ClInclude Include="M_title.h">
-      <Filter>タイトル\ヘッダー</Filter>
+      <Filter>モード\タイトル\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="title_bg.h">
-      <Filter>タイトル\ヘッダー</Filter>
+      <Filter>モード\タイトル\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="title_ui.h">
-      <Filter>タイトル\ヘッダー</Filter>
+      <Filter>モード\タイトル\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
-      <Filter>ゲーム\ヘッダー</Filter>
+      <Filter>モード\ゲーム\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="attack.h">
-      <Filter>ゲーム\ヘッダー</Filter>
+      <Filter>モード\ゲーム\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="particle.h">
-      <Filter>ゲーム\ヘッダー</Filter>
+      <Filter>モード\ゲーム\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
-      <Filter>ゲーム\ヘッダー</Filter>
+      <Filter>モード\ゲーム\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="M_result.h">
-      <Filter>リザルト\ヘッダー</Filter>
+      <Filter>モード\リザルト\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="result_bg.h">
-      <Filter>リザルト\ヘッダー</Filter>
+      <Filter>モード\リザルト\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>システム\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="result_ui.h">
+      <Filter>モード\リザルト\ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

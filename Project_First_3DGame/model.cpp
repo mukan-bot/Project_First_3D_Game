@@ -132,6 +132,8 @@ void LoadModel(char* FileName, DX11_MODEL* Model)
 	delete[] model.IndexArray;
 	delete[] model.SubsetArray;
 
+	Model->is_load = true;
+
 
 }
 
@@ -141,10 +143,21 @@ void LoadModel(char* FileName, DX11_MODEL* Model)
 //=============================================================================
 void UnloadModel(DX11_MODEL* Model)
 {
+	if (Model->is_load) {
+		if (Model->VertexBuffer) {
+			Model->VertexBuffer->Release();
+		}
+		if (Model->IndexBuffer) {
+			Model->IndexBuffer->Release();
+		}
+		if (Model->SubsetArray) {
+			delete[] Model->SubsetArray;
+		}
 
-	if (Model->VertexBuffer)		Model->VertexBuffer->Release();
-	if (Model->IndexBuffer)		Model->IndexBuffer->Release();
-	if (Model->SubsetArray)		delete[] Model->SubsetArray;
+		
+
+		Model->is_load = false;
+	}
 }
 
 
@@ -462,7 +475,7 @@ void LoadMaterial(char* FileName, MODEL_MATERIAL** MaterialArray, unsigned short
 	file = fopen(FileName, "rt");
 	if (file == NULL)
 	{
-		printf("エラー:LoadMaterial %s \n", FileName);
+		OutputDebug("エラー:LoadMaterial %s \n", FileName);
 		return;
 	}
 

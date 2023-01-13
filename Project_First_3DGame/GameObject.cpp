@@ -6,7 +6,7 @@
 #include "main.h"
 
 #include "GameObject.h"
-#define MAX_OBJECT	(256)	//とりあえず何も考えず２５６にしておく
+#define MAX_OBJECT	(1024)	//とりあえず何も考えず２５６にしておく
 
 
 struct GAME_OBJECT
@@ -14,12 +14,19 @@ struct GAME_OBJECT
 	XMFLOAT3 position;		//座標
 	XMFLOAT3 rotation;		//回転
 	XMFLOAT3 scale;			//大きさ
-	bool use;				//使われているか
+	bool use = false;				//使われているか
 	int parentIndex;		//親のインデックス番号（親なら-1）
 };
 
 
 GAME_OBJECT g_gameObject[MAX_OBJECT];
+
+
+void InitGameObject(void) {
+	for (int i = 0; i < MAX_OBJECT; i++) {
+		g_gameObject[i].use = false;
+	}
+}
 
 
 void UpdateGameObject(void) {

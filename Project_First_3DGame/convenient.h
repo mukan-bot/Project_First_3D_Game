@@ -97,3 +97,7 @@ void GetLevel_Csv(FILE* fp, int index, LEVEL_ELEMENT* ans);
 //=============================================================================
 bool RayCast(XMFLOAT3 xp0, XMFLOAT3 xp1, XMFLOAT3 xp2, XMFLOAT3 xpos, XMFLOAT3 xvec, XMFLOAT3* hit, XMFLOAT3* normal);
 
+//ラジアンから度
+float RadToDeg(float rad);
+//度からラジアン
+float DegToRad(float deg);

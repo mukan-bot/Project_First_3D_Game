@@ -45,6 +45,9 @@ static ID3D11ShaderResourceView* g_Texture[TEXTURE_MAX] = { NULL };	// ÉeÉNÉXÉ`É
 static char* g_TextureName[TEXTURE_MAX] =
 {
 	"data/TEXTURE/effect01.png",
+	"data/TEXTURE/effect01.png",
+	"data/TEXTURE/effect01.png",
+	"data/TEXTURE/effect01.png",
 };
 
 static BOOL						g_Load = FALSE;
@@ -72,6 +75,7 @@ HRESULT InitParticle(void){
 	for (int i = 0; i < MAX_PARTICLE; i++) {
 		ZeroMemory(&g_element[i].material, sizeof(g_element[i].material));
 		g_element[i].material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		g_element[i].use = false;
 	}
 
 	g_Load = TRUE;
@@ -114,9 +118,6 @@ void UpdateParticle(void){
 		if (!g_element[i].use) continue;
 
 		g_element[i].use = GetGameObjectUse(g_element[i].objIndex);
-		if (!g_element[i].use) {
-			OutputDebug("çÌèú\n");
-		}
 	}
 }
 
@@ -194,7 +195,7 @@ void DrawParticle(void){
 	SetBlendState(BLEND_MODE_ALPHABLEND);
 
 	// ÉtÉHÉOóLå¯
-	SetFogEnable(false);	//TODO:Ç†Ç∆Ç≈ïœÇ¶ÇÈ
+	SetFogEnable(true);
 
 }
 

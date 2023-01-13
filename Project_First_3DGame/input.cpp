@@ -14,9 +14,7 @@ int KeyName[BUTTON_MAX];
 DWORD DinputName[BUTTON_MAX];
 DWORD XinputName[BUTTON_MAX];
 
-float g_XlookSensitive = 0.00003f;
-float g_MlookSensitive = 0.01f;
-
+float g_lookSensitive = 0.00003f;
 SELECT_CONTROLLER g_selectController = KEYBOARD;
 
 
@@ -26,7 +24,7 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 	//ボタンの名前を整える
 	//TODO:ボタン配置はプレイしやすいように調整する
 	//TODO:マウス操作は要検証
-	for (int i = 0; i < BUTTON_MAX; i++){
+	for (int i = 0; i < BUTTON_MAX; i++) {
 		ButtonName name = (ButtonName)i;
 		switch (name)
 		{
@@ -57,19 +55,24 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 			break;
 		case MOVE_DASH:
 			KeyName[i] = DIK_LSHIFT;
-			DinputName[i] = BUTTON_L;
+			DinputName[i] = BUTTON_Y;
 			XinputName[i] = XINPUT_GAMEPAD_LEFT_THUMB;
 			break;
 		case ATK_1:
 			KeyName[i] = DIK_1;
-			DinputName[i] = BUTTON_A;
-			XinputName[i] = XINPUT_GAMEPAD_B;
+			DinputName[i] = BUTTON_R;
+			XinputName[i] = XINPUT_GAMEPAD_RIGHT_SHOULDER;
 			break;
 		case ATK_2:
 			KeyName[i] = DIK_2;
 			DinputName[i] = BUTTON_B;
-			XinputName[i] = XINPUT_GAMEPAD_Y;
+			XinputName[i] = XINPUT_GAMEPAD_A;
 			break;
+		case AIMING:
+			KeyName[i] = DIK_Q;
+			DinputName[i] = BUTTON_L;	//TODO:あとで変える
+			XinputName[i] = XINPUT_GAMEPAD_LEFT_SHOULDER;
+
 		default:
 			break;
 		}
@@ -100,13 +103,49 @@ int GetInputPress(ButtonName button, int padNo) {
 			if (button == ATK_1) {
 				if (IsMouseLeftPressed()) ans = true;
 			}
-			else if (button == ATK_2) {
+			else if (button == AIMING) {
 				if (IsMouseRightPressed()) ans = true;
 			}
 			break;
 		case XBOX:
 			XINPUT_STATE state = GetXinput(padNo);
 			if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+			else {
+				// デッドゾーン以下を0にする
+				if (state.Gamepad.sThumbLX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2 &&
+					state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2) {
+					state.Gamepad.sThumbLX = 0;
+				}
+				if (state.Gamepad.sThumbLY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2 &&
+					state.Gamepad.sThumbLY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2){
+					state.Gamepad.sThumbLY = 0;
+				}
+
+				switch (button)
+				{
+				case MOVE_FRONT:
+					if (state.Gamepad.sThumbLY > 0) {
+						ans = true;
+					}
+					break;
+				case MOVE_BACK:
+					if (state.Gamepad.sThumbLY < 0) {
+						ans = true;
+					}
+					break;
+				case MOVE_LEFT:
+					if (state.Gamepad.sThumbLX < 0) {
+						ans = true;
+					}
+					break;
+				case MOVE_RIGHT:
+					if (state.Gamepad.sThumbLX > 0) {
+						ans = true;
+					}
+					break;
+				}
+			}
+
 			break;
 		case PS:
 			if (IsButtonPressed(padNo, DinputName[button])) ans = true;
@@ -172,51 +211,71 @@ XMFLOAT2 GetLookInput(int padNo) {
 	XMFLOAT2 ans = XMFLOAT2(0.0f, 0.0f);
 
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
-		if (ans.x == 0 && ans.y == 0) {
-			if (GetKeyboardPress(DIK_UP)) ans.y--;
-			if (GetKeyboardPress(DIK_DOWN)) ans.y++;
-			if (GetKeyboardPress(DIK_RIGHT)) ans.x++;
-			if (GetKeyboardPress(DIK_LEFT)) ans.x--;
-		}
-
-		if (ans.x == 0 && ans.y == 0) {
-			ans = GetMouseVec();
-			ans.x *= g_MlookSensitive;
-			ans.y *= g_MlookSensitive;
-		}
-
-		if (ans.x == 0 && ans.y == 0) {
-			XINPUT_STATE state = GetXinputTrigger(padNo);
-
-			// デッドゾーン以下を0にする
-			if ((state.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
-				state.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) &&
-				(state.Gamepad.sThumbRY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
-					state.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE))
-			{
-				state.Gamepad.sThumbRX = 0;
-				state.Gamepad.sThumbRY = 0;
+		switch (g_selectController)
+		{
+		case KEYBOARD:
+			if (ans.x == 0 && ans.y == 0) {
+				if (GetKeyboardPress(DIK_UP)) ans.y--;
+				if (GetKeyboardPress(DIK_DOWN)) ans.y++;
+				if (GetKeyboardPress(DIK_RIGHT)) ans.x++;
+				if (GetKeyboardPress(DIK_LEFT)) ans.x--;
 			}
-			else {
-				ans.x = state.Gamepad.sThumbRX * g_XlookSensitive;
-
-				ans.y = -state.Gamepad.sThumbRY * g_XlookSensitive;
+			if (ans.x == 0 && ans.y == 0) {
+				ans = GetMouseVec();
+				ans.x *= g_lookSensitive * 500;
+				ans.y *= g_lookSensitive * 500;
 			}
-		}
+			break;
+		case XBOX:
+			if (ans.x == 0 && ans.y == 0) {
+				XINPUT_STATE state = GetXinputTrigger(padNo);
 
-		if (ans.x == 0 && ans.y == 0) {
-			//TODO:Dinputわからん
-		}
+				// デッドゾーン以下を0にする
+				if ((state.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+					state.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) &&
+					(state.Gamepad.sThumbRY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+						state.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE))
+				{
+					state.Gamepad.sThumbRX = 0;
+					state.Gamepad.sThumbRY = 0;
+				}
+				else {
+					ans.x = state.Gamepad.sThumbRX * g_lookSensitive;
+					ans.y = -state.Gamepad.sThumbRY * g_lookSensitive;
+				}
+			}
+			break;
+		case PS:
+			//コントローラーによってデータが乗ってるところが違うのなんで？
+			DIJOYSTATE dij = GetGamePad(padNo);
+			if (ans.x == 0 && ans.y == 0) {
+				ans.x = dij.rglSlider[0] * g_lookSensitive;
+				ans.y = dij.rglSlider[1] * g_lookSensitive;
 
+			}
+			if (ans.x == 0 && ans.y == 0) {
+				dij.lZ -= D_INPUT_MEDIAN;
+				dij.lRz -= D_INPUT_MEDIAN;
+				if (fabsf(dij.lZ) > D_INPUT_DEAD_ZONE) {
+					ans.x = dij.lZ * g_lookSensitive;
+				}
+				if (fabsf(dij.lRz) > D_INPUT_DEAD_ZONE) {
+					ans.y = dij.lRz * g_lookSensitive;
+				}
+			}
+			break;
+		default:
+			break;
+		}
 	}
 	return ans;
 }
 
-void SetXinputSensitive(float sensitive) {
-	g_XlookSensitive = sensitive;
+void SetInputSensitive(float sensitive) {
+	g_lookSensitive = sensitive;
 }
-float GetXinputSensitive(void) {
-	return g_XlookSensitive;
+float GetInputSensitive(void) {
+	return g_lookSensitive;
 }
 
 void SetSelectController(SELECT_CONTROLLER select) {

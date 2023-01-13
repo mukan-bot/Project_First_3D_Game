@@ -33,6 +33,8 @@
 #define BUTTON_M		0x00002000l	// Ｍボタン(.rgbButtons[9]&0x80)
 #define GAMEPADMAX		4			// 同時に接続するジョイパッドの最大数をセット
 
+#define D_INPUT_MEDIAN		(32767)	//アナログスティックのセンターの値（Dinput）
+#define D_INPUT_DEAD_ZONE	(700)	//アナログスティックのデッドゾーン（Dinput）
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -61,5 +63,5 @@ long GetMouseZ(void);               // マウスホイールが動いた相対値
 //---------------------------- game pad
 BOOL IsButtonPressed(int padNo,DWORD button);
 BOOL IsButtonTriggered(int padNo,DWORD button);
-
+DIJOYSTATE GetGamePad(int index);
 

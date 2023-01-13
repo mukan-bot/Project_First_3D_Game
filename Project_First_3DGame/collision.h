@@ -20,10 +20,11 @@ enum COLLISION_LAYER
 	LAYER_PLAYER_ATK,	// プレイヤーの攻撃
 	LAYER_ENEMY,		// エネミーの体
 	LAYER_ENEMY_ATK,	// エネミーの攻撃
-	LAYER_OBSTACLE		// マップに配置する障害物
+	LAYER_OBSTACLE,		// マップに配置する障害物
+	LAYER_FIELD,
 };
 
-#define COLLISION_MAX (256)
+#define COLLISION_MAX (1024)
 
 //*****************************************************************************
 // 構造体定義
@@ -52,9 +53,10 @@ int SetCollision(COLLISION_LAYER layer, COLLISION_TYPE type);
 void DelCollision(int index);
 //collisionで使用しているGameObjectのインデックスの所得
 int GetColObjectIndex(int index);
-//collisionの当たり判定の結果の所得
+//collisionの当たり判定の結果の所得（場所によっては判定がずれる）
 bool GetColAns(int index);
-
+//現在の当たり判定の結果の所得（重くなりがち）
 bool GetColAnsUpdate(int index);
 
+void InitCollision(void);
 void UpdateCollision(void);

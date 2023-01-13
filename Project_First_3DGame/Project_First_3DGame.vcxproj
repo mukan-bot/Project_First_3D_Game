@@ -43,13 +43,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -116,6 +116,8 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>Default</LanguageStandard>
       <DisableSpecificWarnings>4190;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -131,6 +133,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -150,6 +153,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="input_D.cpp" />
     <ClCompile Include="input_M.cpp" />
+    <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input_X.cpp" />
     <ClCompile Include="model.cpp" />
@@ -161,6 +165,8 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="result_bg.cpp" />
+    <ClCompile Include="result_ui.cpp" />
+    <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="title_bg.cpp" />
@@ -179,6 +185,7 @@
     <ClInclude Include="input_D.h" />
     <ClInclude Include="input_M.h" />
     <ClInclude Include="input_X.h" />
+    <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="M_game.h" />
@@ -189,6 +196,8 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="result_bg.h" />
+    <ClInclude Include="result_ui.h" />
+    <ClInclude Include="sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="title_bg.h" />

@@ -12,14 +12,17 @@ HRESULT InitTitle(void) {
 	InitTitleUI();
 	return S_OK;
 }
+
 void UninitTitle(void) {
 	UninitTitleBG();
 	UninitTitleUI();
 }
+
 void UpdateTitle(void) {
 	UpdateTitleBG();
 	UpdateTitleUI();
 }
+
 void DrawTitle(void) {
 	// 2Dの物を描画する処理
 	// Z比較なし
@@ -33,7 +36,7 @@ void DrawTitle(void) {
 
 
 	// ライティングを有効に
-	SetLightEnable(false);	//TODO:ライト作ったらtrueに変える
+	SetLightEnable(true);	//TODO:ライト作ったらtrueに変える
 	// Z比較あり
 	SetDepthEnable(true);
 }

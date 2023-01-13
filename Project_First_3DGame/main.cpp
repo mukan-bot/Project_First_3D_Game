@@ -7,10 +7,13 @@
 #include "main.h"
 #include "renderer.h"
 #include "input.h"
+#include "input_M.h"
 #include "camera.h"
 #include "GameObject.h"
 #include "GameModel.h"
 #include "text.h"
+#include "light.h"
+#include "sound.h"
 
 #include "M_title.h"
 #include "M_game.h"
@@ -39,10 +42,10 @@ void Draw(void);
 // グローバル変数:
 //*****************************************************************************
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 int		g_CountFPS;							// FPSカウンタ
 char	g_DebugStr[2048] = WINDOW_NAME;		// デバッグ文字表示用
-#endif
+//#endif
 
 PLAY_MODE g_Mode = MODE_TITLE;
 
@@ -145,9 +148,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if ((dwCurrentTime - dwFPSLastTime) >= 1000)	// 1秒ごとに実行
 			{
-#ifdef _DEBUG
+//#ifdef _DEBUG
 				g_CountFPS = dwFrameCount;
-#endif
+//#endif
 				dwFPSLastTime = dwCurrentTime;				// FPSを測定した時刻を保存
 				dwFrameCount = 0;							// カウントをクリア
 			}
@@ -155,10 +158,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			{
 				dwExecLastTime = dwCurrentTime;	// 処理した時刻を保存
 
-#ifdef _DEBUG	// デバッグ版の時だけFPSを表示する
+//#ifdef _DEBUG	// デバッグ版の時だけFPSを表示する
 				wsprintf(g_DebugStr, WINDOW_NAME);
 				wsprintf(&g_DebugStr[strlen(g_DebugStr)], " FPS:%d", g_CountFPS);
-#endif
+//#endif
 
 
 				//ウインドウがアクティブか判断
@@ -169,6 +172,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 				Update();			// 更新処理
 				Draw();				// 描画処理
+
+//#ifdef _DEBUG	// デバッグ版の時だけ表示する
+				SetWindowText(hWnd, g_DebugStr);
+//#endif
+
 
 				dwFrameCount++;
 			}
@@ -222,8 +230,14 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 	//レンダー
 	InitRenderer(hInstance, hWnd, bWindow);
 
+	//ライト
+	InitLight();
+
 	//text
 	Init_text();
+
+	//サウンドの初期化
+	InitSound(hWnd);
 
 
 	SetMode(MODE_TITLE);
@@ -236,6 +250,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow){
 //=============================================================================
 void Uninit(void){
 
+	UninitSound();
 
 	Uninit_text();
 
@@ -245,6 +260,7 @@ void Uninit(void){
 
 	UninitInput();
 
+	
 }
 
 //=============================================================================
@@ -278,6 +294,8 @@ void Update(void){
 	default:
 		break;
 	}
+
+	UpdateLight();
 }
 
 //=============================================================================
@@ -319,7 +337,7 @@ void Draw(void){
 	Draw_text();
 
 	// ライティングを有効に
-	SetLightEnable(false);	//TODO:ライト作ったらtrueに変える
+	SetLightEnable(true);	//TODO:ライト作ったらtrueに変える
 
 	// Z比較あり
 	SetDepthEnable(true);
@@ -339,20 +357,37 @@ void SetMode(PLAY_MODE mode) {
 	UninitTitle();
 	UninitResult();
 
+	StopSound();
+
 	//MEMO:モードごとの初期化処理
 	switch (mode)
 	{
 	case MODE_TITLE:
+		PlaySound(SOUND_LABEL_BGM_title);
+		UninitGame();	//MEMO:リザルトの背景で使いたいからここで終了処理をする
 		InitTitle();
+		SetCursorMove(true);
+		ShowCursor(true);
 		break;
 	case MODE_TUTORIAL:
 		break;
 	case MODE_GAME:
-		UninitGame();	//MEMO:リザルトの背景で使いたいからここで終了処理をする
+		PlaySound(SOUND_LABEL_BGM_game);
 		InitGame();
+		ShowCursor(false);
+		SetCursorMove(false);
+		ShowCursor(false);
 		break;
 	case MODE_RESULT:
+		if (GetIsClear) {
+			PlaySound(SOUND_LABEL_BGM_result_kati);
+		}
+		else {
+			PlaySound(SOUND_LABEL_BGM_result_make);
+		}
 		InitResult();
+		SetCursorMove(true);
+		ShowCursor(true);
 		break;
 	case MODE_MAX:
 		break;

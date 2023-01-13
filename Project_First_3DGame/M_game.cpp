@@ -16,16 +16,14 @@
 #include "enemy.h"
 
 
-
-
-
 HRESULT InitGame(void) {
-	
+	InitGameObject();
+
 	InitGameModel();
 
-	InitCameraM_Game();
+	InitCollision();
 
-	InitField();
+	InitCameraM_Game();
 
 	InitParticle();
 
@@ -33,14 +31,11 @@ HRESULT InitGame(void) {
 
 	InitEnemy();
 
+	InitField();
+
 	InitUI();
 
 	InitAttack();
-	
-	SetCursorMove(false);
-	
-
-
 
 	return S_OK;
 }
@@ -63,18 +58,25 @@ void UninitGame(void) {
 
 }
 void UpdateGame(void) {
+
+
+	UpdateCollision();
 	UpdatePlayer();
 	UpdateEnemy();
 
-	UpdateCollision();
+
 	UpdateAttack();
 
 	UpdateUI();
 	UpdateParticle();
+
+	UpdateField();
+
 }
 
 
 void DrawGame(void) {
+
 	DrawPlayer();
 	DrawEnemy();
 	DrawAttack();
@@ -95,7 +97,7 @@ void DrawGame(void) {
 
 
 	// ライティングを有効に
-	SetLightEnable(false);	//TODO:ライト作ったらtrueに変える
+	SetLightEnable(true);	//TODO:ライト作ったらtrueに変える
 	// Z比較あり
 	SetDepthEnable(true);
 }
