@@ -233,13 +233,18 @@ void SetText_d(TEXT text_p, int d) {
 		j /= 10;
 		i++;
 	}
+
+	if (d == 0) {
+		SetText(text_p, "‚O");
+		return;
+	}
+
+
 	text_p.pos.x += (((text_p.size) * i) / 2) - text_p.size / 2;
 	while (d != 0) {
 		SetText(text_p, temp[d % 10]);
 		d /= 10;
 		text_p.pos.x -= text_p.size;
 	}
-	if (d == 0) {
-		SetText(text_p, "‚O");
-	}
+
 }
