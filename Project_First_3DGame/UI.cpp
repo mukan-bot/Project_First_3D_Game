@@ -110,7 +110,7 @@ void UpdateUI(void) {
 
 	//ENEMY‚ª‰½‘ÌŽc‚Á‚Ä‚¢‚é‚©‚ð•\Ž¦‚·‚é
 	TEXT text;
-	text.color = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	text.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	text.pos = XMFLOAT2(180.0f, 30.0f);
 	text.size = 30;
 	SetText(text, "‚`‚k‚h‚u‚d@‚d‚m‚d‚l‚x");
