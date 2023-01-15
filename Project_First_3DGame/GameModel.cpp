@@ -129,6 +129,7 @@ void DrawGameModel(void){
 
 int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi,CULL_MODE cullMode) {
 	int ans = -1;
+
 	for (int i = 0; i < MAX_MODEL; i++) {
 		if (g_gameModel[i].use) continue;
 		if (strcmp(modelPath, "NO") != 0) {	//モデルを使用しない時（GetModelで頑張る時）

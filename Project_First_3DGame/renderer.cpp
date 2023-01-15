@@ -190,6 +190,24 @@ void SetCullingMode(CULL_MODE cm)
 	}
 }
 
+void SetPixelFill(D3D11_FILL_MODE mode) {	//MEMO:ワイヤーフレームの切り替え(要修正)
+	// ラスタライザステート作成
+	D3D11_RASTERIZER_DESC rd;
+	ZeroMemory(&rd, sizeof(rd));
+	rd.FillMode = mode;
+	//rd.CullMode = D3D11_CULL_NONE;
+	//rd.DepthClipEnable = TRUE;
+	//rd.MultisampleEnable = FALSE;
+	g_D3DDevice->CreateRasterizerState(&rd, &g_RasterStateCullOff);
+
+	rd.CullMode = D3D11_CULL_FRONT;
+	g_D3DDevice->CreateRasterizerState(&rd, &g_RasterStateCullCW);
+
+	rd.CullMode = D3D11_CULL_BACK;
+	g_D3DDevice->CreateRasterizerState(&rd, &g_RasterStateCullCCW);
+}
+
+
 void SetAlphaTestEnable(BOOL flag)
 {
 	D3D11_BLEND_DESC blendDesc;
@@ -489,6 +507,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// ラスタライザステート作成
 	D3D11_RASTERIZER_DESC rd; 
 	ZeroMemory( &rd, sizeof( rd ) );
+	//rd.FillMode = D3D11_FILL_WIREFRAME;
 	rd.FillMode = D3D11_FILL_SOLID;
 	rd.CullMode = D3D11_CULL_NONE; 
 	rd.DepthClipEnable = TRUE; 

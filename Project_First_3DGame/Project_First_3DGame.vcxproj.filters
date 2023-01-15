@@ -102,9 +102,6 @@
     <ClCompile Include="collision.cpp">
       <Filter>モード\ゲーム\ソース</Filter>
     </ClCompile>
-    <ClCompile Include="sprite.cpp">
-      <Filter>システム\DX11</Filter>
-    </ClCompile>
     <ClCompile Include="text.cpp">
       <Filter>システム\基本システム</Filter>
     </ClCompile>
@@ -143,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite.cpp">
+      <Filter>システム\基本システム</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +191,6 @@
     <ClInclude Include="collision.h">
       <Filter>モード\ゲーム\ヘッダー</Filter>
     </ClInclude>
-    <ClInclude Include="sprite.h">
-      <Filter>システム\DX11</Filter>
-    </ClInclude>
     <ClInclude Include="text.h">
       <Filter>システム\基本システム</Filter>
     </ClInclude>
@@ -232,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="sound.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite.h">
+      <Filter>システム\基本システム</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
