@@ -122,10 +122,10 @@ void VertexShaderPolygon( in  float4 inPosition		: POSITION0,
     outNormal = normalize(mul(float4(inNormal.xyz, 0.0f), World));
 
     outTexCoord = inTexCoord;
-
     outWorldPos = mul(inPosition, World);
 
     outDiffuse = inDiffuse;
+
 }
 
 
@@ -165,8 +165,6 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 	if (Light.Enable == 0)
 	{
 		color = color * Material.Diffuse;
-		
-		//color = float4(1.0f, 1.0f, 1.0f, 1.0f);	//”’
 	}
 	else
 	{
@@ -199,6 +197,9 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 
 					float att = saturate((Light.Attenuation[i].x - distance) / Light.Attenuation[i].x);
 					tempColor *= att;
+				}
+				else if (Light.Flags[i].x == 3) {
+
 				}
 				else
 				{

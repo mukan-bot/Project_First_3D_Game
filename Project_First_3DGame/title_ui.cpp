@@ -73,7 +73,7 @@ static TEXT g_optionTextParameter[OPTION_MAX];
 static int g_optionSelect;
 static char g_optionText[OPTION_MAX][128] = { {"‚a‚f‚l@‚u‚n‚k‚t‚l‚d"},
 											{"‚r‚d@‚u‚n‚k‚t‚l‚d"},
-											{"‚k‚n‚n‚j@‚r‚d‚m‚r‚h‚s‚h‚u‚d"},
+											{"‚k‚n‚n‚j@‚r‚d‚m‚r‚h‚s‚h‚u‚h‚s‚x"},
 											{"‚a‚`‚b‚j"} };
 
 static TEXT g_tutorialTextParameter[MENUE_MAX];

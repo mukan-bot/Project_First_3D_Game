@@ -195,6 +195,9 @@ void SetPixelFill(D3D11_FILL_MODE mode) {	//MEMO:ワイヤーフレームの切り替え(要修
 	D3D11_RASTERIZER_DESC rd;
 	ZeroMemory(&rd, sizeof(rd));
 	rd.FillMode = mode;
+	//g_D3DDevice->CreateRasterizerState(&rd, &g_RasterStateCullOff);
+
+	rd.CullMode = D3D11_CULL_NONE;
 	g_D3DDevice->CreateRasterizerState(&rd, &g_RasterStateCullOff);
 
 	rd.CullMode = D3D11_CULL_FRONT;

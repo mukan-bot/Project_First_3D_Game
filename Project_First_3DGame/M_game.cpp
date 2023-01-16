@@ -73,12 +73,6 @@ void UpdateGame(void) {
 
 	UpdateField();
 
-	if (GetInputPress(MOVE_JUMP)) {
-		SetPixelFill(D3D11_FILL_WIREFRAME);
-	}
-	else {
-		SetPixelFill(D3D11_FILL_SOLID);
-	}
 }
 
 

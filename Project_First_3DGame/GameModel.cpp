@@ -67,7 +67,6 @@ void UninitGameModel (void){
 
 
 
-
 //=============================================================================
 // 描画処理
 //=============================================================================
@@ -81,15 +80,20 @@ void DrawGameModel(void){
 
 		scl = MulXMFLOAT3(scl, g_gameModel[i].ofsetScale);
 
-		
+
+		SetPixelFill(g_gameModel[i].fillMode);
+
+#ifdef _DEBUG
+		if (GetInputPress(MOVE_JUMP)) {
+			SetPixelFill(D3D11_FILL_WIREFRAME);
+		}
+#endif // _DEBUG
 
 		// カリング
 		SetCullingMode(g_gameModel[i].cullMode);
 
 		//縁設定
 		SetFuchi(g_gameModel[i].is_fuchi);
-
-		SetPixelFill(g_gameModel[i].fillMode);
 
 
 		XMMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
@@ -120,13 +124,15 @@ void DrawGameModel(void){
 
 	}
 
+	// ワイヤーフレームから戻す
+	SetPixelFill(D3D11_FILL_SOLID);
+
 	//縁設定戻す
 	SetFuchi(0);
 
 	// カリング設定を戻す
 	SetCullingMode(CULL_MODE_BACK);
 
-	SetPixelFill(D3D11_FILL_SOLID);
 
 }
 

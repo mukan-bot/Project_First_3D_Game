@@ -58,7 +58,7 @@ void InitLight(void)
 	// プレイヤー追従ポイントライト
 	g_Light[1].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);		//ポイントライトだから向きは適当
 	g_Light[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// 光の色
-	g_Light[1].Type = LIGHT_TYPE_POINT;						// ポイントライト
+	g_Light[1].Type = LIGHT_TYPE_SPOTLIGHT;						// ポイントライト
 	g_Light[1].Attenuation = 50.0f;	// 減衰距離
 	g_Light[1].Enable = true;								// このライトをON
 	g_Light[1].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定	
@@ -81,7 +81,7 @@ void UpdateLight(void)
 {
 
 
-	g_Light[1].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定	
+	g_Light[1].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定
 	SetLight(1, &g_Light[1]);								// これで設定している
 
 }

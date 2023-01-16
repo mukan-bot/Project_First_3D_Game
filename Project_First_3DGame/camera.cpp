@@ -32,8 +32,6 @@ void UpdateCamera(void) {
 	int cindex = GetCameraIndex();
 	XMFLOAT3 cpos = GetPosition(cindex);
 	XMFLOAT3 crot = GetRotation(cindex);
-
-
 }
 
 

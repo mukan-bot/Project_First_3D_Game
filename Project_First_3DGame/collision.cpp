@@ -38,7 +38,7 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 			SetGameModeFill(g_collision[i].gameModelIndex,D3D11_FILL_WIREFRAME);
 		}
 		else if (type == TYPE_BC) {
-			g_collision[i].gameModelIndex = SetGameModel(SPHERE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
+			g_collision[i].gameModelIndex = SetGameModel(SPHERE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_BACK);
 			SetGameModeFill(g_collision[i].gameModelIndex, D3D11_FILL_WIREFRAME);
 	}
 #endif // _DEBUG 
