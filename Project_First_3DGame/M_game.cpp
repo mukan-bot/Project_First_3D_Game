@@ -14,6 +14,7 @@
 #include "attack.h"
 #include "particle.h"
 #include "enemy.h"
+#include "input.h"
 
 
 HRESULT InitGame(void) {
@@ -72,6 +73,12 @@ void UpdateGame(void) {
 
 	UpdateField();
 
+	if (GetInputPress(MOVE_JUMP)) {
+		SetPixelFill(D3D11_FILL_WIREFRAME);
+	}
+	else {
+		SetPixelFill(D3D11_FILL_SOLID);
+	}
 }
 
 
