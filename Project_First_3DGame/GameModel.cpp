@@ -80,6 +80,7 @@ void DrawGameModel(void){
 
 		scl = MulXMFLOAT3(scl, g_gameModel[i].ofsetScale);
 
+		
 
 		// ƒJƒŠƒ“ƒO
 		SetCullingMode(g_gameModel[i].cullMode);
