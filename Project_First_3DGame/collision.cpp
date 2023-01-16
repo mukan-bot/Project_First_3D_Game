@@ -24,7 +24,7 @@ COLLISION g_collision[COLLISION_MAX];
 
 int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 	int ans = -1;
-	for (int i = 0; i < COLLISION_MAX;i++) {
+	for (int i = 0; i < COLLISION_MAX; i++) {
 		if (g_collision[i].use) continue;
 
 		g_collision[i].gameObjectIndex = SetGameObject();
@@ -33,8 +33,14 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 		g_collision[i].use = true;
 #ifdef _DEBUG
 		//	デバック時はcollisionの範囲を表示しておく（重いから一旦消しておく）
-		if (type == TYPE_BB)g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_BACK);
-		else if (type == TYPE_BC)g_collision[i].gameModelIndex = SetGameModel(SPHERE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
+		if (type == TYPE_BB) {
+			g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_BACK);
+			SetGameModeFill(g_collision[i].gameModelIndex,D3D11_FILL_WIREFRAME);
+		}
+		else if (type == TYPE_BC) {
+			g_collision[i].gameModelIndex = SetGameModel(SPHERE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_NONE);
+			SetGameModeFill(g_collision[i].gameModelIndex, D3D11_FILL_WIREFRAME);
+	}
 #endif // _DEBUG 
 
 		ans = i;

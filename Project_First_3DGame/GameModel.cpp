@@ -22,6 +22,7 @@ struct GameModel{
 	XMFLOAT4X4 mtxWorld;
 	DX11_MODEL model;
 	bool use;
+	D3D11_FILL_MODE fillMode;
 };
 
 
@@ -87,6 +88,8 @@ void DrawGameModel(void){
 		//縁設定
 		SetFuchi(g_gameModel[i].is_fuchi);
 
+		SetPixelFill(g_gameModel[i].fillMode);
+
 
 		XMMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 
@@ -114,13 +117,16 @@ void DrawGameModel(void){
 		// モデル描画
 		DrawModel(&g_gameModel[i].model);
 
-		//縁設定戻す
-		SetFuchi(0);
-
-		// カリング設定を戻す
-		SetCullingMode(CULL_MODE_BACK);
-
 	}
+
+	//縁設定戻す
+	SetFuchi(0);
+
+	// カリング設定を戻す
+	SetCullingMode(CULL_MODE_BACK);
+
+	SetPixelFill(D3D11_FILL_SOLID);
+
 }
 
 
@@ -140,6 +146,8 @@ int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi,CULL_MODE cullM
 		g_gameModel[i].gameObjectIndex = gameObjectIndex;
 		g_gameModel[i].is_fuchi = fuchi;
 		g_gameModel[i].cullMode = cullMode;
+
+		g_gameModel[i].fillMode = D3D11_FILL_SOLID;
 
 		g_gameModel[i].use = true;
 
@@ -171,4 +179,8 @@ void SetGameModelScale(int index, XMFLOAT3 scale) {
 
 DX11_MODEL* GetModel(int index) {
 	return &g_gameModel[index].model;
+}
+
+void SetGameModeFill(int index, D3D11_FILL_MODE model){
+	g_gameModel[index].fillMode = model;
 }
