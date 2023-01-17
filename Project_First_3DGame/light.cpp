@@ -7,6 +7,7 @@
 #include "renderer.h"
 
 #include "player.h"
+#include "camera.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -64,6 +65,15 @@ void InitLight(void)
 	g_Light[1].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定	
 	SetLight(1, &g_Light[1]);								// これで設定している
 
+	// プレイヤー追従ポイントライト
+	g_Light[2].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);		//ポイントライトだから向きは適当
+	g_Light[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// 光の色
+	g_Light[2].Type = LIGHT_TYPE_POINT;						// ポイントライト
+	g_Light[2].Attenuation = 50.0f;	// 減衰距離
+	g_Light[2].Enable = true;								// このライトをON
+	g_Light[2].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定	
+	SetLight(2, &g_Light[1]);								// これで設定している
+
 	// フォグの初期化（霧の効果）
 	g_Fog.FogStart = 100.0f;									// 視点からこの距離離れるとフォグがかかり始める
 	g_Fog.FogEnd = 400.0f;									// ここまで離れるとフォグの色で見えなくなる
@@ -79,10 +89,18 @@ void InitLight(void)
 //=============================================================================
 void UpdateLight(void)
 {
-
-
-	g_Light[1].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定
+	XMFLOAT3 pRot = GetRotation(GetPlayerGameObjectIndex());
+	XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	vec.x += sinf(pRot.x);
+	vec.z += cosf(pRot.x);
+	vec.y -= tanf(pRot.z);
+	vec = NormalizeXMFLOAT3(vec);
+	g_Light[1].Direction = vec;
+	g_Light[1].Position = GetPosition(GetCameraIndex());	//Positionを設定(カメラの位置に指定)
 	SetLight(1, &g_Light[1]);								// これで設定している
+
+	g_Light[2].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定
+	SetLight(2, &g_Light[2]);								// これで設定している
 
 }
 

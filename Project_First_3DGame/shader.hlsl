@@ -199,6 +199,25 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 					tempColor *= att;
 				}
 				else if (Light.Flags[i].x == 3) {
+					float3 ligDir = inWorldPos.xyz - Light.Position[i].xyz;
+					ligDir = normalize(ligDir);
+
+					float angle = dot(ligDir, Light.Direction[i]);
+					angle = abs(acos(angle));
+					float affect = 1.0f - 1.0f / 0.3f * angle;
+					if (affect < 0.0f) {
+					}
+					else {
+						lightDir = normalize(Light.Position[i].xyz - inWorldPos.xyz);
+						light = dot(lightDir, inNormal.xyz);
+
+						tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
+
+						float distance = length(inWorldPos - Light.Position[i]);
+
+						float att = saturate((Light.Attenuation[i].x - distance) / Light.Attenuation[i].x);
+						tempColor *= att;
+					}
 
 				}
 				else
