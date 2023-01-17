@@ -39,6 +39,8 @@ static char g_menueText[MENUE_MAX][128] = { {"ＢＡＣＫ ＴＯ ＴＩＴＬＥ"},
 
 HRESULT InitResultUI(void) {
 	SetCursorMove(true);	//カーソルを動くようにしておく
+
+	//テキストの共通の状態を設定
 	for (int i = 0; i < MENUE_MAX; i++) {
 		g_menueTextParameter[i].color = TEXT_COLOR1;
 		g_menueTextParameter[i].size = TEXT_SIZE1;
@@ -57,19 +59,19 @@ void UpdateResultUI(void) {
 	if (GetInputTrigger(MOVE_FRONT)) g_menueSelect--;
 	if (GetInputTrigger(MOVE_BACK)) g_menueSelect++;
 
-	g_menueSelect = (int)Clamp((float)g_menueSelect, 0.0, (float)MENUE_MAX - 1);
+	g_menueSelect = (int)Clamp((float)g_menueSelect, 0.0, (float)MENUE_MAX - 1);	//選択できる物以外のところにいかないようにする
 
 	// 選択の決定
 	if (GetInputTrigger(MOVE_JUMP)) {
 		switch (g_menueSelect)
 		{
-		case BACK_TO_TITLE:
+		case BACK_TO_TITLE: // タイトルに戻る
 			SetMode(MODE_TITLE);
 			break;
-		case RESTART:
+		case RESTART: // ゲームに行く
 			SetMode(MODE_GAME);
 			break;
-		case EXIT:
+		case EXIT: // 終了する
 			PostQuitMessage(0);
 			break;
 		case MENUE_MAX:
@@ -95,10 +97,11 @@ void DrawResultUI(void) {
 		SetText(g_menueTextParameter[i], g_menueText[i]);
 	}
 
-
+	// 結果の発表
 	TEXT text;
 	text.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	text.size = 80;
+	//ゲームをクリアしたかどうかで表示を切り替える
 	if (GetIsClear()) {
 		text.pos = XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 130);
 		SetText(text, "ゲームクリアー");

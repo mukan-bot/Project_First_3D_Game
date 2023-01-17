@@ -14,15 +14,15 @@
 #define MAX_MODEL	(512)	//とりあえず256個にしておく
 
 struct GameModel{
-	bool is_load;
-	int is_fuchi;
-	int gameObjectIndex;
-	XMFLOAT3 ofsetScale;
-	CULL_MODE cullMode;
-	XMFLOAT4X4 mtxWorld;
-	DX11_MODEL model;
-	bool use;
-	D3D11_FILL_MODE fillMode;
+	bool is_load;				// ロードされているか（モデルが）
+	int is_fuchi;				// 縁取りをするか
+	int gameObjectIndex;		// PosとかRot、Sclを所得する
+	XMFLOAT3 ofsetScale;		// Sclの調整用
+	CULL_MODE cullMode;			// カリングモード
+	XMFLOAT4X4 mtxWorld;		// 
+	DX11_MODEL model;			// 
+	bool use;					// GameModelが使われているか
+	D3D11_FILL_MODE fillMode;	// 塗りをどうするか
 };
 
 
@@ -36,6 +36,7 @@ GameModel g_gameModel[MAX_MODEL];
 // 初期処理
 //=============================================================================
 void InitGameModel(void){
+	//ゲームモデルの初期化
 	for (int i = 0; i < MAX_MODEL; i++) {
 		g_gameModel[i].gameObjectIndex = -1;
 		g_gameModel[i].is_load = false;
@@ -54,7 +55,6 @@ void InitGameModel(void){
 void UninitGameModel (void){
 	// モデルの解放処理
 	for (int i = 0; i < MAX_MODEL; i++) {
-		//if (g_gameModel[i].is_load)
 		{
 			UnloadModel(&g_gameModel[i].model);
 			g_gameModel[i] .is_load = false;
@@ -72,18 +72,21 @@ void UninitGameModel (void){
 //=============================================================================
 void DrawGameModel(void){
 	for (int i = 0; i < MAX_MODEL; i++) {
+		// 使われていないなら処理を飛ばす
 		if (!g_gameModel[i].use) continue;
 
+		// 必要な情報を所得
 		XMFLOAT3 pos = GetPosition(g_gameModel[i].gameObjectIndex);
 		XMFLOAT3 rot = GetRotation(g_gameModel[i].gameObjectIndex);
 		XMFLOAT3 scl = GetScale(g_gameModel[i].gameObjectIndex);
-
+		// スケールを調整
 		scl = MulXMFLOAT3(scl, g_gameModel[i].ofsetScale);
 
-
+		// 塗りを変更
 		SetPixelFill(g_gameModel[i].fillMode);
 
 #ifdef _DEBUG
+		// デバック版のみワイヤーフレームですべてを表示できるようにする
 		if (GetInputPress(MOVE_JUMP)) {
 			SetPixelFill(D3D11_FILL_WIREFRAME);
 		}
@@ -144,6 +147,7 @@ int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi,CULL_MODE cullM
 	int ans = -1;
 
 	for (int i = 0; i < MAX_MODEL; i++) {
+		//使われているのなら飛ばす
 		if (g_gameModel[i].use) continue;
 		if (strcmp(modelPath, "NO") != 0) {	//モデルを使用しない時（GetModelで頑張る時）
 			LoadModel(modelPath, &g_gameModel[i].model);
@@ -171,11 +175,13 @@ int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi,CULL_MODE cullM
 }
 
 void DelGameModel(int index) {
+	// 指定されたモデルが読み込まれていたら削除
 	if (g_gameModel[index].is_load)
 	{
 		UnloadModel(&g_gameModel[index].model);
 		g_gameModel[index].is_load = false;
 	}
+	// useを書き換え
 	g_gameModel[index].use = false;
 }
 

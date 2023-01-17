@@ -17,18 +17,18 @@ enum ATK_TYPE {	//MEMO:今回は攻撃は四種類固定
 
 
 struct ATTACK{
-	bool use;
-	ATK_TYPE type;
-	int colIndex;
-	int colObjIndex;
-	int fieldColIndex;
-	int fieldColObjIndex;
-	int modelIndex;
+	bool use;				// 使われているか
+	ATK_TYPE type;			// どの攻撃か
+	int colIndex;			// 当たり判定
+	int colObjIndex;		// 当たり判定のオブジェクトインデックス
+	int fieldColIndex;		// フィールドとの当たり判定
+	int fieldColObjIndex;	// フィールドとの当たり判定のオブジェクトインデックス
+	int modelIndex;			// モデルを表示する時用のgameModelインデックス
 
-	int maxFlame;
-	int countFlame;
+	int maxFlame;			// 何フレーム残るか
+	int countFlame;			// 今何フレーム経ったか
 
-	XMFLOAT3 vec;
+	XMFLOAT3 vec;			//移動の向き（正規化されてなくてもいい）
 };
 
 
@@ -36,5 +36,5 @@ HRESULT InitAttack(void);
 void UninitAttack(void);
 void UpdateAttack(void);
 void DrawAttack(void);
-
+// 攻撃をセット
 void SetAttack(ATK_TYPE type, int objIndex);

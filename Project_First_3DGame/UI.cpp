@@ -31,6 +31,8 @@ HRESULT InitUI(void) {
 
 	ID3D11Device* pDevice = GetDevice();
 
+
+	//‚»‚ê‚¼‚ê‰Šúİ’è
 	UI i;
 
 	i = ATK_MAHOUZIN;
@@ -87,6 +89,7 @@ HRESULT InitUI(void) {
 	return S_OK;
 }
 void UninitUI(void) {
+	//ƒ[ƒh‚³‚ê‚Ä‚¢‚½‚çŠJ•ú‚·‚é
 	if (g_Load == FALSE) return;
 
 	if (g_VertexBuffer)
@@ -116,6 +119,8 @@ void UpdateUI(void) {
 	SetText(text, "‚`‚k‚h‚u‚d@‚d‚m‚d‚l‚x");
 	text.pos = XMFLOAT2(400.0f, 30.0f);
 	SetText_d(text, GetAliveEnemy());
+
+	//ƒvƒŒƒCƒ„[‚Ìc‚èHP
 	text.pos = XMFLOAT2(180.0f, 70.0f);
 	SetText(text, "‚o‚k‚`‚x‚d‚q ‚g‚o");
 	text.pos = XMFLOAT2(400.0f, 70.0f);

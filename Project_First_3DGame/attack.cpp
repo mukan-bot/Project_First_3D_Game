@@ -35,9 +35,9 @@ void UninitAttack(void) {
 }
 void UpdateAttack(void) {
 	for (int i = 0; i < ATK_MAX; i++) {
-		if (!g_atk[i].use) continue;
+		if (!g_atk[i].use) continue;// 使われてないなら飛ばす
 
-		int index = g_atk[i].colObjIndex;
+		int index = g_atk[i].colObjIndex; // 使いやすいように
 
 
 		// 設定フレーム数動いたら削除
@@ -49,6 +49,7 @@ void UpdateAttack(void) {
 		// 当たったら削除
 		if (GetColAns(g_atk[i].colIndex)) {
 			DelAtack(i);
+			// プレイヤーの攻撃かエネミーの攻撃かで鳴らす音を変える
 			if (g_atk[i].type == ATK_ENEMY_1 || g_atk[i].type == ATK_ENEMY_2) {
 				PlaySound(SOUND_LABEL_SE_select1);
 			}
@@ -59,6 +60,7 @@ void UpdateAttack(void) {
 		}
 		
 
+		// 必要な情報を所得
 		XMFLOAT3 pos = GetPosition(index);
 		XMFLOAT3 rot = GetRotation(index);
 
@@ -78,7 +80,7 @@ void UpdateAttack(void) {
 			pos = AddXMFLOAT3(pos, vec);
 			SetPosition(index, pos);
 			break;
-		//ENEMYのは設置したタイミングのプレイヤーの座標へ移動
+		//ENEMYのは設置したタイミングのプレイヤーの座標へ移動（）
 		case(ATK_ENEMY_1):
 		case(ATK_ENEMY_2):
 			pos = AddXMFLOAT3(pos, g_atk[i].vec);
@@ -88,12 +90,11 @@ void UpdateAttack(void) {
 			break;
 		}
 
-
+		// 当たり判定似合わせてフィールドの当たり判定も動かす
 		index = g_atk[i].fieldColObjIndex;
-
 		SetPosition(index, pos);
 
-
+		// フィールドの当たり判定を見てあたっていたら削除
 		if (GetColAns(g_atk[i].fieldColIndex)) {
 			DelAtack(i);
 			continue;
@@ -102,7 +103,7 @@ void UpdateAttack(void) {
 	}
 }
 void DrawAttack(void) {
-
+	// パーティクルとかGameModelで表示するので何もない
 }
 
 void SetAttack(ATK_TYPE type, int objIndex) {
@@ -121,6 +122,8 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 		g_atk[i].type = type;
 
 		int index = -1;
+
+		// 攻撃の種類ごとに初期設定をする
 		switch (type)
 		{
 		case ATK_PLAYER_1:
@@ -193,6 +196,7 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 			break;
 		}
 
+		//コリジョンがちゃんと設置できてるかチェック
 		if (g_atk[i].colIndex == -1 || index == -1) {
 			break;
 		}
@@ -206,6 +210,7 @@ void SetAttack(ATK_TYPE type, int objIndex) {
 }
 
 void DelAtack(int index) {
+	//使った物を削除する
 	DelCollision(g_atk[index].colIndex);
 	DelCollision(g_atk[index].fieldColIndex);
 	g_atk[index].use = false;

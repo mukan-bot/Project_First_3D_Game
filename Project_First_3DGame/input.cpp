@@ -96,10 +96,13 @@ int GetInputPress(ButtonName button, int padNo) {
 	bool ans = false;	//戻り地はintだけどboolで管理する。戻り地がintなのは計算で使いやすくするため
 
 	if (GetWindowActive()) {	//ウインドウがアクティブじゃない場合無視
+
+		//どの入力装置が使われているかで処理を分岐
 		switch (g_selectController)
 		{
 		case KEYBOARD:
 			if (GetKeyboardPress(KeyName[button])) ans = true;
+			//キーボードで操作する時はマウスでも操作を受け付ける
 			if (button == ATK_1) {
 				if (IsMouseLeftPressed()) ans = true;
 			}
@@ -109,7 +112,9 @@ int GetInputPress(ButtonName button, int padNo) {
 			break;
 		case XBOX:
 			XINPUT_STATE state = GetXinput(padNo);
+			//ただの入力を所得
 			if (state.Gamepad.wButtons & XinputName[button]) ans = true;
+			//アナログスティックの入力を所得
 			else {
 				// デッドゾーン以下を0にする
 				if (state.Gamepad.sThumbLX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2 &&
@@ -148,6 +153,7 @@ int GetInputPress(ButtonName button, int padNo) {
 
 			break;
 		case PS:
+			//入力を所得
 			if (IsButtonPressed(padNo, DinputName[button])) ans = true;
 			break;
 		default:
@@ -197,7 +203,7 @@ int GetInputRelease(ButtonName button, int padNo) {
 			if (state.Gamepad.wButtons & XinputName[button]) ans = true;
 			break;
 		case PS:
-			GetInputTrigger(button, padNo);	//MEMO:Triggerの方法がわからん
+			GetInputTrigger(button, padNo);
 			break;
 		default:
 			break;

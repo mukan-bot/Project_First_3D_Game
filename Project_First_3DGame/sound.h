@@ -39,5 +39,7 @@ void PlaySound(int label);
 void StopSound(int label);//ラベル指定
 void StopSound(void);//すべて停止
 
+// BGMのボリュームを変更する
 void Sound_BGM_Volume(float vol);
+// SEのボリュームを変更する
 void Sound_SE_Volume(float vol);

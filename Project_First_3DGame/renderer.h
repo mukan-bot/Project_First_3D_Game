@@ -136,5 +136,5 @@ void SetShaderCamera(XMFLOAT3 pos);
 
 void SetInstance(INSTANCE* instance, int num);
 
-//ワイヤーフレームの切り替え
+//塗りの設定の切り替え
 void SetPixelFill(D3D11_FILL_MODE mode);

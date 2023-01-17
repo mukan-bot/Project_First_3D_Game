@@ -56,7 +56,7 @@ void InitLight(void)
 	g_Light[0].Enable = false;									// このライトをON
 	SetLight(0, &g_Light[0]);									// これで設定している
 
-	// プレイヤー追従ポイントライト
+	// 視点追従スポットライト
 	g_Light[1].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);		//ポイントライトだから向きは適当
 	g_Light[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// 光の色
 	g_Light[1].Type = LIGHT_TYPE_SPOTLIGHT;					// スポットライト
@@ -89,21 +89,25 @@ void InitLight(void)
 //=============================================================================
 void UpdateLight(void)
 {
-	XMFLOAT3 pRot = GetRotation(GetPlayerGameObjectIndex());
-	XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	vec.x += sinf(pRot.x);
-	vec.z += cosf(pRot.x);
-	vec.y -= tanf(pRot.z);
-	vec = NormalizeXMFLOAT3(vec);
-	g_Light[1].Direction = vec;
-	XMFLOAT3 pPos = GetPosition(GetPlayerGameObjectIndex());
-	pPos.y = 1;
-	g_Light[1].Position = pPos;	//Positionを設定(カメラの位置に指定)
-	SetLight(1, &g_Light[1]);								// これで設定している
-
-	g_Light[2].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定
-	SetLight(2, &g_Light[2]);								// これで設定している
-
+	//視点追従スポットライトの向きと座標を更新
+	{
+		XMFLOAT3 pRot = GetRotation(GetPlayerGameObjectIndex());
+		XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
+		vec.x += sinf(pRot.x);
+		vec.z += cosf(pRot.x);
+		vec.y -= tanf(pRot.z);
+		vec = NormalizeXMFLOAT3(vec);
+		g_Light[1].Direction = vec;
+		XMFLOAT3 pPos = GetPosition(GetPlayerGameObjectIndex());
+		pPos.y = 1;					//完全に視点に合わせるとスポットライトっぽく見えないので足元から照らす
+		g_Light[1].Position = pPos;	//Positionを設定(カメラの位置に指定)
+		SetLight(1, &g_Light[1]);
+	}
+	//プレイヤー追従ポイントライトの座標を更新
+	{
+		g_Light[2].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定
+		SetLight(2, &g_Light[2]);								// これで設定している
+	}
 }
 
 

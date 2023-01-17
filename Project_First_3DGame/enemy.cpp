@@ -143,14 +143,14 @@ void UpdateEnemy(void) {
 
 		//パーツ
 		{
-			SetGameObjectZERO(g_enemy[i].objPartsIndex);
-			if (g_enemy[i].isATK) {
+			SetGameObjectZERO(g_enemy[i].objPartsIndex);	// 一応０にしておく
+			if (g_enemy[i].isATK) {							// 攻撃中だったら口を開けるモーションをする
 				SetPosition(g_enemy[i].objPartsIndex, XMFLOAT3(0.0f, -0.2f, 0.0f));
 				SetRotation(g_enemy[i].objPartsIndex, XMFLOAT3(-0.5f, 0.0f, 0.0f));
 			}
 		}
 
-
+		// エネミーが攻撃中じゃなかったら攻撃できる範囲にプレイヤーが居るか確認
 		if (g_enemy[i].state != ENEMY_ATK) {
 			LookPlayer(&g_enemy[i]);
 		}
@@ -160,12 +160,12 @@ void UpdateEnemy(void) {
 		{
 			switch (g_enemy[i].state)
 			{
-			case ENEMY_STOP://多分OK
+			case ENEMY_STOP:// 回転量を計算
 				g_enemy[i].rot.y = DegToRad(((rand() % MOVE_ROT_ANGLE) - MOVE_ROT_ANGLE / 2) / MOVE_ROT_SPEED);
 				g_enemy[i].state = ENEMY_ROTATION;
 				g_enemy[i].count = MOVE_ROT_SPEED;
 				break;
-			case ENEMY_ROTATION://多分OK
+			case ENEMY_ROTATION:// エネミーを回転
 				if (g_enemy[i].count > 0) {
 					rot.y += g_enemy[i].rot.y;
 					g_enemy[i].count--;
@@ -174,7 +174,7 @@ void UpdateEnemy(void) {
 					g_enemy[i].state = ENEMY_CALCULATION;
 				}
 				break;
-			case ENEMY_CALCULATION:
+			case ENEMY_CALCULATION:// 移動できるか計算
 				g_enemy[i].pos1 = g_enemy[i].pos2 = GetPosition(g_enemy[i].objIndex);
 				
 				for (int j = 0; j < MOVE_LENGTH; j++) {
@@ -195,23 +195,19 @@ void UpdateEnemy(void) {
 				}
 				SetPosition(GetColObjectIndex(g_enemy[i].colIndex), g_enemy[i].pos1);	//コリジョンの場所を元に戻す
 				break;
-			case ENEMY_MOVE:
+			case ENEMY_MOVE:// 移動
 				if (g_enemy[i].count > 0) {
 					pos.x += g_enemy[i].vec.x;
 					pos.y += g_enemy[i].vec.y;
 					pos.z += g_enemy[i].vec.z;
 					g_enemy[i].count--;
 
-					//if (g_enemy[i].state != ENEMY_ATK) {
-					//	LookPlayer(&g_enemy[i]);
-					//}
-
 				}
 				else {
 					g_enemy[i].state = ENEMY_CALCULATION;
 				}
 				break;
-			case ENEMY_ATK:
+			case ENEMY_ATK:// 攻撃
 				if (g_enemy[i].atkCount < 0) {
 					if (g_enemy[i].atkCount > -30) {
 						SetAttack(ATK_ENEMY_1, g_enemy[i].objIndex);	//MEMO:こうするとしばらく口の中に溜まっているように見えるはず
@@ -236,7 +232,7 @@ void UpdateEnemy(void) {
 			default:
 				break;
 			}
-
+			//更新
 			SetPosition(g_enemy[i].objIndex, pos);
 			SetRotation(g_enemy[i].objIndex, rot);
 			SetScale(g_enemy[i].objIndex, scl);
@@ -261,6 +257,7 @@ void UpdateEnemy(void) {
 				g_enemy[i].HP--;
 			}
 			if (g_enemy[i].HP < 0) {
+				//HPが０になったら音を鳴らしてエネミーを削除する
 				PlaySound(SOUND_LABEL_SE_wana3);
 				DelGameObject(g_enemy[i].objIndex);
 				DelCollision(g_enemy[i].colIndex);
@@ -279,6 +276,7 @@ void UpdateEnemy(void) {
 
 	//クリア判定
 	bool isAllKill = false;
+	//すべてのエネミーが死んでいるか
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		if (g_enemy[i].use) {
 			isAllKill = false;
@@ -288,7 +286,7 @@ void UpdateEnemy(void) {
 			isAllKill = true;
 		}
 	}
-	if (isAllKill) {
+	if (isAllKill) {// すべて生きていなかったらクリアでリザルトに飛ばす
 		SetIsClear(isAllKill);
 		SetMode(MODE_RESULT);
 	}
@@ -299,7 +297,7 @@ void DrawEnemy(void) {
 void SetEnemy(XMFLOAT3 pos,XMFLOAT3 rot, XMFLOAT3 scl) {
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		if (g_enemy[i].use) continue;
-
+		//エネミーを読み込むのはできてるからuseと座標回転大きさを書き換える
 		SetPosition(g_enemy[i].objIndex, pos);
 		SetRotation(g_enemy[i].objIndex, rot);
 		SetScale(g_enemy[i].objIndex, scl);
@@ -319,6 +317,7 @@ int GetAliveEnemy(void) {
 
 
 void LookPlayer(ENEMY* enemy) {
+	//エネミーの攻撃のクールダウンが終わっていたら新しく攻撃させる
 	if (enemy->atkCount > 0) {
 		if (CollisionBB(GetPosition(enemy->objIndex), LOOK_PLAYER, g_pPos, LOOK_PLAYER)) {
 			enemy->isATK = true;
@@ -331,6 +330,7 @@ void LookPlayer(ENEMY* enemy) {
 
 		}
 	}
+	// クールダウンまち
 	else {
 		enemy->atkCount++;
 	}

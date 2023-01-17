@@ -192,7 +192,7 @@ void UpdatePlayer(void) {
 
 				SetRotation(index, rot);
 				SetScale(index, scl);
-				
+				//攻撃をセット
 				SetAttack(ATK_PLAYER_1, index);
 				DelGameObject(index);
 			}
@@ -225,6 +225,7 @@ void UpdatePlayer(void) {
 
 				//一応スケールも更新しておく
 				SetScale(index, scl);
+				//攻撃をセット
 				SetAttack(ATK_PLAYER_1, index);
 				DelGameObject(index);
 			}
@@ -235,8 +236,11 @@ void UpdatePlayer(void) {
 	}
 
 
-	//シーン遷移
-	if (g_HP <= 0) SetMode(MODE_RESULT);
+	//シーン遷移リザルト負け（HPが０になったら）
+	if (g_HP <= 0) {
+		SetIsClear(false);
+		SetMode(MODE_RESULT);
+	}
 
 }
 void DrawPlayer(void) {

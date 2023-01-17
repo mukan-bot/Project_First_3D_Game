@@ -14,6 +14,7 @@
 #define CSV_FILE_PATH	"./object_properties.csv"
 #define SET_OBJECT_MAX (256)
 
+// 文字列からfloatへ変換する
 float CharToFloat(char* text);
 
 
@@ -29,9 +30,9 @@ static char* g_modelPath[FIELD_MODEL_MAX][3]{
 
 };
 
-static int g_elementCount;
+static int g_elementCount;	//何個あるか
 
-static SET_OBJECT  g_setObject[SET_OBJECT_MAX];
+static SET_OBJECT  g_setObject[SET_OBJECT_MAX];	//設置するオブジェクト
 
 XMFLOAT3 g_setObjectPos[SET_OBJECT_MAX];
 
@@ -52,10 +53,10 @@ HRESULT InitField(void) {
 	XMFLOAT3 pos, rot, scl;
 	fopen_s(&fp, CSV_FILE_PATH, "r");
 	if (fp != NULL) {
-		//while (fscanf_s(fp, "%[^,],%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f", name, _countof(name), &pos.x, &pos.y, &pos.z, &rot.x, &rot.y, &rot.z, &scl.x, &scl.y, &scl.z) != EOF)
+		//最後までループで読み込む
 		while (fscanf_s(fp, "%[^,],%f,%f,%f,%f,%f,%f,%f,%f,%f", name, _countof(name), &pos.x, &pos.y, &pos.z, &rot.x, &rot.y, &rot.z, &scl.x, &scl.y, &scl.z) != EOF)
 		{
-			g_elementCount++;
+			g_elementCount++;	//何個あるか
 		}
 		fclose(fp);
 	}
@@ -152,6 +153,7 @@ HRESULT InitField(void) {
 		fclose(fp);
 	}
 
+	// Positionを保存しておく
 	for (int i = 0; i < g_elementCount; i++) {
 		g_setObjectPos[i] = GetPosition(g_setObject[i].gameObjectIndex);
 	}
@@ -166,11 +168,7 @@ void UninitField(void) {
 }
 
 void UpdateField(void) {
-	for (int i = 0; i < g_elementCount; i++) {
-		if (ComparisonXMFLOAT3(g_setObjectPos[i], GetPosition(g_setObject[i].gameObjectIndex))) {
-			OutputDebug("フィールドオブジェクトの座標が移動されました\n");
-		}
-	}
+
 }
 
 void DrawField(void) {

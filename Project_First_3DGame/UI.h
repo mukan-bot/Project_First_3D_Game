@@ -25,13 +25,13 @@ enum UI
 // 構造体定義
 //*****************************************************************************
 struct UI_ELEMENT{
-	BOOL use;		// TRUE:使っている  FALSE:未使用
-	XMFLOAT2 pos;
-	WHSIZE size;
-	XMFLOAT2 t_pos;
-	WHSIZE t_size;
-	XMFLOAT4 color;
-	char* TexturName;
+	BOOL use;					// 使用しているか
+	XMFLOAT2 pos;				// どこに配置するか
+	WHSIZE size;				// サイズ
+	XMFLOAT2 t_pos;				// テクスチャの位置
+	WHSIZE t_size;				// テクスチャのサイズ
+	XMFLOAT4 color;				// 色
+	char* TexturName;			// テクスチャのパス
 	ID3D11ShaderResourceView* Texture;	// テクスチャ情報
 };
 

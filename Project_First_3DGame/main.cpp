@@ -363,11 +363,11 @@ void SetMode(PLAY_MODE mode) {
 	switch (mode)
 	{
 	case MODE_TITLE:
-		PlaySound(SOUND_LABEL_BGM_title);
 		UninitGame();	//MEMO:リザルトの背景で使いたいからここで終了処理をする
 		InitTitle();
 		SetCursorMove(true);
 		ShowCursor(true);
+		PlaySound(SOUND_LABEL_BGM_title);
 		break;
 	case MODE_TUTORIAL:
 		break;

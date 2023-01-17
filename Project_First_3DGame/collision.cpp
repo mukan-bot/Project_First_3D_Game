@@ -31,8 +31,9 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 		g_collision[i].layer = layer;
 		g_collision[i].type = type;
 		g_collision[i].use = true;
+
 #ifdef _DEBUG
-		//	デバック時はcollisionの範囲を表示しておく（重いから一旦消しておく）
+		//	デバック時はcollisionの範囲を表示しておくワイヤーフレームで表示しておく
 		if (type == TYPE_BB) {
 			g_collision[i].gameModelIndex = SetGameModel(CUBE_MODEL, g_collision[i].gameObjectIndex, 0, CULL_MODE_BACK);
 			SetGameModeFill(g_collision[i].gameModelIndex,D3D11_FILL_WIREFRAME);
@@ -44,7 +45,6 @@ int SetCollision(COLLISION_LAYER layer,COLLISION_TYPE type) {
 #endif // _DEBUG 
 
 		ans = i;
-
 		break;
 	}
 
@@ -92,7 +92,6 @@ bool GetColAnsUpdate(int index) {
 
 void InitCollision(void) {
 	for (int i = 0; i < COLLISION_MAX; i++) g_collision[i].use = false;	
-
 }
 
 

@@ -40,10 +40,6 @@ void UpdateGameObject(void) {
 			g_gameObject[i].use = false;
 			continue;
 		}
-
-		g_gameObject[i].position = AddXMFLOAT3(g_gameObject[i].position, g_gameObject[g_gameObject[i].parentIndex].position);
-		g_gameObject[i].rotation = AddXMFLOAT3(g_gameObject[i].rotation, g_gameObject[g_gameObject[i].parentIndex].rotation);
-		g_gameObject[i].scale = AddXMFLOAT3(g_gameObject[i].scale, g_gameObject[g_gameObject[i].parentIndex].scale);
 	}
 }
 
@@ -130,13 +126,28 @@ void SetGameObjectZERO(int index) {
 
 
 XMFLOAT3 GetPosition(int index) {
-	return g_gameObject[index].position;
+	XMFLOAT3 ans = g_gameObject[index].position;
+	// ペアレントが設定されていたらそれを足した値を返す
+	if (g_gameObject[index].parentIndex != -1) {
+		ans = AddXMFLOAT3(ans, g_gameObject[g_gameObject[index].parentIndex].position);
+	}
+	return ans;
 }
 XMFLOAT3 GetRotation(int index) {
-	return g_gameObject[index].rotation;
+	XMFLOAT3 ans = g_gameObject[index].rotation;
+	// ペアレントが設定されていたらそれを足した値を返す
+	if (g_gameObject[index].parentIndex != -1) {
+		ans = AddXMFLOAT3(ans, g_gameObject[g_gameObject[index].parentIndex].rotation);
+	}
+	return ans;
 }
 XMFLOAT3 GetScale(int index) {
-	return g_gameObject[index].scale;
+	XMFLOAT3 ans = g_gameObject[index].scale;
+	// ペアレントが設定されていたらそれを足した値を返す
+	if (g_gameObject[index].parentIndex != -1) {
+		ans = AddXMFLOAT3(ans, g_gameObject[g_gameObject[index].parentIndex].scale);
+	}
+	return ans;
 }
 int GetGameObjectParent(int index) {
 	return g_gameObject[index].parentIndex;

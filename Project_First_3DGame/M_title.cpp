@@ -36,7 +36,7 @@ void DrawTitle(void) {
 
 
 	// ライティングを有効に
-	SetLightEnable(true);	//TODO:ライト作ったらtrueに変える
+	SetLightEnable(true);
 	// Z比較あり
 	SetDepthEnable(true);
 }

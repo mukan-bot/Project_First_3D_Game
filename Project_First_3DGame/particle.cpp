@@ -71,7 +71,7 @@ HRESULT InitParticle(void){
 			&g_Texture[i],
 			NULL);
 	}
-
+	//パーティクルの初期設定
 	for (int i = 0; i < MAX_PARTICLE; i++) {
 		ZeroMemory(&g_element[i].material, sizeof(g_element[i].material));
 		g_element[i].material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -116,7 +116,7 @@ void UninitParticle(void)
 void UpdateParticle(void){
 	for (int i = 0; i < MAX_PARTICLE; i++) {
 		if (!g_element[i].use) continue;
-
+		// セットした時のオブジェクトが消えてたらパーティクルも消す
 		g_element[i].use = GetGameObjectUse(g_element[i].objIndex);
 	}
 }

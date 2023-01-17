@@ -82,7 +82,7 @@ bool CollisionBB(XMFLOAT3 pos1, XMFLOAT3 size1, XMFLOAT3 pos2, XMFLOAT3 size2);
 bool CollisionBC(XMFLOAT3 pos1, float r1, XMFLOAT3 pos2, float r2);
 
 
-
+//blenderÇ≈ê∂ê¨ÇµÇΩcsvÉtÉ@ÉCÉãÇì«Ç›éÊÇÈ
 void GetLevel_Csv(FILE* fp, int index, LEVEL_ELEMENT* ans);
 
 

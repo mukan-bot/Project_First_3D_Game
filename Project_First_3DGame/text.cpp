@@ -234,6 +234,7 @@ void SetText_d(TEXT text_p, int d) {
 		i++;
 	}
 
+	//“ü—Í‚ª‚O‚È‚ç‚O‚ğ•\¦‚µ‚ÄI—¹
 	if (d == 0) {
 		SetText(text_p, "‚O");
 		return;
