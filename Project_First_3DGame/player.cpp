@@ -184,7 +184,7 @@ void UpdatePlayer(void) {
 				XMFLOAT3 ePos = GetPosition(Eindex);
 
 				float  len = LengthXMFLOAT3(pos, ePos);
-				if (len > 30.0f) continue;
+				if (len > 40.0f) continue;
 
 				XMFLOAT3 vecE = SetXMFLOAT3(0.0f);
 
