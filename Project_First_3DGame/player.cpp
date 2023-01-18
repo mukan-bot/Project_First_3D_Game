@@ -13,6 +13,8 @@
 #include "UI.h"
 #include "sound.h"
 #include "input_D.h"
+#include "light.h"
+#include "enemy.h"
 
 #define MOVE_POWER	(0.12f)
 #define DASH_POWER	(0.12f)
@@ -172,68 +174,109 @@ void UpdatePlayer(void) {
 
 	//攻撃処理
 	{
-		//覗く
-		if (GetInputPress(AIMING)) {
-			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
-			ui->use = true;
-			g_isAiming = true;
-			if (GetInputPress(ATK_1)) {
+		LIGHT* lookLight = GetLightData(1);
+		if (GetInputPress(ATK_1)) {
+			lookLight->Enable = true;
+			SetLightData(1, lookLight);
+			for (int i = 0; i < ENEMY_MAX; i++) {
+				int Eindex = GetEnemyIndex(i);
+				if (Eindex == -1) continue;
+				XMFLOAT3 ePos = GetPosition(Eindex);
 
-				int index = SetGameObject();
-				pos.y += CAMERA_OFFSET;
+				float  len = LengthXMFLOAT3(pos, ePos);
+				if (len > 30.0f) continue;
 
-				//発射位置を自分より少し前に移動する
-				XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
+				XMFLOAT3 vecE = SetXMFLOAT3(0.0f);
+
+				XMFLOAT3 vec = SetXMFLOAT3(0.0f);
 				vec.x += sinf(rot.x);
 				vec.z += cosf(rot.x);
 				vec.y -= tanf(rot.z);
 				vec = NormalizeXMFLOAT3(vec);
-				pos = AddXMFLOAT3(pos, vec);
-				SetPosition(index, pos);
 
-				SetRotation(index, rot);
-				SetScale(index, scl);
-				//攻撃をセット
-				SetAttack(ATK_PLAYER_1, index);
-				DelGameObject(index);
+				vecE = SubXMFLOAT3(ePos, pos);
+				vecE = NormalizeXMFLOAT3(vecE);
+
+				float angle = DotProduct(&XMLoadFloat3(&vec), &XMLoadFloat3(&vecE));
+				if (angle > 0.99) {
+					int eHP = GetEnemyHP(i);
+					eHP -= 1;
+					SetEnemyHP(i, eHP);
+					PlaySound(SOUND_LABEL_SE_select1);
+				}
 			}
+			OutputDebug("\n\n\n\n");
 		}
-		//腰撃ち
 		else {
-			UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
-			ui->use = false;
-			g_isAiming = false;
-			if (GetInputPress(ATK_1)) {
-				
-				int index = SetGameObject();
-				pos.y += CAMERA_OFFSET;
-
-				//発射位置を自分より少し前に移動する
-				XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
-				vec.x += sinf(rot.x);
-				vec.z += cosf(rot.x);
-				vec.y -= tanf(rot.z);
-				vec = NormalizeXMFLOAT3(vec);
-				pos = AddXMFLOAT3(pos, vec);
-				SetPosition(index, pos);
-
-				//弾道のブレを発生させる
-				XMFLOAT3 tempRot = XMFLOAT3((rand() % ATK_RAND_MAX), (rand() % ATK_RAND_MAX), (rand() % ATK_RAND_MAX));
-				tempRot = SubXMFLOAT3(tempRot, SetXMFLOAT3(ATK_RAND_MAX / 2));
-				tempRot = MulXMFLOAT3(tempRot, SetXMFLOAT3(ATK_RAND_MUL));
-				tempRot = AddXMFLOAT3(rot, tempRot);
-				SetRotation(index, tempRot);
-
-				//一応スケールも更新しておく
-				SetScale(index, scl);
-				//攻撃をセット
-				SetAttack(ATK_PLAYER_1, index);
-				DelGameObject(index);
-			}
+			lookLight->Enable = false;
+			SetLightData(1, lookLight);
 		}
-		if (GetInputPress(ATK_2)) {
-			SetAttack(ATK_PLAYER_2, g_cameraIndex);
-		}
+
+
+
+
+		////覗く
+		//if (GetInputPress(AIMING)) {
+		//	UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
+		//	ui->use = true;
+		//	g_isAiming = true;
+		//	if (GetInputPress(ATK_1)) {
+
+		//		int index = SetGameObject();
+		//		pos.y += CAMERA_OFFSET;
+
+		//		//発射位置を自分より少し前に移動する
+		//		XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
+		//		vec.x += sinf(rot.x);
+		//		vec.z += cosf(rot.x);
+		//		vec.y -= tanf(rot.z);
+		//		vec = NormalizeXMFLOAT3(vec);
+		//		pos = AddXMFLOAT3(pos, vec);
+		//		SetPosition(index, pos);
+
+		//		SetRotation(index, rot);
+		//		SetScale(index, scl);
+		//		//攻撃をセット
+		//		SetAttack(ATK_PLAYER_1, index);
+		//		DelGameObject(index);
+		//	}
+		//}
+		////腰撃ち
+		//else {
+		//	UI_ELEMENT* ui = GetUI(ATK_MAHOUZIN);
+		//	ui->use = false;
+		//	g_isAiming = false;
+		//	if (GetInputPress(ATK_1)) {
+		//		
+		//		int index = SetGameObject();
+		//		pos.y += CAMERA_OFFSET;
+
+		//		//発射位置を自分より少し前に移動する
+		//		XMFLOAT3 vec = XMFLOAT3(0.0f, 0.0f, 0.0f);
+		//		vec.x += sinf(rot.x);
+		//		vec.z += cosf(rot.x);
+		//		vec.y -= tanf(rot.z);
+		//		vec = NormalizeXMFLOAT3(vec);
+		//		pos = AddXMFLOAT3(pos, vec);
+		//		SetPosition(index, pos);
+
+		//		//弾道のブレを発生させる
+		//		XMFLOAT3 tempRot = XMFLOAT3((rand() % ATK_RAND_MAX), (rand() % ATK_RAND_MAX), (rand() % ATK_RAND_MAX));
+		//		tempRot = SubXMFLOAT3(tempRot, SetXMFLOAT3(ATK_RAND_MAX / 2));
+		//		tempRot = MulXMFLOAT3(tempRot, SetXMFLOAT3(ATK_RAND_MUL));
+		//		tempRot = AddXMFLOAT3(rot, tempRot);
+		//		SetRotation(index, tempRot);
+
+		//		//一応スケールも更新しておく
+		//		SetScale(index, scl);
+		//		//攻撃をセット
+		//		SetAttack(ATK_PLAYER_1, index);
+		//		DelGameObject(index);
+		//	}
+		//}
+		//if (GetInputPress(ATK_2)) {
+		//	SetAttack(ATK_PLAYER_2, g_cameraIndex);
+		//}
 	}
 
 	if (GetKeyboardPress(DIK_9)) {
