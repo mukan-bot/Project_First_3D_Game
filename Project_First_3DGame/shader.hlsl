@@ -201,7 +201,7 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 					float angle = dot(ligDir, Light.Direction[i]);
 					if (angle > 0.0f) {
 						angle = abs(acos(angle));
-						float affect = 1.0f - 1.0f / 0.4f * angle;
+						float affect = 1.0f - 1.0f / 0.2f * angle;
 						if (affect < 0.0f) {
 
 						}

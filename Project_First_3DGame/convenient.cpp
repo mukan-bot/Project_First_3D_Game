@@ -122,7 +122,7 @@ bool ComparisonXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b) {
 float LengthXMFLOAT3(XMFLOAT3 a, XMFLOAT3 b) {
     float ans = 0.0f;
 
-    XMVECTOR temp = XMLoadFloat3(&a) - XMLoadFloat3(&b);
+    XMVECTOR temp = XMVector3Length(XMLoadFloat3(&a) - XMLoadFloat3(&b));
     XMStoreFloat(&ans, temp);
 
     return ans;

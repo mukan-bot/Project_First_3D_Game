@@ -11,9 +11,8 @@
 #include "attack.h"
 #include "sound.h"
 
-#define ENEMY_MAX	(20)
 
-#define MODEL_PATH	("./data/MODEL/Skull/skull.obj")
+#define MODEL_PATH			("./data/MODEL/Skull/skull.obj")
 #define MODEL_PARTS_PATH	("./data/MODEL/Skull/jaw.obj")
 
 #define MOVE_ROT_ANGLE		(180)
@@ -58,9 +57,6 @@ struct ENEMY{
 	//UŒ‚
 	bool isATK;		//UŒ‚‚µ‚Ä‚é‚©
 	int atkCount;	//UŒ‚‚Ü‚Å‚ÌƒJƒEƒ“ƒgƒ_ƒEƒ“
-
-
-	
 };
 
 
@@ -334,4 +330,20 @@ void LookPlayer(ENEMY* enemy) {
 	else {
 		enemy->atkCount++;
 	}
+}
+
+
+int GetEnemyIndex(int index) {
+	if (g_enemy[index].use) {
+		return g_enemy[index].objIndex;
+	}
+	return -1;
+}
+
+int GetEnemyHP(int index) {
+	return g_enemy[index].HP;
+}
+
+void SetEnemyHP(int index, int hp) {
+	g_enemy[index].HP = hp;
 }
