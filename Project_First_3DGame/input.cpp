@@ -59,7 +59,7 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 			XinputName[i] = XINPUT_GAMEPAD_LEFT_THUMB;
 			break;
 		case ATK_1:
-			KeyName[i] = DIK_1;
+			KeyName[i] = DIK_SPACE;
 			DinputName[i] = BUTTON_R;
 			XinputName[i] = XINPUT_GAMEPAD_RIGHT_SHOULDER;
 			break;

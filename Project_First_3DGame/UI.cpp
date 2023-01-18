@@ -34,7 +34,7 @@ HRESULT InitUI(void) {
 
 	//それぞれ初期設定
 	UI i;
-
+	//レティクル
 	i = ATK_MAHOUZIN;
 	g_UIelement[i].use = false;
 	g_UIelement[i].size = WHSIZE(400, 400);
@@ -46,6 +46,7 @@ HRESULT InitUI(void) {
 	g_UIelement[i].Texture = NULL;
 	D3DX11CreateShaderResourceViewFromFile(GetDevice(), g_UIelement[i].TexturName,NULL,NULL,&g_UIelement[i].Texture,NULL);
 
+	//未使用
 	i = ICON_MAHOUZIN;
 	g_UIelement[i].use = false;
 	g_UIelement[i].size = WHSIZE(100, 100);
@@ -56,8 +57,9 @@ HRESULT InitUI(void) {
 	g_UIelement[i].TexturName = "./data/TEXTURE/mahouzin_icon.png";
 	g_UIelement[i].Texture = NULL;
 	D3DX11CreateShaderResourceViewFromFile(GetDevice(), g_UIelement[i].TexturName, NULL, NULL, &g_UIelement[i].Texture, NULL);
-
-	i = BLIND_MAHOUZIN;		//TODO:画像をなんかいいのに変える
+	
+	//未使用
+	i = BLIND_MAHOUZIN;	
 	g_UIelement[i].use = false;
 	g_UIelement[i].size = WHSIZE(100, 100);
 	g_UIelement[i].pos = XMFLOAT2(SCREEN_WIDTH - 110 - 50, SCREEN_HEIGHT - 10 - 50);

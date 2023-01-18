@@ -12,6 +12,7 @@
 #include "attack.h"
 #include "UI.h"
 #include "sound.h"
+#include "input_D.h"
 
 #define MOVE_POWER	(0.12f)
 #define DASH_POWER	(0.12f)
@@ -234,6 +235,11 @@ void UpdatePlayer(void) {
 			SetAttack(ATK_PLAYER_2, g_cameraIndex);
 		}
 	}
+
+	if (GetKeyboardPress(DIK_9)) {
+		g_HP = 100;
+	}
+
 
 
 	//シーン遷移リザルト負け（HPが０になったら）

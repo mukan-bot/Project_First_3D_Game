@@ -171,23 +171,19 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 		float4 tempColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float4 outColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-		for (int i = 0; i < 5; i++)
-		{
+		for (int i = 0; i < 5; i++){
 			float3 lightDir;
 			float light;
 
-			if (Light.Flags[i].y == 1)
-			{
-				if (Light.Flags[i].x == 1)
-				{
+			if (Light.Flags[i].y == 1){	// ディレクショナルライト
+				if (Light.Flags[i].x == 1){
 					lightDir = normalize(Light.Direction[i].xyz);
 					light = dot(lightDir, inNormal.xyz);
 
 					light = 0.5 - 0.5 * light;
 					tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
 				}
-				else if (Light.Flags[i].x == 2)
-				{
+				else if (Light.Flags[i].x == 2){	// ポイントライト
 					lightDir = normalize(Light.Position[i].xyz - inWorldPos.xyz);
 					light = dot(lightDir, inNormal.xyz);
 
@@ -198,25 +194,31 @@ void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
 					float att = saturate((Light.Attenuation[i].x - distance) / Light.Attenuation[i].x);
 					tempColor *= att;
 				}
-				else if (Light.Flags[i].x == 3) {
+				else if (Light.Flags[i].x == 3) {	// スポットライト
 					float3 ligDir = inWorldPos.xyz - Light.Position[i].xyz;
 					ligDir = normalize(ligDir);
 
 					float angle = dot(ligDir, Light.Direction[i]);
-					angle = abs(acos(angle));
-					float affect = 1.0f - 1.0f / 0.3f * angle;
-					if (affect < 0.0f) {
-					}
-					else {
-						lightDir = normalize(Light.Position[i].xyz - inWorldPos.xyz);
-						light = dot(lightDir, inNormal.xyz);
+					if (angle > 0.0f) {
+						angle = abs(acos(angle));
+						float affect = 1.0f - 1.0f / 0.4f * angle;
+						if (affect < 0.0f) {
 
-						tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
+						}
+						else {
+							lightDir = normalize(Light.Position[i].xyz - inWorldPos.xyz);
+							light = dot(lightDir, inNormal.xyz);
 
-						float distance = length(inWorldPos - Light.Position[i]);
+							tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
 
-						float att = saturate((Light.Attenuation[i].x - distance) / Light.Attenuation[i].x);
-						tempColor *= att;
+
+
+							float distance = length(inWorldPos - Light.Position[i]);
+
+
+							float att = saturate((Light.Attenuation[i].x - distance) / Light.Attenuation[i].x);
+							tempColor *= att;
+						}
 					}
 
 				}

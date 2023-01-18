@@ -57,7 +57,7 @@ void InitLight(void)
 	SetLight(0, &g_Light[0]);									// これで設定している
 
 	// 視点追従スポットライト
-	g_Light[1].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);		//ポイントライトだから向きは適当
+	g_Light[1].Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);		//向き
 	g_Light[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// 光の色
 	g_Light[1].Type = LIGHT_TYPE_SPOTLIGHT;					// スポットライト
 	g_Light[1].Attenuation = 80.0f;	// 減衰距離
@@ -72,7 +72,17 @@ void InitLight(void)
 	g_Light[2].Attenuation = 30.0f;	// 減衰距離
 	g_Light[2].Enable = true;								// このライトをON
 	g_Light[2].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定	
-	SetLight(2, &g_Light[1]);								// これで設定している
+	SetLight(2, &g_Light[2]);								// これで設定している
+
+	// 見せるようスポットライト
+	g_Light[3].Direction = XMFLOAT3(-0.8f, -1.0f, -0.2f);		//向き
+	g_Light[3].Diffuse = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);	// 光の色
+	g_Light[3].Type = LIGHT_TYPE_SPOTLIGHT;					// スポットライト
+	g_Light[3].Attenuation = 80.0f;	// 減衰距離
+	g_Light[3].Enable = true;								// このライトをON
+	g_Light[3].Position = XMFLOAT3(2.0f,5.0f,0.0f);	//Positionを設定	
+	SetLight(3, &g_Light[3]);								// これで設定している
+
 
 	// フォグの初期化（霧の効果）
 	g_Fog.FogStart = 100.0f;									// 視点からこの距離離れるとフォグがかかり始める
@@ -108,6 +118,7 @@ void UpdateLight(void)
 		g_Light[2].Position = GetPosition(GetPlayerGameObjectIndex());	//Positionを設定
 		SetLight(2, &g_Light[2]);								// これで設定している
 	}
+
 }
 
 
