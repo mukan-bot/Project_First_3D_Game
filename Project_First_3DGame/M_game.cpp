@@ -15,7 +15,6 @@
 #include "particle.h"
 #include "enemy.h"
 #include "input.h"
-#include "EnemyHP.h"
 
 
 HRESULT InitGame(void) {
@@ -39,8 +38,6 @@ HRESULT InitGame(void) {
 
 	InitAttack();
 
-	InitEnemyHpBar();
-
 	return S_OK;
 }
 void UninitGame(void) {
@@ -59,8 +56,6 @@ void UninitGame(void) {
 
 	UninitGameModel();
 
-	UninitEnemyHpBar();
-
 }
 void UpdateGame(void) {
 
@@ -76,8 +71,6 @@ void UpdateGame(void) {
 	UpdateParticle();
 
 	UpdateField();
-
-	UpdateEnemyHpBar();
 }
 
 
@@ -101,7 +94,6 @@ void DrawGame(void) {
 
 	DrawUI();
 
-	DrawEnemyHpBar();
 
 	// ライティングを有効に
 	SetLightEnable(true);

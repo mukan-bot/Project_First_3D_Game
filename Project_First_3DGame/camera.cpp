@@ -53,6 +53,7 @@ void DrawCamera(void) {
 	mtxView = XMMatrixInverse(nullptr, world);
 
 	XMStoreFloat4x4(&g_mtxView, mtxView);	// ビルボードとかで使うため
+	
 	SetViewMatrix(& mtxView);
 
 	//プロジェクションマトリックス設定

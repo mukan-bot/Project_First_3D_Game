@@ -11,6 +11,7 @@
 #include "attack.h"
 #include "sound.h"
 #include "sprite.h"
+#include "camera.h"
 
 
 #define MODEL_PATH			("./data/MODEL/Skull/skull.obj")
@@ -23,6 +24,13 @@
 
 #define ATK_DELAY		(60)	//プレイヤーを見つけてから(口を開けてから)60F後に攻撃を発射
 #define LOOK_PLAYER		(XMFLOAT3(40.0f,40.0f,40.0f))	//プレイヤーを探知できる範囲
+
+#define BAR_TEXTURE			("./data/TEXTURE/WhiteOut.png")	// バーのテクスチャー（色変えで使用）
+#define BAR_SIZE_WIDTH		(6)	// バーのサイズ横
+#define BAR_SIZE_HEIGHT		(1)	// バーのサイズ縦
+#define BAR_OFFSET_Y		(4)		// バーを表示する座標のoffset
+#define BAR_COLOR_1			(XMFLOAT4(1.0f,0.0f,0.0f,1.0f))	// HPバーの下の色
+#define BAR_COLOR_2			(XMFLOAT4(0.0f,1.0f,0.0f,1.0f))	// HPバーの残量
 
 enum ENEMY_STATE{
 	ENEMY_STOP,
@@ -58,6 +66,11 @@ struct ENEMY{
 	//攻撃
 	bool isATK;		//攻撃してるか
 	int atkCount;	//攻撃までのカウントダウン
+
+	//HPバーの表示
+	WHSIZE barSize;
+	MATERIAL material;
+	ID3D11Buffer* vertexBuffer;	//HPバーの残量の頂点バッファー
 };
 
 
@@ -66,9 +79,15 @@ ENEMY g_enemy[20];
 int g_pObjectIndex;	// プレイヤーのオブジェクトインデックスを所得
 XMFLOAT3 g_pPos;	// プレイヤーの座標を保存する
 
+static ID3D11Buffer* g_VertexBuffer = NULL;	//HPバーの全体量の頂点バッファ
+
+
+static ID3D11ShaderResourceView* g_Texture = NULL;
+
+
 //プロトタイプ宣言
 void LookPlayer(ENEMY* enemy);	// プレイヤーが近くに要るかを判断
-
+HRESULT MakeVertexEnemyHpBar(ID3D11Buffer** vertexBuffer, float fWidth, float fHeight);
 
 HRESULT InitEnemy(void) {
 
@@ -109,8 +128,18 @@ HRESULT InitEnemy(void) {
 		SetRotation(index, rot);
 		SetScale(index, MulXMFLOAT3(scl, g_enemy[i].c_size));
 
-	}
+		// 頂点バッファ生成
+		MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer, BAR_SIZE_WIDTH, BAR_SIZE_HEIGHT);
 
+		// マテリアル
+		ZeroMemory(&g_enemy[i].material, sizeof(g_enemy[i].material));
+		g_enemy[i].material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+	// 頂点バッファ生成
+	MakeVertexEnemyHpBar(&g_VertexBuffer, BAR_SIZE_WIDTH, BAR_SIZE_HEIGHT);
+	//HPバー用のテクスチャの読み込み
+	g_Texture = NULL;
+	D3DX11CreateShaderResourceViewFromFile(GetDevice(), BAR_TEXTURE, NULL, NULL, &g_Texture, NULL);
 
 	return S_OK;
 }
@@ -289,6 +318,122 @@ void UpdateEnemy(void) {
 	}
 }
 void DrawEnemy(void) {
+	XMMATRIX mtxScl, mtxTranslate, mtxWorld, mtxView;
+	XMFLOAT4X4 camMtxView = GetCameraMtxView();
+
+	SetAlphaTestEnable(true);
+
+	UINT stride = sizeof(VERTEX_3D);
+	UINT offset = 0;
+
+	// プリミティブトポロジ設定
+	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+
+	for (int i = 0; i < ENEMY_MAX; i++) {
+		if (g_enemy[i].use) {
+			// 頂点バッファ設定
+			stride = sizeof(VERTEX_3D);
+			offset = 0;
+			GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
+
+			//HPバーの下地の描画ーーーーーーーーーーーーーーーーーーーーーー
+			//色の変更
+			g_enemy[i].material.Diffuse = BAR_COLOR_1;
+
+			// テクスチャ設定
+			GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture);
+
+			XMFLOAT3 pos = GetPosition(g_enemy[i].objIndex);
+
+			// ワールドマトリックスの初期化
+			mtxWorld = XMMatrixIdentity();
+
+			// ビューマトリックスを取得
+			mtxView = XMLoadFloat4x4(&camMtxView);
+
+
+			mtxWorld.r[0].m128_f32[0] = mtxView.r[0].m128_f32[0];
+			mtxWorld.r[0].m128_f32[1] = mtxView.r[1].m128_f32[0];
+			mtxWorld.r[0].m128_f32[2] = mtxView.r[2].m128_f32[0];
+
+			mtxWorld.r[1].m128_f32[0] = mtxView.r[0].m128_f32[1];
+			mtxWorld.r[1].m128_f32[1] = mtxView.r[1].m128_f32[1];
+			mtxWorld.r[1].m128_f32[2] = mtxView.r[2].m128_f32[1];
+
+			mtxWorld.r[2].m128_f32[0] = mtxView.r[0].m128_f32[2];
+			mtxWorld.r[2].m128_f32[1] = mtxView.r[1].m128_f32[2];
+			mtxWorld.r[2].m128_f32[2] = mtxView.r[2].m128_f32[2];
+
+			// 移動を反映
+			pos.y += BAR_OFFSET_Y;
+			mtxTranslate = XMMatrixTranslation(pos.x, pos.y, pos.z);
+			mtxWorld = XMMatrixMultiply(mtxWorld, mtxTranslate);
+
+			// ワールドマトリックスの設定
+			SetWorldMatrix(&mtxWorld);
+
+			// マテリアル設定
+			SetMaterial(g_enemy[i].material);
+
+			// ポリゴンの描画
+			GetDeviceContext()->Draw(4, 0);
+
+
+
+			//HPバーの残量の描画ーーーーーーーーーーーーーーーーーーーーーー
+			// 頂点バッファ生成
+			MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer, -BAR_SIZE_WIDTH + ((BAR_SIZE_WIDTH * (g_enemy[i].HP / 100.0f))*2), BAR_SIZE_HEIGHT);	// 長さをHPの残量に合わせる
+			// 頂点バッファ設定
+			stride = sizeof(VERTEX_3D);
+			offset = 0;
+			GetDeviceContext()->IASetVertexBuffers(0, 1, &g_enemy[i].vertexBuffer, &stride, &offset);
+			//色の変更
+			g_enemy[i].material.Diffuse = BAR_COLOR_2;
+
+			// テクスチャ設定
+			GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture);
+
+			pos = GetPosition(g_enemy[i].objIndex);
+
+			// ワールドマトリックスの初期化
+			mtxWorld = XMMatrixIdentity();
+
+			// ビューマトリックスを取得
+			mtxView = XMLoadFloat4x4(&camMtxView);
+
+			mtxWorld.r[0].m128_f32[0] = mtxView.r[0].m128_f32[0];
+			mtxWorld.r[0].m128_f32[1] = mtxView.r[1].m128_f32[0];
+			mtxWorld.r[0].m128_f32[2] = mtxView.r[2].m128_f32[0];
+
+			mtxWorld.r[1].m128_f32[0] = mtxView.r[0].m128_f32[1];
+			mtxWorld.r[1].m128_f32[1] = mtxView.r[1].m128_f32[1];
+			mtxWorld.r[1].m128_f32[2] = mtxView.r[2].m128_f32[1];
+
+			mtxWorld.r[2].m128_f32[0] = mtxView.r[0].m128_f32[2];
+			mtxWorld.r[2].m128_f32[1] = mtxView.r[1].m128_f32[2];
+			mtxWorld.r[2].m128_f32[2] = mtxView.r[2].m128_f32[2];
+
+			// 移動を反映
+			pos.y += BAR_OFFSET_Y;
+			mtxTranslate = XMMatrixTranslation(pos.x, pos.y, pos.z);
+			mtxWorld = XMMatrixMultiply(mtxWorld, mtxTranslate);
+
+
+			// ワールドマトリックスの設定
+			SetWorldMatrix(&mtxWorld);
+
+			// マテリアル設定
+			SetMaterial(g_enemy[i].material);
+
+			// ポリゴンの描画
+			GetDeviceContext()->Draw(4, 0);
+
+		}
+	}
+
+	SetAlphaTestEnable(false);
+
 }
 
 void SetEnemy(XMFLOAT3 pos,XMFLOAT3 rot, XMFLOAT3 scl) {
@@ -347,4 +492,47 @@ int GetEnemyHP(int index) {
 
 void SetEnemyHP(int index, int hp) {
 	g_enemy[index].HP = hp;
+}
+
+
+// 頂点情報の作成
+HRESULT MakeVertexEnemyHpBar(ID3D11Buffer** vertexBuffer, float fWidth, float fHeight) {
+	// 頂点バッファ生成
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	GetDevice()->CreateBuffer(&bd, NULL, vertexBuffer);
+
+	// 頂点バッファに値をセットする
+	D3D11_MAPPED_SUBRESOURCE msr;
+	GetDeviceContext()->Map(*vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+	// 頂点座標の設定
+
+	vertex[0].Position = XMFLOAT3(-BAR_SIZE_WIDTH / 2, 0, 0.0f);
+	vertex[1].Position = XMFLOAT3(fWidth / 2, 0, 0.0f);
+	vertex[2].Position = XMFLOAT3(-BAR_SIZE_WIDTH / 2, -fHeight, 0.0f);
+	vertex[3].Position = XMFLOAT3(fWidth / 2, -fHeight, 0.0f);
+
+	// 拡散光の設定
+	vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	// テクスチャ座標の設定
+	vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
+	vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
+	vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
+	vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+
+	GetDeviceContext()->Unmap(*vertexBuffer, 0);
+
+	return S_OK;
 }
