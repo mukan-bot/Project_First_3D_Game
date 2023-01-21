@@ -10,6 +10,7 @@
 #include "collision.h"
 #include "attack.h"
 #include "sound.h"
+#include "sprite.h"
 
 
 #define MODEL_PATH			("./data/MODEL/Skull/skull.obj")

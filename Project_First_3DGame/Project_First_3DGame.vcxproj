@@ -148,6 +148,7 @@
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="convenient.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="EnemyHP.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="input.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="collision.h" />
     <ClInclude Include="convenient.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="EnemyHP.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="input.h" />

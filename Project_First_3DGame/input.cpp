@@ -70,7 +70,7 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd) {
 			break;
 		case AIMING:
 			KeyName[i] = DIK_Q;
-			DinputName[i] = BUTTON_L;	//TODO:‚ ‚Æ‚Å•Ï‚¦‚é
+			DinputName[i] = BUTTON_L;
 			XinputName[i] = XINPUT_GAMEPAD_LEFT_SHOULDER;
 
 		default:
