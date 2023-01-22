@@ -379,8 +379,6 @@ void DrawEnemy(void) {
 			// ポリゴンの描画
 			GetDeviceContext()->Draw(4, 0);
 
-
-
 			//HPバーの残量の描画ーーーーーーーーーーーーーーーーーーーーーー
 			// 頂点バッファ生成
 			MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer, -BAR_SIZE_WIDTH + ((BAR_SIZE_WIDTH * (g_enemy[i].HP / 100.0f))*2), BAR_SIZE_HEIGHT);	// 長さをHPの残量に合わせる
@@ -419,7 +417,6 @@ void DrawEnemy(void) {
 			mtxTranslate = XMMatrixTranslation(pos.x, pos.y, pos.z);
 			mtxWorld = XMMatrixMultiply(mtxWorld, mtxTranslate);
 
-
 			// ワールドマトリックスの設定
 			SetWorldMatrix(&mtxWorld);
 
@@ -428,7 +425,6 @@ void DrawEnemy(void) {
 
 			// ポリゴンの描画
 			GetDeviceContext()->Draw(4, 0);
-
 		}
 	}
 
