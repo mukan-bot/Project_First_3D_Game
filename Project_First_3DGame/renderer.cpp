@@ -10,8 +10,7 @@
 #define DEBUG_DISP_TEXTOUT
 //シェーダーデバッグ設定を有効にする
 //#define DEBUG_SHADER
-
-
+#define DISSOLVE ("./data/TEXTURE/Dissolve.png")
 //*********************************************************
 // 構造体
 //*********************************************************
@@ -25,7 +24,8 @@ struct MATERIAL_CBUFFER
 	XMFLOAT4	Emission;
 	float		Shininess;
 	int			noTexSampling;
-	float		Dummy[2];				// 16byte境界用
+	float		DissolveAlpha;
+	float		Dummy[1];				// 16byte境界用
 };
 
 // ライト用フラグ構造体
@@ -127,6 +127,9 @@ static FOG_CBUFFER		g_Fog;
 static FUCHI			g_Fuchi;
 
 static INSTANCE_CBUFFER g_Instance;
+
+///Dissolve用テクスチャ
+ID3D11ShaderResourceView* g_DissolveTemp;
 
 
 ID3D11Device* GetDevice( void )
@@ -323,6 +326,7 @@ void SetMaterial( MATERIAL material )
 	g_Material.Emission = material.Emission;
 	g_Material.Shininess = material.Shininess;
 	g_Material.noTexSampling = material.noTexSampling;
+	g_Material.DissolveAlpha = material.DissolveAlpha;
 
 	GetDeviceContext()->UpdateSubresource( g_MaterialBuffer, 0, NULL, &g_Material, 0, 0 );
 }
@@ -744,6 +748,16 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
+
+
+
+	D3DX11CreateShaderResourceViewFromFile(GetDevice(),
+		DISSOLVE,
+		NULL,
+		NULL,
+		&g_DissolveTemp,
+		NULL);
+	GetDeviceContext()->PSSetShaderResources(1, 1, &g_DissolveTemp);
 
 	return S_OK;
 }

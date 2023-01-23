@@ -73,6 +73,7 @@ struct MATERIAL
 	XMFLOAT4	Emission;
 	float		Shininess;
 	int			noTexSampling;
+	float		DissolveAlpha = 1.0f;
 };
 
 // ƒ‰ƒCƒg\‘¢‘Ì

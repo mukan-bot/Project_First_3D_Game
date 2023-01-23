@@ -34,7 +34,8 @@ struct MATERIAL
 	float4		Emission;
 	float		Shininess;
 	int			noTexSampling;
-	float		Dummy[2];//16byte境界用
+	float		DissolveAlpha;
+	float		Dummy[1];//16byte境界用
 };
 
 cbuffer MaterialBuffer : register( b3 )
@@ -55,7 +56,7 @@ struct LIGHT
 	int			Dummy[3];//16byte境界用
 };
 
-cbuffer LightBuffer : register( b4 )
+cbuffer LightBuffer : register(b4)
 {
 	LIGHT		Light;
 }
@@ -69,7 +70,7 @@ struct FOG
 };
 
 // フォグ用バッファ
-cbuffer FogBuffer : register( b5 )
+cbuffer FogBuffer : register(b5)
 {
 	FOG			Fog;
 };
@@ -89,12 +90,12 @@ cbuffer CameraBuffer : register(b7)
 
 struct INSTANCE
 {
-    matrix World[1000];
+	matrix World[1000];
 };
 
 cbuffer InstanceBuffer : register(b8)
 {
-    INSTANCE Instance;
+	INSTANCE Instance;
 }
 
 
@@ -102,29 +103,29 @@ cbuffer InstanceBuffer : register(b8)
 //=============================================================================
 // 頂点シェーダ
 //=============================================================================
-void VertexShaderPolygon( in  float4 inPosition		: POSITION0,
-						  in  float4 inNormal		: NORMAL0,
-						  in  float4 inDiffuse		: COLOR0,
-						  in  float2 inTexCoord		: TEXCOORD0,
-						  in  uint   InstanceID     : SV_InstanceID,	
+void VertexShaderPolygon(in  float4 inPosition		: POSITION0,
+	in  float4 inNormal : NORMAL0,
+	in  float4 inDiffuse : COLOR0,
+	in  float2 inTexCoord : TEXCOORD0,
+	in  uint   InstanceID : SV_InstanceID,
 
-						  out float4 outPosition	: SV_POSITION,
-						  out float4 outNormal		: NORMAL0,
-						  out float2 outTexCoord	: TEXCOORD0,
-						  out float4 outDiffuse		: COLOR0,
-						  out float4 outWorldPos    : POSITION0)
+	out float4 outPosition : SV_POSITION,
+	out float4 outNormal : NORMAL0,
+	out float2 outTexCoord : TEXCOORD0,
+	out float4 outDiffuse : COLOR0,
+	out float4 outWorldPos : POSITION0)
 {
-    matrix wvp;
-    wvp = mul(World, View);
-    wvp = mul(wvp, Projection);
-    outPosition = mul(inPosition, wvp);
+	matrix wvp;
+	wvp = mul(World, View);
+	wvp = mul(wvp, Projection);
+	outPosition = mul(inPosition, wvp);
 
-    outNormal = normalize(mul(float4(inNormal.xyz, 0.0f), World));
+	outNormal = normalize(mul(float4(inNormal.xyz, 0.0f), World));
 
-    outTexCoord = inTexCoord;
-    outWorldPos = mul(inPosition, World);
+	outTexCoord = inTexCoord;
+	outWorldPos = mul(inPosition, World);
 
-    outDiffuse = inDiffuse;
+	outDiffuse = inDiffuse;
 
 }
 
@@ -133,23 +134,30 @@ void VertexShaderPolygon( in  float4 inPosition		: POSITION0,
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-Texture2D		g_Texture : register( t0 );
-SamplerState	g_SamplerState : register( s0 );
+Texture2D		g_Texture : register(t0);
+Texture2D		g_DissolveTex : register(t1);	//ディゾルブ用のテクスチャを入れておく
+SamplerState	g_SamplerState : register(s0);
+
 
 
 //=============================================================================
 // ピクセルシェーダ
 //=============================================================================
 [earlydepthstencil]
-void PixelShaderPolygon( in  float4 inPosition		: SV_POSITION,
-						 in  float4 inNormal		: NORMAL0,
-						 in  float2 inTexCoord		: TEXCOORD0,
-						 in  float4 inDiffuse		: COLOR0,
-						 in  float4 inWorldPos      : POSITION0,
+void PixelShaderPolygon(in  float4 inPosition		: SV_POSITION,
+	in  float4 inNormal : NORMAL0,
+	in  float2 inTexCoord : TEXCOORD0,
+	in  float4 inDiffuse : COLOR0,
+	in  float4 inWorldPos : POSITION0,
 
-						 out float4 outDiffuse		: SV_Target )
+	out float4 outDiffuse : SV_Target)
 {
 	float4 color;
+	float4 DissolveAlphaColor;
+	DissolveAlphaColor = g_DissolveTex.Sample(g_SamplerState, inTexCoord);
+	if (Material.DissolveAlpha.r < DissolveAlphaColor.r) {
+		discard;
+	}
 
 	if (Material.noTexSampling == 0)
 	{
