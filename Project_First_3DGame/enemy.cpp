@@ -31,6 +31,7 @@
 #define BAR_OFFSET_Y		(4)		// バーを表示する座標のoffset
 #define BAR_COLOR_1			(XMFLOAT4(1.0f,0.0f,0.0f,1.0f))	// HPバーの下の色
 #define BAR_COLOR_2			(XMFLOAT4(0.0f,1.0f,0.0f,1.0f))	// HPバーの残量
+#define BAR_SHOW_LEN		(45)	// バーが表示される距離（PLAYERとエネミー間）
 
 enum ENEMY_STATE{
 	ENEMY_STOP,
@@ -70,7 +71,8 @@ struct ENEMY{
 	//HPバーの表示
 	WHSIZE barSize;
 	MATERIAL material;
-	ID3D11Buffer* vertexBuffer;	//HPバーの残量の頂点バッファー
+	ID3D11Buffer* vertexBuffer1;	//HPバーの残量の頂点バッファー
+	ID3D11Buffer* vertexBuffer2;	//HPバーの残量の頂点バッファー
 };
 
 
@@ -129,7 +131,8 @@ HRESULT InitEnemy(void) {
 		SetScale(index, MulXMFLOAT3(scl, g_enemy[i].c_size));
 
 		// 頂点バッファ生成
-		MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer, BAR_SIZE_WIDTH, BAR_SIZE_HEIGHT);
+		//MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer1, BAR_SIZE_WIDTH, BAR_SIZE_HEIGHT);
+		//MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer2, BAR_SIZE_WIDTH, BAR_SIZE_HEIGHT);
 
 		// マテリアル
 		ZeroMemory(&g_enemy[i].material, sizeof(g_enemy[i].material));
@@ -337,14 +340,16 @@ void DrawEnemy(void) {
 
 			float len = LengthXMFLOAT3(pPos, GetPosition(g_enemy[i].objIndex));
 
-			if (len < 50) {
+			if (len < BAR_SHOW_LEN) {
+
+				//HPバーの下地の描画ーーーーーーーーーーーーーーーーーーーーーー
+				MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer1, BAR_SIZE_WIDTH, BAR_SIZE_HEIGHT);	// 長さをHPの残量に合わせる
 
 				// 頂点バッファ設定
 				stride = sizeof(VERTEX_3D);
 				offset = 0;
-				GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
+				GetDeviceContext()->IASetVertexBuffers(0, 1, &g_enemy[i].vertexBuffer1, &stride, &offset);
 
-				//HPバーの下地の描画ーーーーーーーーーーーーーーーーーーーーーー
 				//色の変更
 				g_enemy[i].material.Diffuse = BAR_COLOR_1;
 
@@ -386,13 +391,14 @@ void DrawEnemy(void) {
 				// ポリゴンの描画
 				GetDeviceContext()->Draw(4, 0);
 
+
 				//HPバーの残量の描画ーーーーーーーーーーーーーーーーーーーーーー
 				// 頂点バッファ生成
-				MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer, -BAR_SIZE_WIDTH + ((BAR_SIZE_WIDTH * (g_enemy[i].HP / 100.0f)) * 2), BAR_SIZE_HEIGHT);	// 長さをHPの残量に合わせる
+				MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer2, -BAR_SIZE_WIDTH + ((BAR_SIZE_WIDTH * (g_enemy[i].HP / 100.0f)) * 2), BAR_SIZE_HEIGHT);	// 長さをHPの残量に合わせる
 				// 頂点バッファ設定
 				stride = sizeof(VERTEX_3D);
 				offset = 0;
-				GetDeviceContext()->IASetVertexBuffers(0, 1, &g_enemy[i].vertexBuffer, &stride, &offset);
+				GetDeviceContext()->IASetVertexBuffers(0, 1, &g_enemy[i].vertexBuffer2, &stride, &offset);
 				//色の変更
 				g_enemy[i].material.Diffuse = BAR_COLOR_2;
 
