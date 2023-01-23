@@ -329,102 +329,112 @@ void DrawEnemy(void) {
 	// プリミティブトポロジ設定
 	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
+	int Pindex = GetPlayerGameObjectIndex();
+	XMFLOAT3 pPos = GetPosition(Pindex);
 
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		if (g_enemy[i].use) {
-			// 頂点バッファ設定
-			stride = sizeof(VERTEX_3D);
-			offset = 0;
-			GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
 
-			//HPバーの下地の描画ーーーーーーーーーーーーーーーーーーーーーー
-			//色の変更
-			g_enemy[i].material.Diffuse = BAR_COLOR_1;
+			float len = LengthXMFLOAT3(pPos, GetPosition(g_enemy[i].objIndex));
 
-			// テクスチャ設定
-			GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture);
+			if (len < 50) {
 
-			XMFLOAT3 pos = GetPosition(g_enemy[i].objIndex);
+				// 頂点バッファ設定
+				stride = sizeof(VERTEX_3D);
+				offset = 0;
+				GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
 
-			// ワールドマトリックスの初期化
-			mtxWorld = XMMatrixIdentity();
+				//HPバーの下地の描画ーーーーーーーーーーーーーーーーーーーーーー
+				//色の変更
+				g_enemy[i].material.Diffuse = BAR_COLOR_1;
 
-			// ビューマトリックスを取得
-			mtxView = XMLoadFloat4x4(&camMtxView);
+				// テクスチャ設定
+				GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture);
+
+				XMFLOAT3 pos = GetPosition(g_enemy[i].objIndex);
+
+				// ワールドマトリックスの初期化
+				mtxWorld = XMMatrixIdentity();
+
+				// ビューマトリックスを取得
+				mtxView = XMLoadFloat4x4(&camMtxView);
 
 
-			mtxWorld.r[0].m128_f32[0] = mtxView.r[0].m128_f32[0];
-			mtxWorld.r[0].m128_f32[1] = mtxView.r[1].m128_f32[0];
-			mtxWorld.r[0].m128_f32[2] = mtxView.r[2].m128_f32[0];
+				mtxWorld.r[0].m128_f32[0] = mtxView.r[0].m128_f32[0];
+				mtxWorld.r[0].m128_f32[1] = mtxView.r[1].m128_f32[0];
+				mtxWorld.r[0].m128_f32[2] = mtxView.r[2].m128_f32[0];
 
-			mtxWorld.r[1].m128_f32[0] = mtxView.r[0].m128_f32[1];
-			mtxWorld.r[1].m128_f32[1] = mtxView.r[1].m128_f32[1];
-			mtxWorld.r[1].m128_f32[2] = mtxView.r[2].m128_f32[1];
+				mtxWorld.r[1].m128_f32[0] = mtxView.r[0].m128_f32[1];
+				mtxWorld.r[1].m128_f32[1] = mtxView.r[1].m128_f32[1];
+				mtxWorld.r[1].m128_f32[2] = mtxView.r[2].m128_f32[1];
 
-			mtxWorld.r[2].m128_f32[0] = mtxView.r[0].m128_f32[2];
-			mtxWorld.r[2].m128_f32[1] = mtxView.r[1].m128_f32[2];
-			mtxWorld.r[2].m128_f32[2] = mtxView.r[2].m128_f32[2];
+				mtxWorld.r[2].m128_f32[0] = mtxView.r[0].m128_f32[2];
+				mtxWorld.r[2].m128_f32[1] = mtxView.r[1].m128_f32[2];
+				mtxWorld.r[2].m128_f32[2] = mtxView.r[2].m128_f32[2];
 
-			// 移動を反映
-			pos.y += BAR_OFFSET_Y;
-			mtxTranslate = XMMatrixTranslation(pos.x, pos.y, pos.z);
-			mtxWorld = XMMatrixMultiply(mtxWorld, mtxTranslate);
+				// 移動を反映
+				pos.y += BAR_OFFSET_Y;
+				mtxTranslate = XMMatrixTranslation(pos.x, pos.y, pos.z);
+				mtxWorld = XMMatrixMultiply(mtxWorld, mtxTranslate);
 
-			// ワールドマトリックスの設定
-			SetWorldMatrix(&mtxWorld);
+				// ワールドマトリックスの設定
+				SetWorldMatrix(&mtxWorld);
 
-			// マテリアル設定
-			SetMaterial(g_enemy[i].material);
+				// マテリアル設定
+				SetMaterial(g_enemy[i].material);
 
-			// ポリゴンの描画
-			GetDeviceContext()->Draw(4, 0);
+				// ポリゴンの描画
+				GetDeviceContext()->Draw(4, 0);
 
-			//HPバーの残量の描画ーーーーーーーーーーーーーーーーーーーーーー
-			// 頂点バッファ生成
-			MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer, -BAR_SIZE_WIDTH + ((BAR_SIZE_WIDTH * (g_enemy[i].HP / 100.0f))*2), BAR_SIZE_HEIGHT);	// 長さをHPの残量に合わせる
-			// 頂点バッファ設定
-			stride = sizeof(VERTEX_3D);
-			offset = 0;
-			GetDeviceContext()->IASetVertexBuffers(0, 1, &g_enemy[i].vertexBuffer, &stride, &offset);
-			//色の変更
-			g_enemy[i].material.Diffuse = BAR_COLOR_2;
+				//HPバーの残量の描画ーーーーーーーーーーーーーーーーーーーーーー
+				// 頂点バッファ生成
+				MakeVertexEnemyHpBar(&g_enemy[i].vertexBuffer, -BAR_SIZE_WIDTH + ((BAR_SIZE_WIDTH * (g_enemy[i].HP / 100.0f)) * 2), BAR_SIZE_HEIGHT);	// 長さをHPの残量に合わせる
+				// 頂点バッファ設定
+				stride = sizeof(VERTEX_3D);
+				offset = 0;
+				GetDeviceContext()->IASetVertexBuffers(0, 1, &g_enemy[i].vertexBuffer, &stride, &offset);
+				//色の変更
+				g_enemy[i].material.Diffuse = BAR_COLOR_2;
 
-			// テクスチャ設定
-			GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture);
+				// テクスチャ設定
+				GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture);
 
-			pos = GetPosition(g_enemy[i].objIndex);
+				pos = GetPosition(g_enemy[i].objIndex);
 
-			// ワールドマトリックスの初期化
-			mtxWorld = XMMatrixIdentity();
+				// ワールドマトリックスの初期化
+				mtxWorld = XMMatrixIdentity();
 
-			// ビューマトリックスを取得
-			mtxView = XMLoadFloat4x4(&camMtxView);
+				// ビューマトリックスを取得
+				mtxView = XMLoadFloat4x4(&camMtxView);
 
-			mtxWorld.r[0].m128_f32[0] = mtxView.r[0].m128_f32[0];
-			mtxWorld.r[0].m128_f32[1] = mtxView.r[1].m128_f32[0];
-			mtxWorld.r[0].m128_f32[2] = mtxView.r[2].m128_f32[0];
+				mtxWorld.r[0].m128_f32[0] = mtxView.r[0].m128_f32[0];
+				mtxWorld.r[0].m128_f32[1] = mtxView.r[1].m128_f32[0];
+				mtxWorld.r[0].m128_f32[2] = mtxView.r[2].m128_f32[0];
 
-			mtxWorld.r[1].m128_f32[0] = mtxView.r[0].m128_f32[1];
-			mtxWorld.r[1].m128_f32[1] = mtxView.r[1].m128_f32[1];
-			mtxWorld.r[1].m128_f32[2] = mtxView.r[2].m128_f32[1];
+				mtxWorld.r[1].m128_f32[0] = mtxView.r[0].m128_f32[1];
+				mtxWorld.r[1].m128_f32[1] = mtxView.r[1].m128_f32[1];
+				mtxWorld.r[1].m128_f32[2] = mtxView.r[2].m128_f32[1];
 
-			mtxWorld.r[2].m128_f32[0] = mtxView.r[0].m128_f32[2];
-			mtxWorld.r[2].m128_f32[1] = mtxView.r[1].m128_f32[2];
-			mtxWorld.r[2].m128_f32[2] = mtxView.r[2].m128_f32[2];
+				mtxWorld.r[2].m128_f32[0] = mtxView.r[0].m128_f32[2];
+				mtxWorld.r[2].m128_f32[1] = mtxView.r[1].m128_f32[2];
+				mtxWorld.r[2].m128_f32[2] = mtxView.r[2].m128_f32[2];
 
-			// 移動を反映
-			pos.y += BAR_OFFSET_Y;
-			mtxTranslate = XMMatrixTranslation(pos.x, pos.y, pos.z);
-			mtxWorld = XMMatrixMultiply(mtxWorld, mtxTranslate);
+				// 移動を反映
+				pos.y += BAR_OFFSET_Y;
+				mtxTranslate = XMMatrixTranslation(pos.x, pos.y, pos.z);
+				mtxWorld = XMMatrixMultiply(mtxWorld, mtxTranslate);
 
-			// ワールドマトリックスの設定
-			SetWorldMatrix(&mtxWorld);
+				// ワールドマトリックスの設定
+				SetWorldMatrix(&mtxWorld);
 
-			// マテリアル設定
-			SetMaterial(g_enemy[i].material);
+				// マテリアル設定
+				SetMaterial(g_enemy[i].material);
 
-			// ポリゴンの描画
-			GetDeviceContext()->Draw(4, 0);
+				// ポリゴンの描画
+				GetDeviceContext()->Draw(4, 0);
+
+			}
+
 		}
 	}
 
