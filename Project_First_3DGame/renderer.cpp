@@ -107,6 +107,7 @@ static ID3D11Buffer*			g_InstanceBuffer = NULL;
 
 static ID3D11DepthStencilState* g_DepthStateEnable;
 static ID3D11DepthStencilState* g_DepthStateDisable;
+static ID3D11DepthStencilState* g_DepthStateUI;			//全て透過できるはず
 
 static ID3D11BlendState*		g_BlendStateNone;
 static ID3D11BlendState*		g_BlendStateAlphaBlend;
@@ -151,6 +152,10 @@ void SetDepthEnable( bool Enable )
 	else
 		g_ImmediateContext->OMSetDepthStencilState( g_DepthStateDisable, NULL );
 
+}
+
+void SetDepthUI(void) {
+	g_ImmediateContext->OMSetDepthStencilState(g_DepthStateUI, NULL);
 }
 
 
@@ -587,9 +592,13 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	g_D3DDevice->CreateDepthStencilState( &depthStencilDesc, &g_DepthStateEnable );//深度有効ステート
 
-	depthStencilDesc.DepthEnable = FALSE;
+	//depthStencilDesc.DepthEnable = FALSE;
 	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ZERO;
 	g_D3DDevice->CreateDepthStencilState( &depthStencilDesc, &g_DepthStateDisable );//深度無効ステート
+
+	depthStencilDesc.DepthEnable = FALSE;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	g_D3DDevice->CreateDepthStencilState(&depthStencilDesc, &g_DepthStateUI);//深度無効ステート
 
 	// 深度ステンシルステート設定
 	SetDepthEnable(true);

@@ -88,19 +88,18 @@ void DrawGame(void) {
 	// ライティングを無効
 	SetLightEnable(false);
 
-	
-
 	// Z比較なし
 	SetDepthEnable(false);
 
+	DrawParticle();
+
+	SetDepthUI();	//HPバーが壁にめり込んでも表示できるように）
 
 	DrawEnemy();
 
-	DrawParticle();
-
 	DrawUI();
 
-
+	
 	// ライティングを有効に
 	SetLightEnable(true);
 	// Z比較あり

@@ -113,6 +113,7 @@ ID3D11Device *GetDevice( void );
 ID3D11DeviceContext *GetDeviceContext( void );
 
 void SetDepthEnable( bool Enable );
+void SetDepthUI(void);					//3D‹óŠÔ‚É•\Ž¦‚·‚éUI—p
 void SetBlendState(BLEND_MODE bm);
 void SetCullingMode(CULL_MODE cm);
 void SetAlphaTestEnable(BOOL flag);
