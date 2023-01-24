@@ -24,6 +24,9 @@ void UpdateTitle(void) {
 }
 
 void DrawTitle(void) {
+
+	DrawTitleBG();
+
 	// 2Dの物を描画する処理
 	// Z比較なし
 	SetDepthEnable(false);
@@ -31,12 +34,12 @@ void DrawTitle(void) {
 	SetLightEnable(false);
 
 
-	DrawTitleBG();
+	
 	DrawTitleUI();
 
 
 	// ライティングを有効に
-	SetLightEnable(true);
+	SetLightEnable(false);
 	// Z比較あり
 	SetDepthEnable(true);
 }

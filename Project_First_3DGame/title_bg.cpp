@@ -6,121 +6,59 @@
 #include "main.h"
 #include "sprite.h"
 #include "title_bg.h"
+#include "GameObject.h"
+#include "GameModel.h"
 
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_WIDTH				(SCREEN_WIDTH)	// 背景サイズ
-#define TEXTURE_HEIGHT				(SCREEN_HEIGHT)	// 
-#define TEXTURE_MAX					(1)				// テクスチャの数
+#define TITLE_MODEL_MAX		(20)
+#define TITLE_MODEL_MAIN	("./data/MODEL/Skull/skull.obj")
+#define TITLE_MODEL_PARTS	("./data/MODEL/Skull/jaw.obj")
 
+#define TITLE_MOVE_COUNT	(440)
+#define TITLE_OFFSET_POS	(XMFLOAT3(0.0f, 10.0f, 10.0f))
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-static ID3D11Buffer* g_VertexBuffer = NULL;				// 頂点情報
-static ID3D11ShaderResourceView* g_Texture[TEXTURE_MAX] = { NULL };	// テクスチャ情報
-
-static char* g_TexturName[TEXTURE_MAX] = {
-	"data/TEXTURE/TitleBG.png",	//TODO:ゲームのイメージができたら絵を差し替える
-};
-
-
-static BOOL	g_use;		// TRUE:使っている  FALSE:未使用
-static WHSIZE g_size;	// 幅と高さ
-static int g_TexNo;		// テクスチャ番号
-
-static BOOL g_Load = FALSE;
-
+static int objIndex[TITLE_MODEL_MAX];			//メイン用
+static int modelIndex[TITLE_MODEL_MAX];
+static int partsObjIndex[TITLE_MODEL_MAX];
+static int modelPartsIndex[TITLE_MODEL_MAX];
+static int count[TITLE_MODEL_MAX];
 
 HRESULT InitTitleBG(void) {
+	InitGameObject();
+	InitGameModel();
 
-	ID3D11Device* pDevice = GetDevice();
+	for (int i = 0; i < TITLE_MODEL_MAX; i++) {
+		objIndex[i] = SetGameObject();
+		SetScale(objIndex[i], SetXMFLOAT3(0.005f));
+		modelIndex[i] = SetGameModel(TITLE_MODEL_MAIN, objIndex[i], 0, CULL_MODE_BACK);
+		SetGameModelDissolve(modelIndex[i],1.0f);
 
-	//テクスチャ生成
-	for (int i = 0; i < TEXTURE_MAX; i++)
-	{
-		g_Texture[i] = NULL;
-		D3DX11CreateShaderResourceViewFromFile(GetDevice(),
-			g_TexturName[i],
-			NULL,
-			NULL,
-			&g_Texture[i],
-			NULL);
+
+		partsObjIndex[i] = SetGameObject();
+		SetGameObjectParent(partsObjIndex[i], objIndex[i]);
+		modelPartsIndex[i] = SetGameModel(TITLE_MODEL_PARTS, partsObjIndex[i], 0, CULL_MODE_BACK);
+		SetGameModelDissolve(modelPartsIndex[i], 1.0f);
+
+		// 初期座標のセット
+		//SetPosition(objIndex[i], TITLE_OFFSET_POS);
+		// 出現のタイミングをバラつかせる
+		count[i] = rand() % TITLE_MOVE_COUNT;
 	}
-
-
-	// 頂点バッファ生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	GetDevice()->CreateBuffer(&bd, NULL, &g_VertexBuffer);
-
-
-	// 変数の初期化
-	g_use = TRUE;
-	g_size.w = TEXTURE_WIDTH;
-	g_size.h = TEXTURE_HEIGHT;
-	//g_Pos = XMFLOAT3(g_size.w / 2, g_size.h / 2, 0.0f);
-	g_TexNo = 0;
-
-	g_Load = TRUE;
-
 
 
 	return S_OK;
 }
 void UninitTitleBG(void) {
-	if (g_Load == FALSE) return;
-
-	if (g_VertexBuffer)
-	{
-		g_VertexBuffer->Release();
-		g_VertexBuffer = NULL;
-	}
-
-	for (int i = 0; i < TEXTURE_MAX; i++)
-	{
-		if (g_Texture[i])
-		{
-			g_Texture[i]->Release();
-			g_Texture[i] = NULL;
-		}
-	}
-
-	g_Load = FALSE;
+	UninitGameModel();
 }
 void UpdateTitleBG(void) {
 
 }
 void DrawTitleBG(void) {
-	// 頂点バッファ設定
-	UINT stride = sizeof(VERTEX_3D);
-	UINT offset = 0;
-	GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
-
-	// マトリクス設定
-	SetWorldViewProjection2D();
-
-	// プリミティブトポロジ設定
-	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-
-	// マテリアル設定
-	MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	material.DissolveAlpha = 1.0f;
-	SetMaterial(material);
-
-	// テクスチャ設定
-	GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[0]);
-
-	// １枚のポリゴンの頂点とテクスチャ座標を設定
-	SetSpriteLeftTop(g_VertexBuffer, 0.0f, 0.0f, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0.0f, 0.0f, 1.0f, 1.0f);
-
-	// ポリゴン描画
-	GetDeviceContext()->Draw(4, 0);
+	DrawGameModel();
 }
