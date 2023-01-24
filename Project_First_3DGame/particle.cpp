@@ -184,6 +184,7 @@ void DrawParticle(void){
 			SetWorldMatrix(&mtxWorld);
 
 			// マテリアル設定
+			g_element[i].material.DissolveAlpha = 1.0f;
 			SetMaterial(g_element[i].material);
 
 			// ポリゴンの描画

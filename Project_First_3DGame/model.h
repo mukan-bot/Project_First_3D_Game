@@ -38,6 +38,8 @@ struct DX11_MODEL
 	DX11_SUBSET* SubsetArray;
 	unsigned short	SubsetNum;
 
+	float DissolveAlpha;
+
 	bool is_load;
 };
 
@@ -55,5 +57,10 @@ void GetModelDiffuse(DX11_MODEL* Model, XMFLOAT4* diffuse);
 
 // モデルの指定マテリアルのディフューズをセットする。
 void SetModelDiffuse(DX11_MODEL* Model, int mno, XMFLOAT4 diffuse);
+
+//ゲームモデルのディゾルブの影響度を所得
+float GetGameModelDissolve(int index);
+//ゲームモデルのディゾルブの影響度を設定
+void SetGameModelDissolve(int index, float a);
 
 

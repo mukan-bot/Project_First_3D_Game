@@ -179,6 +179,12 @@ void Draw_text(void)
 			// テクスチャ設定
 			GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[0]);
 
+			// マテリアル設定
+			MATERIAL material;
+			ZeroMemory(&material, sizeof(material));
+			material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			material.DissolveAlpha = 1.0f;
+			SetMaterial(material);
 
 			// １枚のポリゴンの頂点とテクスチャ座標を設定
 			SetSpriteColor(g_VertexBuffer, g_TEXT[i].pos.x, g_TEXT[i].pos.y, g_TEXT[i].w, g_TEXT[i].h, g_TEXT[i].tx, g_TEXT[i].ty, g_TEXT[i].tw, g_TEXT[i].th, g_TEXT[i].color);

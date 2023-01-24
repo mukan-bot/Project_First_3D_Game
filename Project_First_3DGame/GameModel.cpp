@@ -14,14 +14,15 @@
 #define MAX_MODEL	(512)	//とりあえず256個にしておく
 
 struct GameModel{
+	bool use;					// GameModelが使われているか
 	bool is_load;				// ロードされているか（モデルが）
 	int is_fuchi;				// 縁取りをするか
 	int gameObjectIndex;		// PosとかRot、Sclを所得する
+	float dissolveAlpha;
 	XMFLOAT3 ofsetScale;		// Sclの調整用
 	CULL_MODE cullMode;			// カリングモード
 	XMFLOAT4X4 mtxWorld;		// 
 	DX11_MODEL model;			// 
-	bool use;					// GameModelが使われているか
 	D3D11_FILL_MODE fillMode;	// 塗りをどうするか
 };
 
@@ -43,6 +44,7 @@ void InitGameModel(void){
 		g_gameModel[i].is_fuchi = 0;
 		g_gameModel[i].cullMode = CULL_MODE_NUM;
 		g_gameModel[i].ofsetScale = SetXMFLOAT3(1.0f);
+		g_gameModel[i].dissolveAlpha = 0.0f;
 		g_gameModel[i].use = false;
 	}
 }
@@ -97,7 +99,6 @@ void DrawGameModel(void){
 
 		//縁設定
 		SetFuchi(g_gameModel[i].is_fuchi);
-
 
 		XMMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 
@@ -160,6 +161,8 @@ int SetGameModel(char* modelPath, int gameObjectIndex, int fuchi,CULL_MODE cullM
 
 		g_gameModel[i].fillMode = D3D11_FILL_SOLID;
 
+		g_gameModel[i].model.DissolveAlpha = 1.0f;
+
 		g_gameModel[i].use = true;
 
 		ans = i;
@@ -196,4 +199,12 @@ DX11_MODEL* GetModel(int index) {
 
 void SetGameModeFill(int index, D3D11_FILL_MODE model){
 	g_gameModel[index].fillMode = model;
+}
+
+float GetGameModelDissolve(int index) {
+	return g_gameModel[index].model.DissolveAlpha;
+}
+
+void SetGameModelDissolve(int index, float a) {
+	g_gameModel[index].model.DissolveAlpha = a;
 }

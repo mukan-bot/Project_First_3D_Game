@@ -120,7 +120,8 @@ void DrawResultBG(void) {
 	// マテリアル設定
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = g_color;
+	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	material.DissolveAlpha = 1.0f;
 	SetMaterial(material);
 
 	// テクスチャ設定

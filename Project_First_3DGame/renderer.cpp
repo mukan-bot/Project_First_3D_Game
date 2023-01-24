@@ -747,6 +747,8 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	material.DissolveAlpha = 1.0f;
+	material.DissolveAlpha = 1.0f;
 	SetMaterial(material);
 
 

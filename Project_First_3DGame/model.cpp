@@ -180,6 +180,7 @@ void DrawModel(DX11_MODEL* Model)
 
 	for (unsigned short i = 0; i < Model->SubsetNum; i++)
 	{
+		Model->SubsetArray[i].Material.Material.DissolveAlpha = Model->DissolveAlpha;
 		// ƒ}ƒeƒŠƒAƒ‹Ý’è
 		SetMaterial(Model->SubsetArray[i].Material.Material);
 

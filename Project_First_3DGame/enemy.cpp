@@ -33,12 +33,14 @@
 #define BAR_COLOR_2			(XMFLOAT4(0.0f,1.0f,0.0f,1.0f))	// HPバーの残量
 #define BAR_SHOW_LEN		(45)	// バーが表示される距離（PLAYERとエネミー間）
 
+#define ENEMY_DEATH_COUNT	(60)	// エネミーの死亡シーンの長さ
 enum ENEMY_STATE{
 	ENEMY_STOP,
 	ENEMY_ROTATION,
 	ENEMY_CALCULATION,
 	ENEMY_MOVE,
 	ENEMY_ATK,
+	ENEMY_DEATH,
 	ENEMY_STATE_MAX
 };
 
@@ -137,6 +139,7 @@ HRESULT InitEnemy(void) {
 		// マテリアル
 		ZeroMemory(&g_enemy[i].material, sizeof(g_enemy[i].material));
 		g_enemy[i].material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		g_enemy[i].material.DissolveAlpha = 1.0f;
 	}
 	// 頂点バッファ生成
 	MakeVertexEnemyHpBar(&g_VertexBuffer, BAR_SIZE_WIDTH, BAR_SIZE_HEIGHT);
@@ -179,7 +182,7 @@ void UpdateEnemy(void) {
 			}
 		}
 
-		// エネミーが攻撃中じゃなかったら攻撃できる範囲にプレイヤーが居るか確認
+		// エネミーが攻撃中じゃないまたは死んでないなら攻撃できる範囲にプレイヤーが居るか確認
 		if (g_enemy[i].state != ENEMY_ATK) {
 			LookPlayer(&g_enemy[i]);
 		}
@@ -256,6 +259,25 @@ void UpdateEnemy(void) {
 					g_enemy[i].rot.y += 0.01f;
 				}
 				break;
+			case ENEMY_DEATH:
+				if (g_enemy[i].count < 0) {
+					DelGameObject(g_enemy[i].objIndex);
+					DelCollision(g_enemy[i].colIndex);
+					DelCollision(g_enemy[i].hitColIndex);
+					DelGameModel(g_enemy[i].modelIndex);
+					DelGameModel(g_enemy[i].modelPartsIndex);
+					DelGameObject(g_enemy[i].objPartsIndex);
+					g_enemy[i].use = false;
+				}
+				else {
+					g_enemy[i].count--;
+					float a = GetGameModelDissolve(g_enemy[i].modelIndex);
+					a -= 1.0f / ENEMY_DEATH_COUNT;
+					OutputDebug("%f", a);
+					SetGameModelDissolve(g_enemy[i].modelIndex, a);
+					SetGameModelDissolve(g_enemy[i].modelPartsIndex, a);
+				}
+				break;
 			case ENEMY_STATE_MAX:
 				break;
 			default:
@@ -287,14 +309,10 @@ void UpdateEnemy(void) {
 			}
 			if (g_enemy[i].HP < 0) {
 				//HPが０になったら音を鳴らしてエネミーを削除する
+				g_enemy[i].state = ENEMY_DEATH;
+				g_enemy[i].count = ENEMY_DEATH_COUNT;
 				PlaySound(SOUND_LABEL_SE_wana3);
-				DelGameObject(g_enemy[i].objIndex);
-				DelCollision(g_enemy[i].colIndex);
-				DelCollision(g_enemy[i].hitColIndex);
-				DelGameModel(g_enemy[i].modelIndex);
-				DelGameModel(g_enemy[i].modelPartsIndex);
-				DelGameObject(g_enemy[i].objPartsIndex);
-				g_enemy[i].use = false;
+
 			}
 		}
 
@@ -337,6 +355,8 @@ void DrawEnemy(void) {
 
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		if (g_enemy[i].use) {
+
+			if (g_enemy[i].state == ENEMY_DEATH) continue;
 
 			float len = LengthXMFLOAT3(pPos, GetPosition(g_enemy[i].objIndex));
 
@@ -471,6 +491,8 @@ int GetAliveEnemy(void) {
 
 
 void LookPlayer(ENEMY* enemy) {
+	if (enemy->state == ENEMY_DEATH) return;
+
 	//エネミーの攻撃のクールダウンが終わっていたら新しく攻撃させる
 	if (enemy->atkCount > 0) {
 		if (CollisionBB(GetPosition(enemy->objIndex), LOOK_PLAYER, g_pPos, LOOK_PLAYER)) {
