@@ -25,13 +25,15 @@ void UpdateTitle(void) {
 
 void DrawTitle(void) {
 
+	// ライティングを無効
+	SetLightEnable(false);
+
 	DrawTitleBG();
 
 	// 2Dの物を描画する処理
 	// Z比較なし
 	SetDepthEnable(false);
-	// ライティングを無効
-	SetLightEnable(false);
+
 
 
 	

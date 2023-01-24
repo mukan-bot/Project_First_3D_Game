@@ -8,6 +8,9 @@
 #include "title_bg.h"
 #include "GameObject.h"
 #include "GameModel.h"
+#include "camera.h"
+
+#include "input.h"
 
 
 //*****************************************************************************
@@ -18,7 +21,6 @@
 #define TITLE_MODEL_PARTS	("./data/MODEL/Skull/jaw.obj")
 
 #define TITLE_MOVE_COUNT	(440)
-#define TITLE_OFFSET_POS	(XMFLOAT3(0.0f, 10.0f, 10.0f))
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
@@ -32,9 +34,13 @@ HRESULT InitTitleBG(void) {
 	InitGameObject();
 	InitGameModel();
 
+	InitCameraM_Game();
+
+	
+
 	for (int i = 0; i < TITLE_MODEL_MAX; i++) {
 		objIndex[i] = SetGameObject();
-		SetScale(objIndex[i], SetXMFLOAT3(0.005f));
+		SetScale(objIndex[i], SetXMFLOAT3(0.05f));
 		modelIndex[i] = SetGameModel(TITLE_MODEL_MAIN, objIndex[i], 0, CULL_MODE_BACK);
 		SetGameModelDissolve(modelIndex[i],1.0f);
 
@@ -45,7 +51,8 @@ HRESULT InitTitleBG(void) {
 		SetGameModelDissolve(modelPartsIndex[i], 1.0f);
 
 		// 初期座標のセット
-		//SetPosition(objIndex[i], TITLE_OFFSET_POS);
+		SetPosition(objIndex[i], XMFLOAT3(0.0f,0.0f,3.0f));
+		SetRotation(objIndex[i], XMFLOAT3((rand() % 628) / 100, (rand() % 628) / 100, (rand() % 628) / 100));
 		// 出現のタイミングをバラつかせる
 		count[i] = rand() % TITLE_MOVE_COUNT;
 	}
@@ -58,6 +65,42 @@ void UninitTitleBG(void) {
 }
 void UpdateTitleBG(void) {
 
+	for (int i = 0; i < TITLE_MODEL_MAX; i++) {
+		if (count[i] < 0) {
+			if (count[i] < -TITLE_MOVE_COUNT) {
+				count[i] = 0;
+
+				// 初期座標のセット
+				SetPosition(objIndex[i], XMFLOAT3(0.0f, 0.0f, 3.0f));
+				SetRotation(objIndex[i], XMFLOAT3((rand() % 628) / 100, (rand() % 628) / 100, (rand() % 628) / 100));
+			}
+			else {
+				XMFLOAT3 vec;
+				XMFLOAT3 pos, rot;
+				pos = GetPosition(objIndex[i]);
+				rot = GetRotation(objIndex[i]);
+
+				vec.x = sinf(rot.x);
+				vec.z = cosf(rot.x);
+				vec.y = tanf(rot.z);
+
+				vec = NormalizeXMFLOAT3(vec);
+
+				vec = MulXMFLOAT3(vec, SetXMFLOAT3(0.01f));
+
+				pos = AddXMFLOAT3(pos, vec);
+				SetPosition(objIndex[i], pos);
+
+				count[i]--;
+			}
+		}
+		else {
+			count[i]--;
+		}
+	}
+
+
+	UpdateGameObject();
 }
 void DrawTitleBG(void) {
 	DrawGameModel();

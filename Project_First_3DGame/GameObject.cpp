@@ -145,7 +145,7 @@ XMFLOAT3 GetScale(int index) {
 	XMFLOAT3 ans = g_gameObject[index].scale;
 	// ペアレントが設定されていたらそれを足した値を返す
 	if (g_gameObject[index].parentIndex != -1) {
-		ans = AddXMFLOAT3(ans, g_gameObject[g_gameObject[index].parentIndex].scale);
+		ans = MulXMFLOAT3(ans, g_gameObject[g_gameObject[index].parentIndex].scale);
 	}
 	return ans;
 }

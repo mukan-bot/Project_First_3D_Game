@@ -105,7 +105,7 @@ HRESULT InitEnemy(void) {
 		g_enemy[i].objPartsIndex = SetGameObject();
 		SetGameObjectParent(g_enemy[i].objPartsIndex, g_enemy[i].objIndex);
 		g_enemy[i].modelPartsIndex = SetGameModel(MODEL_PARTS_PATH, g_enemy[i].objPartsIndex, 0, CULL_MODE_BACK);
-		SetGameObjectZERO(g_enemy[i].objPartsIndex);
+		//SetGameObjectZERO(g_enemy[i].objPartsIndex);
 
 		g_enemy[i].colIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
 		g_enemy[i].hitColIndex = SetCollision(LAYER_ENEMY, TYPE_BC);
@@ -338,6 +338,8 @@ void UpdateEnemy(void) {
 		SetMode(MODE_RESULT);
 	}
 }
+
+
 void DrawEnemy(void) {
 	XMMATRIX mtxScl, mtxTranslate, mtxWorld, mtxView;
 	XMFLOAT4X4 camMtxView = GetCameraMtxView();
