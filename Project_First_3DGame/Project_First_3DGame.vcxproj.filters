@@ -144,6 +144,9 @@
     <ClCompile Include="sprite.cpp">
       <Filter>システム\基本システム</Filter>
     </ClCompile>
+    <ClCompile Include="title_fog.cpp">
+      <Filter>モード\タイトル\ソース</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="sprite.h">
       <Filter>システム\基本システム</Filter>
+    </ClInclude>
+    <ClInclude Include="title_fog.h">
+      <Filter>モード\タイトル\ヘッダー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

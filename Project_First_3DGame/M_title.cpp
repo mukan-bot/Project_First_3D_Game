@@ -1,7 +1,7 @@
 #include "M_title.h"
 #include "title_bg.h"
 #include "title_ui.h"
-
+#include "title_fog.h"
 
 
 
@@ -9,17 +9,27 @@
 HRESULT InitTitle(void) {
 
 	InitTitleBG();
+
+	InitTitleFOG();
+
 	InitTitleUI();
+
 	return S_OK;
 }
 
 void UninitTitle(void) {
 	UninitTitleBG();
+
+	UninitTitleFOG();
+
 	UninitTitleUI();
 }
 
 void UpdateTitle(void) {
 	UpdateTitleBG();
+	
+	UpdateTitleFOG();
+
 	UpdateTitleUI();
 }
 
@@ -32,7 +42,12 @@ void DrawTitle(void) {
 
 
 	DrawTitleBG();
+
+
 	DrawTitleUI();
+
+
+	DrawTitleFOG();
 
 
 	// ライティングを有効に

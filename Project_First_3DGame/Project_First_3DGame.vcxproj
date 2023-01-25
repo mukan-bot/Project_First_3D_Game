@@ -170,6 +170,7 @@
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="title_bg.cpp" />
+    <ClCompile Include="title_fog.cpp" />
     <ClCompile Include="title_ui.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -201,6 +202,7 @@
     <ClInclude Include="sprite.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="title_bg.h" />
+    <ClInclude Include="title_fog.h" />
     <ClInclude Include="title_ui.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
