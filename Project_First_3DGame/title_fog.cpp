@@ -98,8 +98,10 @@ void UninitTitleFOG(void) {
 	g_Load = FALSE;
 }
 void UpdateTitleFOG(void) {
-	g_UV[0].x += 0.01f;
-	g_UV[1].y += 0.01f;
+	g_UV[0].x += 0.0005f;
+	g_UV[0].y += 0.0005f;
+	g_UV[1].x -= 0.0006f;
+	g_UV[1].y -= 0.0004f;
 	//g_UV[1] = XMFLOAT2(0.5f, 0.3f);
 }
 void DrawTitleFOG(void) {
@@ -117,7 +119,7 @@ void DrawTitleFOG(void) {
 	// ƒ}ƒeƒŠƒAƒ‹Ý’è
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f);
+	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f);
 	material.DissolveAlpha = 1.0f;
 	SetMaterial(material);
 
@@ -125,8 +127,10 @@ void DrawTitleFOG(void) {
 	GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[0]);
 
 	// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ðÝ’è
-	SetSpriteLeftTop(g_VertexBuffer, 0.0f, 0.0f, g_porigonSize.w, g_porigonSize.h, g_UV[0].x, g_UV[1].y, 1.0f, 1.0f);
-
+	SetSpriteLeftTop(g_VertexBuffer, 0.0f, 0.0f, g_porigonSize.w, g_porigonSize.h, g_UV[0].x, g_UV[0].y, 1.0f, 1.0f);
+	// ƒ|ƒŠƒSƒ“•`‰æ
+	GetDeviceContext()->Draw(4, 0);
+	SetSpriteLeftTop(g_VertexBuffer, 0.0f, 0.0f, g_porigonSize.w, g_porigonSize.h, g_UV[1].x, g_UV[1].y, 1.0f, 1.0f);
 	// ƒ|ƒŠƒSƒ“•`‰æ
 	GetDeviceContext()->Draw(4, 0);
 }

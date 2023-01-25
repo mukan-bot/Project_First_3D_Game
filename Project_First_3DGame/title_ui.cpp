@@ -408,10 +408,12 @@ void DrawTitleUI(void) {
 				{"レティクル…ＱｏｒＲクリック"},
 			};
 			for (int i = 0; i < TUTORIAL_TEXT_MAIN; i++) {
+				tutorialTextMainP[i].pos = XMFLOAT2((float)TUTORIAL_TEXT_MAIN_POS_X, (float)(TUTORIAL_TEXT_MAIN_POS_Y + (i * TUTORIAL_TEXT_MAIN_POS_Y_PLUS)));
 				tutorialTextMainP[i].color = TEXT_COLOR2;
 				tutorialTextMainP[i].size = TUTORIAL_TEXT_MAIN_SIZE1;
-				tutorialTextMainP[i].pos = XMFLOAT2((float)TUTORIAL_TEXT_MAIN_POS_X, (float)(TUTORIAL_TEXT_MAIN_POS_Y + (i * TUTORIAL_TEXT_MAIN_POS_Y_PLUS)));
 				SetText(tutorialTextMainP[i], tutorialTextMain[i]);
+
+
 			}
 			break;
 		}
