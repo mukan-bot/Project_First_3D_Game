@@ -42,16 +42,16 @@ HRESULT InitTitleBG(void) {
 		objIndex[i] = SetGameObject();
 		SetScale(objIndex[i], SetXMFLOAT3(0.05f));
 		modelIndex[i] = SetGameModel(TITLE_MODEL_MAIN, objIndex[i], 0, CULL_MODE_BACK);
-		SetGameModelDissolve(modelIndex[i],1.0f);
+		SetGameModelDissolve(modelIndex[i],0.0f);
 
 
 		partsObjIndex[i] = SetGameObject();
 		SetGameObjectParent(partsObjIndex[i], objIndex[i]);
 		modelPartsIndex[i] = SetGameModel(TITLE_MODEL_PARTS, partsObjIndex[i], 0, CULL_MODE_BACK);
-		SetGameModelDissolve(modelPartsIndex[i], 1.0f);
+		SetGameModelDissolve(modelPartsIndex[i], 0.0f);
 
 		// 初期座標のセット
-		SetPosition(objIndex[i], XMFLOAT3(0.0f,0.0f,3.0f));
+		SetPosition(objIndex[i], XMFLOAT3(0.0f,0.0f,1.0f));
 		SetRotation(objIndex[i], XMFLOAT3((rand() % 628) / 100, (rand() % 628) / 100, (rand() % 628) / 100));
 		// 出現のタイミングをバラつかせる
 		count[i] = rand() % TITLE_MOVE_COUNT;
@@ -69,10 +69,13 @@ void UpdateTitleBG(void) {
 		if (count[i] < 0) {
 			if (count[i] < -TITLE_MOVE_COUNT) {
 				count[i] = 0;
+				SetGameModelDissolve(modelIndex[i], 0.0f);
+				SetGameModelDissolve(modelPartsIndex[i], 0.0f);
 
 				// 初期座標のセット
-				SetPosition(objIndex[i], XMFLOAT3(0.0f, 0.0f, 3.0f));
-				SetRotation(objIndex[i], XMFLOAT3((rand() % 628) / 100, (rand() % 628) / 100, (rand() % 628) / 100));
+				SetPosition(objIndex[i], XMFLOAT3(0.0f, -0.10f, 0.0f));
+				//SetRotation(objIndex[i], XMFLOAT3((rand() % 628) / 100, (rand() % 628) / 100, (rand() % 628) / 100));
+				SetRotation(objIndex[i], XMFLOAT3(0.0,3.14,0.0f));
 			}
 			else {
 				XMFLOAT3 vec;
@@ -90,6 +93,9 @@ void UpdateTitleBG(void) {
 
 				pos = AddXMFLOAT3(pos, vec);
 				SetPosition(objIndex[i], pos);
+
+				SetGameModelDissolve(modelIndex[i], GetGameModelDissolve(modelIndex[i])+0.008);
+				SetGameModelDissolve(modelPartsIndex[i], GetGameModelDissolve(modelIndex[i]) + 0.008);
 
 				count[i]--;
 			}
