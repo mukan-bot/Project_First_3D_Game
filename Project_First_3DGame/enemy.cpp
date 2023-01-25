@@ -105,7 +105,6 @@ HRESULT InitEnemy(void) {
 		g_enemy[i].objPartsIndex = SetGameObject();
 		SetGameObjectParent(g_enemy[i].objPartsIndex, g_enemy[i].objIndex);
 		g_enemy[i].modelPartsIndex = SetGameModel(MODEL_PARTS_PATH, g_enemy[i].objPartsIndex, 0, CULL_MODE_BACK);
-		//SetGameObjectZERO(g_enemy[i].objPartsIndex);
 
 		g_enemy[i].colIndex = SetCollision(LAYER_OBSTACLE, TYPE_BB);
 		g_enemy[i].hitColIndex = SetCollision(LAYER_ENEMY, TYPE_BC);
@@ -477,6 +476,8 @@ void SetEnemy(XMFLOAT3 pos,XMFLOAT3 rot, XMFLOAT3 scl) {
 		SetPosition(g_enemy[i].objIndex, pos);
 		SetRotation(g_enemy[i].objIndex, rot);
 		SetScale(g_enemy[i].objIndex, scl);
+
+		SetGameObjectZERO(g_enemy[i].objPartsIndex);
 
 		g_enemy[i].use = true;
 		break;
