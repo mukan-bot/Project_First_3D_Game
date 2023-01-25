@@ -169,7 +169,9 @@
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="text.cpp" />
+    <ClCompile Include="title_anime.cpp" />
     <ClCompile Include="title_bg.cpp" />
+    <ClCompile Include="title_field.cpp" />
     <ClCompile Include="title_ui.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -200,7 +202,9 @@
     <ClInclude Include="sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="text.h" />
+    <ClInclude Include="title_anime.h" />
     <ClInclude Include="title_bg.h" />
+    <ClInclude Include="title_field.h" />
     <ClInclude Include="title_ui.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>

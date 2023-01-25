@@ -101,3 +101,7 @@ bool RayCast(XMFLOAT3 xp0, XMFLOAT3 xp1, XMFLOAT3 xp2, XMFLOAT3 xpos, XMFLOAT3 x
 float RadToDeg(float rad);
 //“x‚©‚çƒ‰ƒWƒAƒ“
 float DegToRad(float deg);
+
+
+// •¶Žš—ñ‚©‚çfloat‚Ö•ÏŠ·‚·‚é
+float CharToFloat(char* text);

@@ -280,3 +280,13 @@ float DegToRad(float deg) {
     return deg * XM_PI / 180.0f;
 }
 
+
+
+float CharToFloat(char* text) {
+    float ans = 0.0f;
+    if (text != NULL) {
+        char* end;
+        ans = strtof(text, &end);
+    }
+    return ans;
+}
