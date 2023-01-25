@@ -262,8 +262,6 @@ void UpdateEnemy(void) {
 			case ENEMY_DEATH:
 				if (g_enemy[i].count < 0) {
 					DelGameObject(g_enemy[i].objIndex);
-					DelCollision(g_enemy[i].colIndex);
-					DelCollision(g_enemy[i].hitColIndex);
 					DelGameModel(g_enemy[i].modelIndex);
 					DelGameModel(g_enemy[i].modelPartsIndex);
 					DelGameObject(g_enemy[i].objPartsIndex);
@@ -294,25 +292,30 @@ void UpdateEnemy(void) {
 
 		//当たり判定
 		{
-			int index;
-			index = GetColObjectIndex(g_enemy[i].colIndex);
-			SetPosition(index, AddXMFLOAT3(pos, g_enemy[i].c_pos));
-			SetRotation(index, rot);
-			SetScale(index, MulXMFLOAT3(scl,g_enemy[i].c_size));
-			index = GetColObjectIndex(g_enemy[i].hitColIndex);
-			SetPosition(index, AddXMFLOAT3(pos, g_enemy[i].c_pos));
-			SetRotation(index, rot);
-			SetScale(index, MulXMFLOAT3(scl, g_enemy[i].c_size));
+			if (g_enemy[i].HP > -1) {
+				int index;
+				index = GetColObjectIndex(g_enemy[i].colIndex);
+				SetPosition(index, AddXMFLOAT3(pos, g_enemy[i].c_pos));
+				SetRotation(index, rot);
+				SetScale(index, MulXMFLOAT3(scl, g_enemy[i].c_size));
+				index = GetColObjectIndex(g_enemy[i].hitColIndex);
+				SetPosition(index, AddXMFLOAT3(pos, g_enemy[i].c_pos));
+				SetRotation(index, rot);
+				SetScale(index, MulXMFLOAT3(scl, g_enemy[i].c_size));
 
-			if (GetColAnsUpdate(g_enemy[i].hitColIndex)) {
-				g_enemy[i].HP--;
-			}
-			if (g_enemy[i].HP < 0) {
-				//HPが０になったら音を鳴らしてエネミーを削除する
-				g_enemy[i].state = ENEMY_DEATH;
-				g_enemy[i].count = ENEMY_DEATH_COUNT;
-				PlaySound(SOUND_LABEL_SE_wana3);
+				if (GetColAnsUpdate(g_enemy[i].hitColIndex)) {
+					g_enemy[i].HP--;
+				}
+				if (g_enemy[i].HP <= 0) {
+					//HPが０になったら音を鳴らしてエネミーを削除する
+					g_enemy[i].state = ENEMY_DEATH;
+					g_enemy[i].count = ENEMY_DEATH_COUNT;
 
+					DelCollision(g_enemy[i].colIndex);
+					DelCollision(g_enemy[i].hitColIndex);
+
+					PlaySound(SOUND_LABEL_SE_wana3);
+				}
 			}
 		}
 

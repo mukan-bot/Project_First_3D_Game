@@ -179,7 +179,11 @@ void UpdatePlayer(void) {
 			lookLight->Enable = true;
 			SetLightData(1, lookLight);
 			for (int i = 0; i < ENEMY_MAX; i++) {
+
 				int Eindex = GetEnemyIndex(i);
+
+				if (!GetGameObjectUse(Eindex)) continue;
+
 				if (Eindex == -1) continue;
 				XMFLOAT3 ePos = GetPosition(Eindex);
 

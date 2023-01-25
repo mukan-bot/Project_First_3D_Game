@@ -304,7 +304,9 @@ void UpdateTitleUI(void) {
 				SetDepthEnable(false);
 				// ライティングを無効
 				SetLightEnable(false);
+
 				Draw_text();
+
 				// ライティングを有効に
 				SetLightEnable(true);	//TODO:ライト作ったらtrueに変える
 				// Z比較あり
