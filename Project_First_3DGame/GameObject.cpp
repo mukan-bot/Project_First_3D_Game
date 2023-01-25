@@ -121,7 +121,7 @@ void SetGameObjectParent(int index, int parentIndex) {
 void SetGameObjectZERO(int index) {
 	g_gameObject[index].position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	g_gameObject[index].rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	g_gameObject[index].scale = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	g_gameObject[index].scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 }
 
 

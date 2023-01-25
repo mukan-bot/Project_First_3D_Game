@@ -20,7 +20,7 @@
 #define TITLE_MODEL_MAIN	("./data/MODEL/Skull/skull.obj")
 #define TITLE_MODEL_PARTS	("./data/MODEL/Skull/jaw.obj")
 
-#define TITLE_MOVE_COUNT	(440)
+#define TITLE_MOVE_COUNT	(240)
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
@@ -36,14 +36,11 @@ HRESULT InitTitleBG(void) {
 
 	InitCameraM_Game();
 
-	
-
 	for (int i = 0; i < TITLE_MODEL_MAX; i++) {
 		objIndex[i] = SetGameObject();
 		SetScale(objIndex[i], SetXMFLOAT3(0.05f));
 		modelIndex[i] = SetGameModel(TITLE_MODEL_MAIN, objIndex[i], 0, CULL_MODE_BACK);
 		SetGameModelDissolve(modelIndex[i],0.0f);
-
 
 		partsObjIndex[i] = SetGameObject();
 		SetGameObjectParent(partsObjIndex[i], objIndex[i]);
@@ -52,11 +49,10 @@ HRESULT InitTitleBG(void) {
 
 		// 初期座標のセット
 		SetPosition(objIndex[i], XMFLOAT3(0.0f,0.0f,1.0f));
-		SetRotation(objIndex[i], XMFLOAT3((rand() % 628) / 100, (rand() % 628) / 100, (rand() % 628) / 100));
+		SetRotation(objIndex[i], XMFLOAT3((rand() % 314) / 100, (rand() % 314) / 100, (rand() % 314) / 100));
 		// 出現のタイミングをバラつかせる
 		count[i] = rand() % TITLE_MOVE_COUNT;
 	}
-
 
 	return S_OK;
 }
@@ -73,9 +69,9 @@ void UpdateTitleBG(void) {
 				SetGameModelDissolve(modelPartsIndex[i], 0.0f);
 
 				// 初期座標のセット
-				SetPosition(objIndex[i], XMFLOAT3(0.0f, -0.10f, 0.0f));
-				//SetRotation(objIndex[i], XMFLOAT3((rand() % 628) / 100, (rand() % 628) / 100, (rand() % 628) / 100));
-				SetRotation(objIndex[i], XMFLOAT3(0.0,3.14,0.0f));
+				SetPosition(objIndex[i], XMFLOAT3(0.0f, -0.10f, 1.0f));
+				SetRotation(objIndex[i], XMFLOAT3((rand() % 314) / 100, ((rand() % 314) / 100)+1.62, (rand() % 314) / 100));
+				//SetRotation(objIndex[i], XMFLOAT3(0.0,3.14,0.0f));
 			}
 			else {
 				XMFLOAT3 vec;
