@@ -31,3 +31,8 @@ XMFLOAT3 GetRotation(int index);
 XMFLOAT3 GetScale(int index);
 int GetGameObjectParent(int index);
 bool GetGameObjectUse(int index);
+
+// 何個の子供が居るか
+int GetGameObjectChildCount(int index);
+// 子供のインデックスの所得
+int* GetGameObjectChild(int index);

@@ -20,6 +20,7 @@ struct GAME_OBJECT
 
 
 GAME_OBJECT g_gameObject[MAX_OBJECT];
+int g_Child[MAX_OBJECT];
 
 
 void InitGameObject(void) {
@@ -121,7 +122,7 @@ void SetGameObjectParent(int index, int parentIndex) {
 void SetGameObjectZERO(int index) {
 	g_gameObject[index].position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	g_gameObject[index].rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	g_gameObject[index].scale = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	g_gameObject[index].scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 }
 
 
@@ -145,7 +146,7 @@ XMFLOAT3 GetScale(int index) {
 	XMFLOAT3 ans = g_gameObject[index].scale;
 	// ペアレントが設定されていたらそれを足した値を返す
 	if (g_gameObject[index].parentIndex != -1) {
-		ans = AddXMFLOAT3(ans, g_gameObject[g_gameObject[index].parentIndex].scale);
+		ans = MulXMFLOAT3(ans, g_gameObject[g_gameObject[index].parentIndex].scale);
 	}
 	return ans;
 }
@@ -154,4 +155,33 @@ int GetGameObjectParent(int index) {
 }
 bool GetGameObjectUse(int index) {
 	return g_gameObject[index].use;
+}
+
+
+int GetGameObjectChildCount(int index) {
+	int ans = 0;
+	for (int i = 0; i < MAX_OBJECT; i++) {
+		if (!g_gameObject[i].use) continue;
+
+		if (g_gameObject[i].parentIndex == index) {
+			ans++;
+		}
+	}
+	return ans;
+}
+
+int* GetGameObjectChild(int index) {
+	int childNo = 0;
+	for (int i = 0; i < MAX_OBJECT; i++) {
+		g_Child[i] = 0;
+
+		if (!g_gameObject[i].use) continue;
+
+		if (g_gameObject[i].parentIndex == index) {
+			g_Child[childNo] = i;
+			childNo++;
+		}
+
+	}
+	return &g_Child[0];
 }

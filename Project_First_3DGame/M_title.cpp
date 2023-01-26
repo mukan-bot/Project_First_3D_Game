@@ -3,10 +3,24 @@
 #include "title_ui.h"
 #include "title_fog.h"
 
+#include "title_field.h"
+#include "title_anime.h"
 
+#include "camera.h"
 
 
 HRESULT InitTitle(void) {
+	InitGameObject();
+	InitGameModel();
+
+	InitTitleAinme();
+	InitTitleField();
+
+	InitCameraM_Game();
+	int index = GetCameraIndex();
+	SetPosition(index, XMFLOAT3(-35.0f, 10.0f, 0.0f));
+	SetRotation(index, XMFLOAT3(-XM_PI / 2, 0.0f, 0.4f));
+
 
 	InitTitleBG();
 
@@ -23,6 +37,11 @@ void UninitTitle(void) {
 	UninitTitleFOG();
 
 	UninitTitleUI();
+
+	UninitTitleAnime();
+	UninitTitleField();
+
+	UninitGameModel();
 }
 
 void UpdateTitle(void) {
@@ -31,17 +50,28 @@ void UpdateTitle(void) {
 	UpdateTitleFOG();
 
 	UpdateTitleUI();
+
+	UpdateTitleAnime();
+	UpdateTitleField();
+
+	UpdateGameObject();
 }
 
 void DrawTitle(void) {
-	// 2D‚Ì•¨‚ğ•`‰æ‚·‚éˆ—
-	// Z”äŠr‚È‚µ
-	SetDepthEnable(false);
+
 	// ƒ‰ƒCƒeƒBƒ“ƒO‚ğ–³Œø
 	SetLightEnable(false);
 
+	DrawGameModel();
 
-	DrawTitleBG();
+
+	// 2D‚Ì•¨‚ğ•`‰æ‚·‚éˆ—
+	// Z”äŠr‚È‚µ
+	SetDepthEnable(false);
+
+	
+
+	//DrawTitleBG();
 
 
 	DrawTitleUI();
