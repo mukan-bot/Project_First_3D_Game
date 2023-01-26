@@ -354,7 +354,7 @@ void SetMode(PLAY_MODE mode) {
 
 	//MEMO:シーンごとの終了処理
 
-	UninitTitle();
+	
 	UninitResult();
 
 	StopSound();
@@ -373,6 +373,7 @@ void SetMode(PLAY_MODE mode) {
 		break;
 	case MODE_GAME:
 		PlaySound(SOUND_LABEL_BGM_game);
+		UninitTitle();		//UninitGameModelが働くからこの位置にしないとリザルトがうまくいかない
 		InitGame();
 		ShowCursor(false);
 		SetCursorMove(false);

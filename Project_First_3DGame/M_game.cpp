@@ -82,8 +82,6 @@ void DrawGame(void) {
 	DrawField();
 
 
-	
-
 	// 2Dの物を描画する処理
 	// ライティングを無効
 	SetLightEnable(false);

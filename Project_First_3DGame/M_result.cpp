@@ -30,7 +30,6 @@ void DrawResult(void) {
 	// ライティングを無効
 	SetLightEnable(false);
 
-
 	DrawResultBG();
 	DrawResultUI();
 

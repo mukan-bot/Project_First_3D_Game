@@ -9,7 +9,7 @@
 
 #define COUNT_MAX (240)
 
-#define ROTATION_SPEED	(0.50f)	//デグリー角度で１Fの最大速度
+#define ROTATION_SPEED	(0.10f)	//デグリー角度で１Fの最大速度
 
 enum STATE
 {
@@ -56,7 +56,7 @@ void UpdateTitleAnime(void) {
 		if (!g_obj[i].use) continue;
 
 		if (GetGameObjectParent(g_obj[i].objIndex) != -1) continue;
-
+		
 
 		switch (g_obj[i].state)
 		{
@@ -64,9 +64,9 @@ void UpdateTitleAnime(void) {
 		{
 			g_obj[i].count = 0;
 			// 一旦すべてリセット
-			SetPosition(g_obj[i].objIndex, g_obj[i].pos);
-			SetRotation(g_obj[i].objIndex, g_obj[i].rot);
-			SetScale(g_obj[i].objIndex, g_obj[i].scl);
+			//SetPosition(g_obj[i].objIndex, g_obj[i].pos);
+			//SetRotation(g_obj[i].objIndex, g_obj[i].rot);
+			//SetScale(g_obj[i].objIndex, g_obj[i].scl);
 
 			int prob = rand() % 10;
 			switch ((STATE)prob)
@@ -75,8 +75,15 @@ void UpdateTitleAnime(void) {
 				g_obj[i].state = ROTATION;
 				break;
 			case HAHA:
+			{
 				g_obj[i].state = HAHA;
+				g_obj[i].count = COUNT_MAX / 2;
+				int* childIndex = GetGameObjectChild(g_obj[i].objIndex);
+				XMFLOAT3 rot = XMFLOAT3(0.0f, 0.0f, 0.0f);
+				rot.x = -0.5f;
+				SetRotation(childIndex[0], rot);
 				break;
+			}
 			case DISSOLVE:
 				g_obj[i].state = DISSOLVE;
 				break;
@@ -85,7 +92,6 @@ void UpdateTitleAnime(void) {
 				g_obj[i].state = STOP;
 				break;
 			}
-			g_obj[i].state = HAHA;
 		}
 
 		break;
@@ -110,25 +116,15 @@ void UpdateTitleAnime(void) {
 		{
 			int* childIndex = GetGameObjectChild(g_obj[i].objIndex);
 			XMFLOAT3 rot = XMFLOAT3(0.0f, 0.0f, 0.0f);
-			if (g_obj[i].count < COUNT_MAX) {
-				if (g_obj[i].count % (COUNT_MAX / 2) == 0) {
-					rot.x = 0.5f;
-					OutputDebug("\n");
-				}
-				if (g_obj[i].count % (COUNT_MAX / 4) == 0) {
-					rot.x = 0.0f;
-					OutputDebug("t");
-				}
-			}
-			else {
+			if (g_obj[i].count > COUNT_MAX) {
 				rot = SetXMFLOAT3(0.0f);
+				SetRotation(childIndex[0], rot);
 				g_obj[i].state = CHANGE;
-
 			}
-			SetRotation(childIndex[0], rot);
 			g_obj[i].count++;
 		}
 		break;
+
 		case DISSOLVE:
 		{
 			float dissolve = GetGameModelDissolve(g_obj[i].ModelIndex);
@@ -151,8 +147,9 @@ void UpdateTitleAnime(void) {
 			g_obj[i].count++;
 		}
 		break;
+
 		case STOP:
-			if (g_obj[i].count < rand() % COUNT_MAX) {	// 待ち時間を不均一かする
+			if (g_obj[i].count < rand() % COUNT_MAX * 2) {	// 待ち時間を不均一かする
 				g_obj[i].count++;
 			}
 			else {
@@ -183,7 +180,7 @@ void SetTitleAnimeObj(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scl) {
 		SetRotation(g_obj[i].objIndex, rot);
 		SetScale(g_obj[i].objIndex, scl);
 
-		g_obj[i].ModelIndex = SetGameModel(MODEL_PATH, g_obj[i].objIndex, 0, CULL_MODE_BACK);
+		g_obj[i].ModelIndex = SetGameModel(MODEL_PATH, g_obj[i].objIndex, 1, CULL_MODE_BACK);
 
 		g_obj[i].pos = pos;
 		g_obj[i].rot = rot;
@@ -199,7 +196,7 @@ void SetTitleAnimeObj(XMFLOAT3 pos, XMFLOAT3 rot, XMFLOAT3 scl) {
 		int index = g_obj[i].objIndex = SetGameObject();
 		SetGameObjectParent(index, parentIndex);
 
-		g_obj[i].ModelIndex = SetGameModel(MODEL_PARTS_PATH, index, 0, CULL_MODE_BACK);
+		g_obj[i].ModelIndex = SetGameModel(MODEL_PARTS_PATH, index, 1, CULL_MODE_BACK);
 
 		g_obj[i].use = true;
 		break;

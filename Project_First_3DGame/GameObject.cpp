@@ -25,6 +25,8 @@ int g_Child[MAX_OBJECT];
 
 void InitGameObject(void) {
 	for (int i = 0; i < MAX_OBJECT; i++) {
+		SetGameObjectZERO(i);
+		g_gameObject[i].parentIndex = -1;
 		g_gameObject[i].use = false;
 	}
 }

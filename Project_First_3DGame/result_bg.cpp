@@ -15,7 +15,7 @@
 #define TEXTURE_HEIGHT				(SCREEN_HEIGHT)	// 
 #define TEXTURE_MAX					(1)				// テクスチャの数
 
-#define COLOR_CLEAR					(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.8f))	// クリアした時の色
+#define COLOR_CLEAR					(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.5f))	// クリアした時の色
 #define COLOR_GAMEOVER				(XMFLOAT4(0.8f, 0.0f, 0.0f, 0.5f))	// ゲームオーバーの時の色
 
 //*****************************************************************************

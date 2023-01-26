@@ -119,7 +119,7 @@ void DrawTitleFOG(void) {
 	// ƒ}ƒeƒŠƒAƒ‹İ’è
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.25f);
+	material.Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.7f);
 	material.DissolveAlpha = 1.0f;
 	SetMaterial(material);
 
