@@ -172,6 +172,7 @@
     <ClCompile Include="title_anime.cpp" />
     <ClCompile Include="title_bg.cpp" />
     <ClCompile Include="title_field.cpp" />
+    <ClCompile Include="title_fog.cpp" />
     <ClCompile Include="title_ui.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -205,6 +206,7 @@
     <ClInclude Include="title_anime.h" />
     <ClInclude Include="title_bg.h" />
     <ClInclude Include="title_field.h" />
+    <ClInclude Include="title_fog.h" />
     <ClInclude Include="title_ui.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>

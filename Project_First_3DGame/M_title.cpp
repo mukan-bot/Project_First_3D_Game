@@ -5,6 +5,7 @@
 #include "title_anime.h"
 
 #include "camera.h"
+#include "title_fog.h"
 
 #include "input.h"
 
@@ -17,6 +18,9 @@ HRESULT InitTitle(void) {
 
 
 	InitTitleBG();
+
+	InitTitleFOG();
+
 	InitTitleUI();
 	InitTitleAinme();
 	InitTitleField();
@@ -31,6 +35,9 @@ HRESULT InitTitle(void) {
 
 void UninitTitle(void) {
 	UninitTitleBG();
+
+	UninitTitleFOG();
+
 	UninitTitleUI();
 	UninitTitleAnime();
 	UninitTitleField();
@@ -40,6 +47,9 @@ void UninitTitle(void) {
 
 void UpdateTitle(void) {
 	UpdateTitleBG();
+	
+	UpdateTitleFOG();
+
 	UpdateTitleUI();
 	UpdateTitleAnime();
 	UpdateTitleField();
@@ -53,21 +63,27 @@ void DrawTitle(void) {
 	DrawTitleAnime();
 
 
-	// ƒ‰ƒCƒeƒBƒ“ƒO‚ğ–³Œø
+	// ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã‚’ç„¡åŠ¹
 	SetLightEnable(false);
 
 	DrawGameModel();
 
-	// 2D‚Ì•¨‚ğ•`‰æ‚·‚éˆ—
-	// Z”äŠr‚È‚µ
+	// 2Dã®ç‰©ã‚’æç”»ã™ã‚‹å‡¦ç†
+	// Zæ¯”è¼ƒãªã—
 	SetDepthEnable(false);
 
 	
+	DrawTitleBG();
+
+
 	DrawTitleUI();
 
 
-	// ƒ‰ƒCƒeƒBƒ“ƒO‚ğ—LŒø‚É
+	DrawTitleFOG();
+
+
+	// ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã‚’æœ‰åŠ¹ã«
 	SetLightEnable(false);
-	// Z”äŠr‚ ‚è
+	// Zæ¯”è¼ƒã‚ã‚Š
 	SetDepthEnable(true);
 }
