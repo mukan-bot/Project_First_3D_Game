@@ -241,7 +241,7 @@ void UpdateEnemy(void) {
 			case ENEMY_ATK:// UŒ‚
 				if (g_enemy[i].atkCount < 0) {
 					if (g_enemy[i].atkCount > -30) {
-						SetAttack(ATK_ENEMY_1, g_enemy[i].objIndex);	//MEMO:‚±‚¤‚·‚é‚Æ‚µ‚Î‚ç‚­Œû‚Ì’†‚É—­‚Ü‚Á‚Ä‚¢‚é‚æ‚¤‚ÉŒ©‚¦‚é‚Í‚¸
+						SetAttack(ATK_ENEMY_1, g_enemy[i].objIndex);
 					}
 					if(g_enemy[i].atkCount < -ATK_DELAY) {
 						g_enemy[i].state = ENEMY_CALCULATION;

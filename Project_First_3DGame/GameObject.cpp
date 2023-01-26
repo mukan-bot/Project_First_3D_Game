@@ -20,7 +20,7 @@ struct GAME_OBJECT
 
 
 GAME_OBJECT g_gameObject[MAX_OBJECT];
-
+int g_Child[MAX_OBJECT];
 
 void InitGameObject(void) {
 	for (int i = 0; i < MAX_OBJECT; i++) {
@@ -154,4 +154,32 @@ int GetGameObjectParent(int index) {
 }
 bool GetGameObjectUse(int index) {
 	return g_gameObject[index].use;
+}
+
+int GetGameObjectChildCount(int index) {
+	int ans = 0;
+	for (int i = 0; i < MAX_OBJECT; i++) {
+		if (!g_gameObject[i].use) continue;
+
+		if (g_gameObject[i].parentIndex == index) {
+			ans++;
+		}
+	}
+	return ans;
+}
+
+int* GetGameObjectChild(int index) {
+	int childNo = 0;
+	for (int i = 0; i < MAX_OBJECT; i++) {
+		g_Child[i] = 0;
+
+		if (!g_gameObject[i].use) continue;
+
+		if (g_gameObject[i].parentIndex == index) {
+			g_Child[childNo] = i;
+			childNo++;
+		}
+
+	}
+	return &g_Child[0];
 }
