@@ -8,6 +8,7 @@
 #include "input_M.h"
 #include "text.h"
 #include "sound.h"
+#include "title_bg.h"	//ロード画面で表示するため
 
 //マクロ定義
 #define TEXT_COLOR1 (XMFLOAT4(0.5f, 0.5f, 0.5f, 0.8f))	// 選択されていないときの色
@@ -299,11 +300,18 @@ void UpdateTitleUI(void) {
 				text.size = 80;
 				SetText(text, "ナウローディング");
 				Clear();
+
+				// ライティングを無効
+				SetLightEnable(false);
+
+				DrawTitleBG();
+
 				// 2Dの物を描画する処理
 				// Z比較なし
 				SetDepthEnable(false);
-				// ライティングを無効
-				SetLightEnable(false);
+
+
+
 
 				Draw_text();
 
@@ -312,6 +320,8 @@ void UpdateTitleUI(void) {
 				// Z比較あり
 				SetDepthEnable(true);
 				Present();
+
+
 				//ロード画面のままゲームモード移行する
 				SetMode(MODE_GAME);
 				break;
