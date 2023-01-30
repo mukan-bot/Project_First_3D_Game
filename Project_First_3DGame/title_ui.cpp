@@ -67,7 +67,7 @@ static int g_menueSelect;
 static bool g_isOption;
 static char g_menueText[MENUE_MAX][128] = {	{"‚r‚s‚`‚q‚s"},
 										{"‚n‚o‚s‚h‚n‚m"},
-										{"‚s‚t‚s‚n‚q‚h‚`‚k"},
+										{"‚l‚`‚m‚t‚`‚k"},
 										{"‚d‚w‚h‚s"} 
 };
 static TEXT g_optionTextParameter[OPTION_MAX];
