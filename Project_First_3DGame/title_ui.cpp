@@ -417,7 +417,7 @@ void DrawTitleUI(void) {
 				{"ダッシュ…ＳＨＩＦＴ"},
 				{"してん…やじるしキーｏｒマウス"},
 				{"こうげき…１ｏｒＬクリック"},
-				{"レティクル…ＱｏｒＲクリック"},
+				//{"レティクル…ＱｏｒＲクリック"},
 			};
 			for (int i = 0; i < TUTORIAL_TEXT_MAIN; i++) {
 				tutorialTextMainP[i].pos = XMFLOAT2((float)TUTORIAL_TEXT_MAIN_POS_X, (float)(TUTORIAL_TEXT_MAIN_POS_Y + (i * TUTORIAL_TEXT_MAIN_POS_Y_PLUS)));
@@ -437,7 +437,7 @@ void DrawTitleUI(void) {
 				{"ダッシュ…Ｌ３ボタン"},
 				{"してん…Ｒスティック"},
 				{"こうげき…ＬＢボタン"},
-				{"レティクル…ＲＢボタン"},
+				//{"レティクル…ＲＢボタン"},
 			};
 			for (int i = 0; i < TUTORIAL_TEXT_MAIN; i++) {
 				tutorialTextMainP[i].color = TEXT_COLOR2;
@@ -455,7 +455,7 @@ void DrawTitleUI(void) {
 				{"ダッシュ…Ｙボタン"},
 				{"してん…Ｒスティック"},
 				{"こうげき…Ｌ１ボタン"},
-				{"レティクル…Ｒ１ボタン"},
+				//{"レティクル…Ｒ１ボタン"},
 			};
 			for (int i = 0; i < TUTORIAL_TEXT_MAIN; i++) {
 				tutorialTextMainP[i].color = TEXT_COLOR2;
