@@ -59,7 +59,6 @@ void UpdateTitle(void) {
 
 void DrawTitle(void) {
 
-
 	// ライティングを無効
 	SetLightEnable(false);
 
