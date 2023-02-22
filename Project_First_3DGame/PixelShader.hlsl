@@ -1,26 +1,20 @@
-//=============================================================================
-//
-// Author : TakeuchiHiroto
-//
-//=============================================================================
-
 
 //*****************************************************************************
 // 定数バッファ
 //*****************************************************************************
 
 // マトリクスバッファ
-cbuffer WorldBuffer : register( b0 )
+cbuffer WorldBuffer : register(b0)
 {
 	matrix World;
 }
 
-cbuffer ViewBuffer : register( b1 )
+cbuffer ViewBuffer : register(b1)
 {
 	matrix View;
 }
 
-cbuffer ProjectionBuffer : register( b2 )
+cbuffer ProjectionBuffer : register(b2)
 {
 	matrix Projection;
 }
@@ -38,7 +32,7 @@ struct MATERIAL
 	float		Dummy[1];//16byte境界用
 };
 
-cbuffer MaterialBuffer : register( b3 )
+cbuffer MaterialBuffer : register(b3)
 {
 	MATERIAL	Material;
 }
@@ -100,34 +94,7 @@ cbuffer InstanceBuffer : register(b8)
 
 
 
-//=============================================================================
-// 頂点シェーダ
-//=============================================================================
-void VertexShaderPolygon(in  float4 inPosition		: POSITION0,
-	in  float4 inNormal : NORMAL0,
-	in  float4 inDiffuse : COLOR0,
-	in  float2 inTexCoord : TEXCOORD0,
-	in  uint   InstanceID : SV_InstanceID,
 
-	out float4 outPosition : SV_POSITION,
-	out float4 outNormal : NORMAL0,
-	out float2 outTexCoord : TEXCOORD0,
-	out float4 outDiffuse : COLOR0,
-	out float4 outWorldPos : POSITION0)
-{
-	matrix wvp;
-	wvp = mul(World, View);
-	wvp = mul(wvp, Projection);
-	outPosition = mul(inPosition, wvp);
-
-	outNormal = normalize(mul(float4(inNormal.xyz, 0.0f), World));
-
-	outTexCoord = inTexCoord;
-	outWorldPos = mul(inPosition, World);
-
-	outDiffuse = inDiffuse;
-
-}
 
 
 
@@ -139,12 +106,8 @@ Texture2D		g_DissolveTex : register(t1);	//ディゾルブ用のテクスチャを入れておく
 SamplerState	g_SamplerState : register(s0);
 
 
-
-//=============================================================================
-// ピクセルシェーダ
-//=============================================================================
-[earlydepthstencil]
-void PixelShaderPolygon(in  float4 inPosition		: SV_POSITION,
+void main(
+	in  float4 inPosition		: SV_POSITION,
 	in  float4 inNormal : NORMAL0,
 	in  float2 inTexCoord : TEXCOORD0,
 	in  float4 inDiffuse : COLOR0,
@@ -157,9 +120,9 @@ void PixelShaderPolygon(in  float4 inPosition		: SV_POSITION,
 	DissolveAlphaColor = g_DissolveTex.Sample(g_SamplerState, inTexCoord);
 
 
-	//if (Material.DissolveAlpha < DissolveAlphaColor.g) {
-	//	discard;
-	//}
+	if (Material.DissolveAlpha < DissolveAlphaColor.g) {
+		discard;
+	}
 
 
 	if (Material.noTexSampling == 0)
@@ -182,19 +145,19 @@ void PixelShaderPolygon(in  float4 inPosition		: SV_POSITION,
 		float4 tempColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float4 outColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-		for (int i = 0; i < 5; i++){
+		for (int i = 0; i < 5; i++) {
 			float3 lightDir;
 			float light;
 
-			if (Light.Flags[i].y == 1){	// ディレクショナルライト
-				if (Light.Flags[i].x == 1){
+			if (Light.Flags[i].y == 1) {	// ディレクショナルライト
+				if (Light.Flags[i].x == 1) {
 					lightDir = normalize(Light.Direction[i].xyz);
 					light = dot(lightDir, inNormal.xyz);
 
 					light = 0.5 - 0.5 * light;
 					tempColor = color * Material.Diffuse * light * Light.Diffuse[i];
 				}
-				else if (Light.Flags[i].x == 2){	// ポイントライト
+				else if (Light.Flags[i].x == 2) {	// ポイントライト
 					lightDir = normalize(Light.Position[i].xyz - inWorldPos.xyz);
 					light = dot(lightDir, inNormal.xyz);
 
@@ -249,10 +212,10 @@ void PixelShaderPolygon(in  float4 inPosition		: SV_POSITION,
 	//フォグ
 	if (Fog.Enable == 1)
 	{
-		float z = inPosition.z*inPosition.w;
+		float z = inPosition.z * inPosition.w;
 		float f = (Fog.Distance.y - z) / (Fog.Distance.y - Fog.Distance.x);
 		f = saturate(f);
-		outDiffuse = f * color + (1 - f)*Fog.FogColor;
+		outDiffuse = f * color + (1 - f) * Fog.FogColor;
 		outDiffuse.a = color.a;
 	}
 	else

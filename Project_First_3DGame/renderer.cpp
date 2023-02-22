@@ -626,52 +626,71 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 
 	// 頂点シェーダコンパイル・生成
-	ID3DBlob* pErrorBlob;
-	ID3DBlob* pVSBlob = NULL;
-	DWORD shFlag = D3DCOMPILE_ENABLE_STRICTNESS;
-
-#if defined(_DEBUG) && defined(DEBUG_SHADER)
-	shFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-#endif
-
-	hr = D3DX11CompileFromFile( "shader.hlsl", NULL, NULL, "VertexShaderPolygon", "vs_5_0", shFlag, 0, NULL, &pVSBlob, &pErrorBlob, NULL );
-	if( FAILED(hr) )
 	{
-		MessageBox( NULL , (char*)pErrorBlob->GetBufferPointer(), "VS", MB_OK | MB_ICONERROR );
+		// シェーダファイル読み込み
+		FILE* fp = nullptr;
+		fopen_s(&fp, "VertexShader.cso", "rb");
+
+		if (fp == nullptr)
+		{
+			return 0;
+		}
+
+		fseek(fp, 0, SEEK_END);
+		long m_Size = ftell(fp);
+		fseek(fp, 0, SEEK_SET);
+		char* m_Data = new char[m_Size];
+		fread_s(m_Data, m_Size, m_Size, 1, fp);
+		fclose(fp);
+
+		// VertexShader作成
+		if (FAILED(g_D3DDevice->CreateVertexShader(m_Data, m_Size, nullptr, &g_VertexShader)))
+		{
+			return false;
+		}
+
+
+		// 入力レイアウト生成
+		D3D11_INPUT_ELEMENT_DESC layout[] =
+		{
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,			0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		};
+		UINT numElements = ARRAYSIZE(layout);
+
+		g_D3DDevice->CreateInputLayout(layout,
+			numElements,
+			m_Data,
+			m_Size,
+			&g_VertexLayout);
 	}
-
-	g_D3DDevice->CreateVertexShader( pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_VertexShader );
-
-	// 入力レイアウト生成
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,			0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-	UINT numElements = ARRAYSIZE( layout );
-
-	g_D3DDevice->CreateInputLayout( layout,
-		numElements,
-		pVSBlob->GetBufferPointer(),
-		pVSBlob->GetBufferSize(),
-		&g_VertexLayout );
-
-	pVSBlob->Release();
 
 
 	// ピクセルシェーダコンパイル・生成
-	ID3DBlob* pPSBlob = NULL;
-	hr = D3DX11CompileFromFile( "shader.hlsl", NULL, NULL, "PixelShaderPolygon", "ps_5_0", shFlag, 0, NULL, &pPSBlob, &pErrorBlob, NULL );
-	if( FAILED(hr) )
 	{
-		MessageBox( NULL , (char*)pErrorBlob->GetBufferPointer(), "PS", MB_OK | MB_ICONERROR );
-	}
+		// シェーダファイル読み込み
+		FILE* fp = nullptr;
+		fopen_s(&fp, "PixelShader.cso", "rb");
 
-	g_D3DDevice->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_PixelShader );
-	
-	pPSBlob->Release();
+		if (fp == nullptr)
+		{
+			return 0;
+		}
+
+		fseek(fp, 0, SEEK_END);
+		long m_Size = ftell(fp);
+		fseek(fp, 0, SEEK_SET);
+		char* m_Data = new char[m_Size];
+		fread_s(m_Data, m_Size, m_Size, 1, fp);
+		fclose(fp);
+
+		if (FAILED(g_D3DDevice->CreatePixelShader(m_Data, m_Size, nullptr, &g_PixelShader)))
+		{
+			return false;
+		}
+	}
 
 
 	// 定数バッファ生成
