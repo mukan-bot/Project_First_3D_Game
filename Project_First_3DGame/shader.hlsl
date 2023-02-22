@@ -157,9 +157,9 @@ void PixelShaderPolygon(in  float4 inPosition		: SV_POSITION,
 	DissolveAlphaColor = g_DissolveTex.Sample(g_SamplerState, inTexCoord);
 
 
-	//if (Material.DissolveAlpha < DissolveAlphaColor.g) {
-	//	discard;
-	//}
+	if (Material.DissolveAlpha < DissolveAlphaColor.g) {
+		discard;
+	}
 
 
 	if (Material.noTexSampling == 0)
