@@ -90,6 +90,8 @@ static char g_tutorialText[TUTORIAL_MAX][128] = { {"キーボード"},
 float g_temp_bgm_vol;
 float g_temp_se_vol;
 float g_temp_sensitive;
+// 初回起動かどうかを判別
+bool g_is_first = true;
 
 HRESULT InitTitleUI(void) {
 	SetCursorMove(true);	//カーソルを動くようにしておく
@@ -107,16 +109,20 @@ HRESULT InitTitleUI(void) {
 	}
 	g_optionSelect = 0;
 
-	//ボリュームの初期値
-	g_temp_bgm_vol = 0.1f;
-	g_temp_se_vol = 0.1f;
-	
-	Sound_BGM_Volume(g_temp_bgm_vol);
-	Sound_SE_Volume(g_temp_se_vol);
+	// 初回起動時のみ設定値をデフォルトに変更する
+	if (g_is_first) {
+		//ボリュームの初期値
+		g_temp_bgm_vol = 0.1f;
+		g_temp_se_vol = 0.1f;
 
-	g_temp_sensitive = 0.00003f;
-	SetInputSensitive(g_temp_sensitive);
+		Sound_BGM_Volume(g_temp_bgm_vol);
+		Sound_SE_Volume(g_temp_se_vol);
 
+		g_temp_sensitive = 0.00003f;
+		SetInputSensitive(g_temp_sensitive);
+
+		g_is_first = false;
+	}
 	return S_OK;
 }
 void UninitTitleUI(void) {
